@@ -8,7 +8,7 @@ pkg_search_module(TAGLIB REQUIRED taglib>=1.7.2)
 
 include_directories(${QT_INCLUDES} ${Boost_INCLUDE_DIRS} ${TAGLIB_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR})
 
-set(MediaIndex_SRCS ProgressOutput.cpp Indexer.cpp DirScanner.cpp MediaIndex.cpp main.cpp Stats.cpp BlockingQueue.cpp)
+set(MediaIndex_SRCS ProgressOutput.cpp Indexer.cpp DirScanner.cpp main.cpp Stats.cpp BlockingQueue.cpp)
 
 qt4_automoc(${MediaIndex_SRCS})
 

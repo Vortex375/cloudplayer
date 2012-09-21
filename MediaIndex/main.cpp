@@ -11,7 +11,6 @@
 
 #include<boost/filesystem.hpp>
 
-#include "MediaIndex.h"
 #include "Stats.h"
 #include "BlockingQueue.h"
 #include "DirScanner.h"
