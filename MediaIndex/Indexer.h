@@ -23,17 +23,19 @@
 #include <QtCore/QThread>
 #include "BlockingQueue.h"
 #include "Stats.h"
+#include "Database.h"
 
 class Indexer : public QThread{
 Q_OBJECT
 public:
-    Indexer(BlockingQueue *q, Stats *s);
+    Indexer(BlockingQueue *q, Database *db, Stats *s);
     virtual ~Indexer();
 protected:
     virtual void run();
 private:
     BlockingQueue *queue;
     Stats *stats;
+    Database *db;
 };
 
 #endif // INDEXER_H

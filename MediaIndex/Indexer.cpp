@@ -25,9 +25,10 @@
 
 using namespace boost::filesystem;
 
-Indexer::Indexer ( BlockingQueue* q, Stats* s ) : QThread() {
-    queue = q;
-    stats = s;
+Indexer::Indexer(BlockingQueue *q, Database *db, Stats *s) : QThread() {
+    this->queue = q;
+    this->stats = s;
+    this->db = db;
 }
 
 
@@ -37,13 +38,24 @@ Indexer::~Indexer() {
 
 void Indexer::run() {
     path p;
+    db->commit(); // not sure why it is needed
+    db->begin();  // turn off autocommit
     while (!(p = queue->dequeue()).empty()) {
         TagLib::FileRef f(p.c_str());
         if (!f.isNull() && f.tag()) {
-            f.tag()->title();
+            db->insertTrack(
+                f.tag()->title().toCString(true),
+                f.tag()->artist().toCString(true),
+                f.tag()->album().toCString(true),
+                f.tag()->genre().toCString(true),
+                f.tag()->track(),
+                f.tag()->year(),
+                absolute(p).c_str()
+            );
         }
         stats->incrementProcessed();
     }
+    db->commit(); // commit database
 }
 
 

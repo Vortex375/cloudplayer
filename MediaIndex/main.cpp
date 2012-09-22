@@ -43,11 +43,17 @@ void createDatabase(char* databasePath, char* dirPath) {
         exit(1);
     };
     
+    // create database tables
+    if (!db.create()) {
+        out << "Error: failed to initialize database." << endl;
+        exit(1);
+    }
+    
     Stats stats;
     BlockingQueue pathQueue;
     
     DirScanner scanner(&pathQueue, dirPath, &stats);
-    Indexer indexer(&pathQueue, &stats);
+    Indexer indexer(&pathQueue, &db, &stats);
     
     QThread *outputThread = new QThread();
     ProgressOutput *output = new ProgressOutput(&stats);

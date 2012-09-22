@@ -5,8 +5,8 @@ include(FindPkgConfig)
 find_package(Qt4 REQUIRED)
 find_package(Boost REQUIRED COMPONENTS filesystem system)
 
-pkg_search_module(TAGLIB REQUIRED taglib>=1.7.2)
-pkg_search_module(SQLITE REQUIRED sqlite3>=3.7.14)
+pkg_search_module(TAGLIB REQUIRED taglib>=1.7)
+pkg_search_module(SQLITE REQUIRED sqlite3>=3.7)
 
 include_directories(${QT_INCLUDES} ${Boost_INCLUDE_DIRS} ${TAGLIB_INCLUDE_DIRS} ${SQLITE_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR})
 

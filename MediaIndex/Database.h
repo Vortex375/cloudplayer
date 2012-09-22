@@ -29,9 +29,17 @@ public:
     Database();
     virtual ~Database();
     bool open(char *path);
+    bool create();
+    void begin();
+    void commit();
+    void insertTrack(const char* title, const char* artist, const char* album, const char* genre, int track, int year, const char* path);
     
 private:
-    sqlite3* db;
+    sqlite3 *db;
+    sqlite3_stmt *insertTrackStmt;
+    sqlite3_stmt *beginStmt;
+    sqlite3_stmt *commitStmt;
+    void prepare();
 };
 
 #endif // DATABASE_H
