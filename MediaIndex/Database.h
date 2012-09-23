@@ -33,14 +33,18 @@ public:
     void begin();
     void commit();
     void insertTrack(const char* title, const char* artist, const char* album, const char* genre, int track, int year, const char* path);
+    void updateTrack(const char* title, const char* artist, const char* album, const char* genre, int track, int year, const char* path);
     sqlite3_int64 getLastModified(const char* path);
     
 private:
     sqlite3 *db;
     sqlite3_stmt *insertTrackStmt;
+    sqlite3_stmt *updateTrackStmt;
+    sqlite3_stmt *getLastModifiedStmt;
     sqlite3_stmt *beginStmt;
     sqlite3_stmt *commitStmt;
     void prepare();
+    bool checkReturn(int ret);
 };
 
 #endif // DATABASE_H

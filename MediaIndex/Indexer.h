@@ -21,6 +21,7 @@
 #define INDEXER_H
 
 #include <QtCore/QThread>
+
 #include "BlockingQueue.h"
 #include "Stats.h"
 #include "Database.h"

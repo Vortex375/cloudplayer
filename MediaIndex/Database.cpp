@@ -43,12 +43,47 @@ Database::~Database()
 
 bool Database::open(char* path)
 {
-    if (sqlite3_open(path, &db) != SQLITE_OK) {
-        std::cout << "Error: could not open database file: " << sqlite3_errmsg(db) << std::endl;
+    if (!checkReturn(sqlite3_open(path, &db))) {
+        std::cout << "Error: could not open database file." << std::endl;
         return false;
     }
 
     return true;
+}
+
+void Database::prepare()
+{
+    // prepare statements that are used repeatedly
+    bool success = true;
+    success &= checkReturn(sqlite3_prepare_v2(db,
+                       "INSERT INTO tracks (title, artist, album, genre, track, year, path, lastmodified) VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'))",
+                       -1,
+                       &insertTrackStmt,
+                       NULL));
+    success &= checkReturn(sqlite3_prepare_v2(db,
+                       "UPDATE tracks SET title=?, artist=?, album=?, genre=?, track=?, year=?, lastmodified=datetime('now') WHERE path=?",
+                       -1,
+                       &updateTrackStmt,
+                       NULL));
+    success &= checkReturn(sqlite3_prepare_v2(db,
+                       "SELECT lastmodified FROM tracks WHERE path=?",
+                       -1,
+                       &getLastModifiedStmt,
+                       NULL));
+    success &= checkReturn(sqlite3_prepare_v2(db,
+                       "BEGIN",
+                       -1,
+                       &beginStmt,
+                       NULL));
+    success &= checkReturn(sqlite3_prepare_v2(db,
+                       "COMMIT",
+                       -1,
+                       &commitStmt,
+                       NULL));
+    if (!success) {
+        std::cerr << "FATAL: Error preparing statements." << std::endl;
+        exit(1);
+    }
 }
 
 bool Database::create()
@@ -97,8 +132,6 @@ void Database::commit()
     //sqlite3_reset(commitStmt);
 }
 
-
-
 void Database::insertTrack(const char* title, const char* artist, const char* album, const char* genre, int track, int year, const char* path)
 {
     if (!insertTrackStmt) {
@@ -124,28 +157,63 @@ void Database::insertTrack(const char* title, const char* artist, const char* al
     sqlite3_reset(insertTrackStmt);
 }
 
-void Database::prepare()
+void Database::updateTrack(const char* title, const char* artist, const char* album, const char* genre, int track, int year, const char* path)
 {
-    // prepare statements that are used repeatedly
-    int ret = 0;
-    ret |= sqlite3_prepare_v2(db,
-                       "INSERT INTO tracks (title, artist, album, genre, track, year, path, lastmodified) VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'))",
-                       -1,
-                       &insertTrackStmt,
-                       NULL);
-    ret |= sqlite3_prepare_v2(db,
-                       "BEGIN",
-                       -1,
-                       &beginStmt,
-                       NULL);
-    ret |= sqlite3_prepare_v2(db,
-                       "COMMIT",
-                       -1,
-                       &commitStmt,
-                       NULL);
-    if (ret != SQLITE_OK) {
-        qDebug() << "Error preparing statement (" << ret << "): " << sqlite3_errmsg(db);
+    if (!updateTrackStmt) {
+        prepare();
     }
+    
+    // bind parameters to prepared statement
+    sqlite3_bind_text(updateTrackStmt, 1, title, -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(updateTrackStmt, 2, artist, -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(updateTrackStmt, 3, album, -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(updateTrackStmt, 4, genre, -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int(updateTrackStmt, 5, track);
+    sqlite3_bind_int(updateTrackStmt, 6, year);
+    sqlite3_bind_text(updateTrackStmt, 7, path, -1, SQLITE_TRANSIENT);
+    
+    int ret;
+    if ((ret = sqlite3_step(updateTrackStmt)) != SQLITE_DONE) {
+        std::cout << std::endl << "Warning: unable to update " << path << " (" << ret << ")" << std::endl;
+    }
+    
+    // reset statement for future use
+    sqlite3_clear_bindings(updateTrackStmt);
+    sqlite3_reset(updateTrackStmt);
 }
 
+
+sqlite3_int64 Database::getLastModified(const char* path)
+{
+    if (!getLastModifiedStmt) {
+        prepare();
+    }
+    
+    sqlite3_bind_text(getLastModifiedStmt, 1, path, -1, SQLITE_TRANSIENT);
+    
+    int ret = sqlite3_step(getLastModifiedStmt);
+    if (ret != SQLITE_ROW) {
+        // not found
+        return -1;
+    }
+    sqlite_int64 value = sqlite3_column_int64(getLastModifiedStmt, 1);
+    
+    // reset statement for future use
+    sqlite3_clear_bindings(getLastModifiedStmt);
+    sqlite3_reset(getLastModifiedStmt);
+    
+    return value;
+}
+
+/*
+ * Check return values for erros
+ */
+bool Database::checkReturn(int ret)
+{
+    if (!(ret == SQLITE_OK || ret == SQLITE_DONE)) {
+        std::cerr << "sqlite error ("<< ret << "): " << sqlite3_errmsg(db) << std::endl;
+        return false;
+    }
+    return true;
+}
 

@@ -18,6 +18,8 @@
 
 
 #include "Updater.h"
+#include <taglib/fileref.h>
+#include <taglib/tag.h>
 
 
 Updater::Updater(BlockingQueue* q, Database* db, Stats* s): QThread()
@@ -38,20 +40,40 @@ void Updater::run()
     db->commit(); // not sure why it is needed
     db->begin();  // turn off autocommit
     while (!(p = queue->dequeue()).empty()) {
-        
-        TagLib::FileRef f(p.c_str());
-        if (!f.isNull() && f.tag()) {
-            db->insertTrack(
-                f.tag()->title().toCString(true),
-                f.tag()->artist().toCString(true),
-                f.tag()->album().toCString(true),
-                f.tag()->genre().toCString(true),
-                f.tag()->track(),
-                f.tag()->year(),
-                p.c_str()
-            );
+        long long lmod = db->getLastModified(p.c_str());
+        if (lmod < 0) {
+            // new file
+            TagLib::FileRef f(p.c_str());
+            if (!f.isNull() && f.tag()) {
+                db->insertTrack(
+                    f.tag()->title().toCString(true),
+                    f.tag()->artist().toCString(true),
+                    f.tag()->album().toCString(true),
+                    f.tag()->genre().toCString(true),
+                    f.tag()->track(),
+                    f.tag()->year(),
+                    p.c_str()
+                );
+            }
+        } else if (last_write_time(p) > lmod) {
+            // file was modified since last indexed
+            TagLib::FileRef f(p.c_str());
+            if (!f.isNull() && f.tag()) {
+                db->updateTrack(
+                    f.tag()->title().toCString(true),
+                    f.tag()->artist().toCString(true),
+                    f.tag()->album().toCString(true),
+                    f.tag()->genre().toCString(true),
+                    f.tag()->track(),
+                    f.tag()->year(),
+                    p.c_str()
+                );
+            }
         }
+        // TODO: removed files
         stats->incrementProcessed();
     }
     db->commit(); // commit database
 }
+
+#include "Updater.moc"

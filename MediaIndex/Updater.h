@@ -21,6 +21,10 @@
 #define UPDATER_H
 #include <QtCore/QThread>
 
+#include "Database.h"
+#include "BlockingQueue.h"
+#include "Stats.h"
+
 class Updater : public QThread
 {
 Q_OBJECT

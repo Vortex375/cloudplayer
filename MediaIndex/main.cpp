@@ -72,8 +72,43 @@ void createDatabase(char* databasePath, char* dirPath) {
     out << endl << endl << "Indexing complete." << endl;
 }
 
-void updateDatabase() {
+void updateDatabase(char *databasePath) {
+    out << "Open database at " << databasePath << endl;
+    // check if database file exists
+    if (!exists(databasePath)) {
+        out << "Error: database file does not exist!" << endl;
+        out << "'update' updates an existing database file. "
+            << "If you wish to create a new database use 'create'." << endl;
+        return;
+    }
     
+    Database db;
+    if (!db.open(databasePath)) {
+        out << "Error: failed to open database." << endl;
+        exit(1);
+    };
+    
+    Stats stats;
+    BlockingQueue pathQueue;
+    
+    DirScanner scanner(&pathQueue, dirPath, &stats);
+    Updater updater(&pathQueue, &db, &stats);
+    
+    QThread *outputThread = new QThread();
+    ProgressOutput *output = new ProgressOutput(&stats);
+    output->moveToThread(outputThread);
+    
+    scanner.start();
+    out << "Filesystem scan started." << endl;
+    updater.start();
+    out << "Indexing started." << endl << endl;
+    outputThread->start();
+    
+    scanner.wait();
+    out << endl << "Filesystem scan complete." << endl << endl;
+    updater.wait();
+    outputThread->quit();
+    out << endl << endl << "Indexing complete." << endl;
 }
 
 int main(int argc, char** argv) {
