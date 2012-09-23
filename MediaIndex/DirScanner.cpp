@@ -21,7 +21,7 @@
 
 DirScanner::DirScanner (BlockingQueue *q, char *p, Stats *s) : QThread() {
     queue = q;
-    path = p;
+    path = absolute(p); // always scan absolute paths
     stats = s;
 }
 

@@ -78,7 +78,7 @@ void updateDatabase() {
 
 int main(int argc, char** argv) {
     QCoreApplication app(argc, argv);
-    out << "Welcome to MediaIndex v0.1" << endl << endl;
+    out << "Welcome to MediaIndex v0.1." << endl << endl;
     
     if (argc < 4) {
         printUsage();

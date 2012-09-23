@@ -17,30 +17,28 @@
 */
 
 
-#include "Indexer.h"
-#include <boost/filesystem.hpp>
-#include <taglib/fileref.h>
-#include <taglib/tag.h>
-#include <QDebug>
+#include "Updater.h"
 
-using namespace boost::filesystem;
 
-Indexer::Indexer(BlockingQueue *q, Database *db, Stats *s) : QThread() {
+Updater::Updater(BlockingQueue* q, Database* db, Stats* s): QThread()
+{
     this->queue = q;
     this->stats = s;
     this->db = db;
 }
 
-
-Indexer::~Indexer() {
+Updater::~Updater()
+{
 
 }
 
-void Indexer::run() {
+void Updater::run()
+{
     path p;
     db->commit(); // not sure why it is needed
     db->begin();  // turn off autocommit
     while (!(p = queue->dequeue()).empty()) {
+        
         TagLib::FileRef f(p.c_str());
         if (!f.isNull() && f.tag()) {
             db->insertTrack(
@@ -57,6 +55,3 @@ void Indexer::run() {
     }
     db->commit(); // commit database
 }
-
-
-#include "Indexer.moc"

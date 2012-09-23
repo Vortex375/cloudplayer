@@ -34,8 +34,8 @@ protected:
     virtual void run();
 private:
     BlockingQueue *queue;
-    char *path;
     Stats *stats;
+    boost::filesystem::path path;
 };
 
 #endif // DIRSCANNER_H

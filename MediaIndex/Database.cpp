@@ -55,7 +55,15 @@ bool Database::create()
 {
     sqlite3_stmt *createStmt;
     sqlite3_prepare_v2(db,
-                       "CREATE TABLE tracks (id integer PRIMARY KEY AUTOINCREMENT, title varchar(200), artist varchar(200), album varchar(200), genre varchar(200), track integer, year integer, path varchar(800))",
+                       "CREATE TABLE tracks (id integer PRIMARY KEY AUTOINCREMENT,"
+                                            "title varchar(200),"
+                                            "artist varchar(200),"
+                                            "album varchar(200),"
+                                            "genre varchar(200),"
+                                            "track integer,"
+                                            "year integer,"
+                                            "path varchar(800),"
+                                            "lastmodified date)",
                        -1,
                        &createStmt,
                        NULL);
@@ -121,7 +129,7 @@ void Database::prepare()
     // prepare statements that are used repeatedly
     int ret = 0;
     ret |= sqlite3_prepare_v2(db,
-                       "INSERT INTO tracks (title, artist, album, genre, track, year, path) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                       "INSERT INTO tracks (title, artist, album, genre, track, year, path, lastmodified) VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'))",
                        -1,
                        &insertTrackStmt,
                        NULL);

@@ -1,6 +1,6 @@
 /*
     <one line to give the program's name and a brief idea of what it does.>
-    Copyright (C) 2012  Benjamin Schmitz <vortex@wolpzone.de>
+    Copyright (C) 2012  Benjamin Schmitz <benni@wolpzone.de>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,30 +17,22 @@
 */
 
 
-#ifndef DATABASE_H
-#define DATABASE_H
+#ifndef UPDATER_H
+#define UPDATER_H
+#include <QtCore/QThread>
 
-#include <sqlite3.h>
-
-class Database
+class Updater : public QThread
 {
-
+Q_OBJECT
 public:
-    Database();
-    virtual ~Database();
-    bool open(char *path);
-    bool create();
-    void begin();
-    void commit();
-    void insertTrack(const char* title, const char* artist, const char* album, const char* genre, int track, int year, const char* path);
-    sqlite3_int64 getLastModified(const char* path);
-    
+    Updater(BlockingQueue *q, Database *db, Stats *s);
+    virtual ~Updater();
+protected:
+    virtual void run();
 private:
-    sqlite3 *db;
-    sqlite3_stmt *insertTrackStmt;
-    sqlite3_stmt *beginStmt;
-    sqlite3_stmt *commitStmt;
-    void prepare();
+    BlockingQueue *queue;
+    Stats *stats;
+    Database *db;
 };
 
-#endif // DATABASE_H
+#endif // UPDATER_H
