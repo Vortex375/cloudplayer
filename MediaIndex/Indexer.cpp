@@ -22,13 +22,14 @@
 #include <taglib/fileref.h>
 #include <taglib/tag.h>
 #include <QDebug>
+#include <QtCore/QTextStream>
 
 using namespace boost::filesystem;
 
-Indexer::Indexer(BlockingQueue *q, Database *db, Stats *s) : QThread() {
+Indexer::Indexer(BlockingQueue *q, Stats *s, char *dbPath) : QThread() {
     this->queue = q;
     this->stats = s;
-    this->db = db;
+    this->dbPath = dbPath;
 }
 
 
@@ -37,13 +38,27 @@ Indexer::~Indexer() {
 }
 
 void Indexer::run() {
+    QTextStream out(stdout);
+    // prepare database
+    Database db;
+    if (!db.open(dbPath)) {
+        out << "Error: failed to open database." << endl;
+        exit(1);
+    };
+    
+    // create database tables
+    if (!db.create()) {
+        out << "Error: failed to initialize database." << endl;
+        exit(1);
+    }
+    
     path p;
-    db->commit(); // not sure why it is needed
-    db->begin();  // turn off autocommit
+    //db->commit(); // not sure why it is needed
+    db.begin();  // turn off autocommit
     while (!(p = queue->dequeue()).empty()) {
         TagLib::FileRef f(p.c_str());
         if (!f.isNull() && f.tag()) {
-            db->insertTrack(
+            db.insertTrack(
                 f.tag()->title().toCString(true),
                 f.tag()->artist().toCString(true),
                 f.tag()->album().toCString(true),
@@ -55,7 +70,7 @@ void Indexer::run() {
         }
         stats->incrementProcessed();
     }
-    db->commit(); // commit database
+    db.commit(); // commit database
 }
 
 

@@ -38,23 +38,11 @@ void createDatabase(char* databasePath, char* dirPath) {
         return;
     }
     
-    Database db;
-    if (!db.open(databasePath)) {
-        out << "Error: failed to open database." << endl;
-        exit(1);
-    };
-    
-    // create database tables
-    if (!db.create()) {
-        out << "Error: failed to initialize database." << endl;
-        exit(1);
-    }
-    
     Stats stats;
     BlockingQueue pathQueue;
     
-    DirScanner scanner(&pathQueue, dirPath, &stats);
-    Indexer indexer(&pathQueue, &db, &stats);
+    DirScanner scanner(&pathQueue, &stats, dirPath);
+    Indexer indexer(&pathQueue, &stats, databasePath);
     
     QThread *outputThread = new QThread();
     ProgressOutput *output = new ProgressOutput(&stats);
@@ -83,17 +71,11 @@ void updateDatabase(char *databasePath, char *dirPath) {
         return;
     }
     
-    Database db;
-    if (!db.open(databasePath)) {
-        out << "Error: failed to open database." << endl;
-        exit(1);
-    };
-    
     Stats stats;
     BlockingQueue pathQueue;
     
-    DirScanner scanner(&pathQueue, dirPath, &stats);
-    Updater updater(&pathQueue, &db, &stats);
+    DirScanner scanner(&pathQueue, &stats, dirPath);
+    Updater updater(&pathQueue, &stats, databasePath);
     
     QThread *outputThread = new QThread();
     ProgressOutput *output = new ProgressOutput(&stats);
@@ -113,6 +95,11 @@ void updateDatabase(char *databasePath, char *dirPath) {
 }
 
 int main(int argc, char** argv) {
+    if (sqlite3_config(SQLITE_CONFIG_MULTITHREAD) != SQLITE_OK) {
+        out << "Error: unable to configure sqlite for multi-thread mode.";
+        exit(1);
+    }
+    
     QCoreApplication app(argc, argv);
     out << "Welcome to MediaIndex v0.1." << endl << endl;
     

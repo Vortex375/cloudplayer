@@ -29,14 +29,14 @@ class Updater : public QThread
 {
 Q_OBJECT
 public:
-    Updater(BlockingQueue *q, Database *db, Stats *s);
+    Updater(BlockingQueue *q, Stats *s, char *dbPath);
     virtual ~Updater();
 protected:
     virtual void run();
 private:
     BlockingQueue *queue;
     Stats *stats;
-    Database *db;
+    char *dbPath;
 };
 
 #endif // UPDATER_H

@@ -57,6 +57,16 @@ void Database::prepare()
     // prepare statements that are used repeatedly
     bool success = true;
     success &= checkReturn(sqlite3_prepare_v2(db,
+                       "BEGIN",
+                       -1,
+                       &beginStmt,
+                       NULL));
+    success &= checkReturn(sqlite3_prepare_v2(db,
+                       "COMMIT",
+                       -1,
+                       &commitStmt,
+                       NULL));
+    success &= checkReturn(sqlite3_prepare_v2(db,
                        "INSERT INTO tracks (title, artist, album, genre, track, year, path, lastmodified) VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'))",
                        -1,
                        &insertTrackStmt,
@@ -70,16 +80,6 @@ void Database::prepare()
                        "SELECT lastmodified FROM tracks WHERE path=?",
                        -1,
                        &getLastModifiedStmt,
-                       NULL));
-    success &= checkReturn(sqlite3_prepare_v2(db,
-                       "BEGIN",
-                       -1,
-                       &beginStmt,
-                       NULL));
-    success &= checkReturn(sqlite3_prepare_v2(db,
-                       "COMMIT",
-                       -1,
-                       &commitStmt,
                        NULL));
     if (!success) {
         std::cerr << "FATAL: Error preparing statements." << std::endl;

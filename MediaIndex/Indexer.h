@@ -29,14 +29,14 @@
 class Indexer : public QThread{
 Q_OBJECT
 public:
-    Indexer(BlockingQueue *q, Database *db, Stats *s);
+    Indexer(BlockingQueue *q, Stats *s, char *dbPath);
     virtual ~Indexer();
 protected:
     virtual void run();
 private:
     BlockingQueue *queue;
     Stats *stats;
-    Database *db;
+    char *dbPath;
 };
 
 #endif // INDEXER_H

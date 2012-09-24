@@ -28,7 +28,7 @@
 class DirScanner : public QThread{
 Q_OBJECT
     public:
-    DirScanner(BlockingQueue *q, char *p, Stats *s);
+    DirScanner(BlockingQueue *q, Stats *s, char *p);
     virtual ~DirScanner();
 protected:
     virtual void run();

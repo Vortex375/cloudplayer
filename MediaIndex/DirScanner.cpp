@@ -19,7 +19,7 @@
 
 #include "DirScanner.h"
 
-DirScanner::DirScanner (BlockingQueue *q, char *p, Stats *s) : QThread() {
+DirScanner::DirScanner (BlockingQueue *q, Stats *s, char *p) : QThread() {
     queue = q;
     path = absolute(p); // always scan absolute paths
     stats = s;
