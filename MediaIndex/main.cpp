@@ -18,6 +18,7 @@
 #include "Indexer.h"
 #include "ProgressOutput.h"
 #include "Database.h"
+#include "Updater.h"
 
 using namespace boost::filesystem;
 
@@ -72,7 +73,7 @@ void createDatabase(char* databasePath, char* dirPath) {
     out << endl << endl << "Indexing complete." << endl;
 }
 
-void updateDatabase(char *databasePath) {
+void updateDatabase(char *databasePath, char *dirPath) {
     out << "Open database at " << databasePath << endl;
     // check if database file exists
     if (!exists(databasePath)) {
@@ -123,7 +124,7 @@ int main(int argc, char** argv) {
     if (strcmp(argv[1], "create") == 0) {
         createDatabase(argv[2], argv[3]);
     } else if (strcmp(argv[1], "update") == 0) {
-        updateDatabase();
+        updateDatabase(argv[2], argv[3]);
     } else {
         printUsage();
     }

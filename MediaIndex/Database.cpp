@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Database.h"
 #include <iostream>
 #include <QDebug>
+#include <assert.h>
 
 Database::Database()
 {
@@ -119,6 +120,8 @@ void Database::begin()
     if (!beginStmt) {
         prepare();
     }
+    assert(beginStmt);
+    
     sqlite3_step(beginStmt);
     //sqlite3_reset(beginStmt);
 }
@@ -128,6 +131,8 @@ void Database::commit()
      if (!commitStmt) {
         prepare();
     }
+    assert(commitStmt);
+    
     sqlite3_step(commitStmt);
     //sqlite3_reset(commitStmt);
 }
@@ -137,6 +142,7 @@ void Database::insertTrack(const char* title, const char* artist, const char* al
     if (!insertTrackStmt) {
         prepare();
     }
+    assert(insertTrackStmt);
     
     // bind parameters to prepared statement
     sqlite3_bind_text(insertTrackStmt, 1, title, -1, SQLITE_TRANSIENT);
@@ -162,6 +168,7 @@ void Database::updateTrack(const char* title, const char* artist, const char* al
     if (!updateTrackStmt) {
         prepare();
     }
+    assert(updateTrackStmt);
     
     // bind parameters to prepared statement
     sqlite3_bind_text(updateTrackStmt, 1, title, -1, SQLITE_TRANSIENT);
@@ -188,6 +195,7 @@ sqlite3_int64 Database::getLastModified(const char* path)
     if (!getLastModifiedStmt) {
         prepare();
     }
+    assert(getLastModifiedStmt);
     
     sqlite3_bind_text(getLastModifiedStmt, 1, path, -1, SQLITE_TRANSIENT);
     
