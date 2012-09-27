@@ -44,6 +44,7 @@ void Indexer::run() {
     if (!db.open(dbPath)) {
         out << "Error: failed to open database." << endl;
         exit(1);
+        return;
     };
     
     // create database tables
@@ -53,7 +54,6 @@ void Indexer::run() {
     }
     
     path p;
-    //db->commit(); // not sure why it is needed
     db.begin();  // turn off autocommit
     while (!(p = queue->dequeue()).empty()) {
         TagLib::FileRef f(p.c_str());
@@ -70,6 +70,7 @@ void Indexer::run() {
         }
         stats->incrementProcessed();
     }
+    db.clearMarks();
     db.commit(); // commit database
 }
 

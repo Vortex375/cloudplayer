@@ -55,7 +55,7 @@ void createDatabase(char* databasePath, char* dirPath) {
     outputThread->start();
     
     scanner.wait();
-    out << endl << "Filesystem scan complete." << endl << endl;
+    //out << endl << "Filesystem scan complete." << endl << endl;
     indexer.wait();
     outputThread->quit();
     out << endl << endl << "Indexing complete." << endl;
@@ -88,7 +88,7 @@ void updateDatabase(char *databasePath, char *dirPath) {
     outputThread->start();
     
     scanner.wait();
-    out << endl << "Filesystem scan complete." << endl << endl;
+    //out << endl << "Filesystem scan complete." << endl << endl;
     updater.wait();
     outputThread->quit();
     out << endl << endl << "Indexing complete." << endl;

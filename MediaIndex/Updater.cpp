@@ -21,6 +21,7 @@
 #include <taglib/fileref.h>
 #include <taglib/tag.h>
 #include <QtCore/QTextStream>
+#include <QDebug>
 
 
 Updater::Updater(BlockingQueue* q, Stats* s, char* dbPath): QThread()
@@ -43,13 +44,13 @@ void Updater::run()
     if (!db.open(dbPath)) {
         out << "Error: failed to open database." << endl;
         exit(1);
+        return;
     };
     
     path p;
-    //db.commit(); // not sure why it is needed
     db.begin();  // turn off autocommit
     while (!(p = queue->dequeue()).empty()) {
-        long long lmod = db.getLastModified(p.c_str());
+        long long lmod = db.getLastModified(p.c_str()); // getLastModified marks entry if found
         if (lmod < 0) {
             // new file
             TagLib::FileRef f(p.c_str());
@@ -66,9 +67,10 @@ void Updater::run()
             }
         } else if (last_write_time(p) > lmod) {
             // file was modified since last indexed
+            qDebug() << "File changed: " << p.c_str();
             TagLib::FileRef f(p.c_str());
             if (!f.isNull() && f.tag()) {
-                db.updateTrack(
+                db.updateTrack( // updateTrack marks entry if found
                     f.tag()->title().toCString(true),
                     f.tag()->artist().toCString(true),
                     f.tag()->album().toCString(true),
@@ -79,9 +81,10 @@ void Updater::run()
                 );
             }
         }
-        // TODO: removed files
         stats->incrementProcessed();
     }
+    db.dropUnmarked(); // remove deleted files from database
+    db.clearMarks();
     db.commit(); // commit database
 }
 

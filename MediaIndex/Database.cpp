@@ -26,6 +26,13 @@ Database::Database()
 {
     db = NULL;
     insertTrackStmt = NULL;
+    updateTrackStmt = NULL;
+    getLastModifiedStmt = NULL;
+    beginStmt = NULL;
+    commitStmt = NULL;
+    dropUnmarkedStmt = NULL;
+    clearMarkStmt = NULL;
+    markStmt = NULL;
 }
 
 Database::~Database()
@@ -33,8 +40,13 @@ Database::~Database()
     // free prepared statements and close database file
     if (insertTrackStmt) {
         sqlite3_finalize(insertTrackStmt);
+        sqlite3_finalize(updateTrackStmt);
+        sqlite3_finalize(getLastModifiedStmt);
         sqlite3_finalize(beginStmt);
         sqlite3_finalize(commitStmt);
+        sqlite3_finalize(dropUnmarkedStmt);
+        sqlite3_finalize(clearMarkStmt);
+        sqlite3_finalize(markStmt);
     }
     
     if (db) {
@@ -55,6 +67,7 @@ bool Database::open(char* path)
 void Database::prepare()
 {
     // prepare statements that are used repeatedly
+    //qDebug() << "SQLITE: prepare statements";
     bool success = true;
     success &= checkReturn(sqlite3_prepare_v2(db,
                        "BEGIN",
@@ -67,19 +80,34 @@ void Database::prepare()
                        &commitStmt,
                        NULL));
     success &= checkReturn(sqlite3_prepare_v2(db,
-                       "INSERT INTO tracks (title, artist, album, genre, track, year, path, lastmodified) VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'))",
+                       "INSERT INTO tracks (title, artist, album, genre, track, year, path, lastmodified, mark) VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'), 1)",
                        -1,
                        &insertTrackStmt,
                        NULL));
     success &= checkReturn(sqlite3_prepare_v2(db,
-                       "UPDATE tracks SET title=?, artist=?, album=?, genre=?, track=?, year=?, lastmodified=datetime('now') WHERE path=?",
+                       "UPDATE tracks SET title=?, artist=?, album=?, genre=?, track=?, year=?, lastmodified=datetime('now'), mark=1 WHERE path=?",
                        -1,
                        &updateTrackStmt,
                        NULL));
     success &= checkReturn(sqlite3_prepare_v2(db,
-                       "SELECT lastmodified FROM tracks WHERE path=?",
+                       "SELECT id, strftime('%s', lastmodified) FROM tracks WHERE path=?",
                        -1,
                        &getLastModifiedStmt,
+                       NULL));
+    success &= checkReturn(sqlite3_prepare_v2(db,
+                       "DELETE FROM tracks WHERE mark=0",
+                       -1,
+                       &dropUnmarkedStmt,
+                       NULL));
+    success &= checkReturn(sqlite3_prepare_v2(db,
+                       "UPDATE tracks SET mark=0",
+                       -1,
+                       &clearMarkStmt,
+                       NULL));
+    success &= checkReturn(sqlite3_prepare_v2(db,
+                       "UPDATE tracks SET mark=1 WHERE id=?",
+                       -1,
+                       &markStmt,
                        NULL));
     if (!success) {
         std::cerr << "FATAL: Error preparing statements." << std::endl;
@@ -98,8 +126,9 @@ bool Database::create()
                                             "genre varchar(200),"
                                             "track integer,"
                                             "year integer,"
-                                            "path varchar(800),"
-                                            "lastmodified date)",
+                                            "path varchar(800) UNIQUE," // creates index on path
+                                            "lastmodified date,"
+                                            "mark integer)",
                        -1,
                        &createStmt,
                        NULL);
@@ -197,29 +226,73 @@ sqlite3_int64 Database::getLastModified(const char* path)
     }
     assert(getLastModifiedStmt);
     
-    sqlite3_bind_text(getLastModifiedStmt, 1, path, -1, SQLITE_TRANSIENT);
+    int ret;
+    sqlite3_reset(getLastModifiedStmt);
+    ret = sqlite3_bind_text(getLastModifiedStmt, 1, path, -1, SQLITE_TRANSIENT);
+    //qDebug() << "SQLITE bind parameter: " << ret;
     
-    int ret = sqlite3_step(getLastModifiedStmt);
+    ret = sqlite3_step(getLastModifiedStmt);
+    //qDebug() << "SQLITE get lmod: " << path << " (" << ret << ")";
     if (ret != SQLITE_ROW) {
         // not found
         return -1;
     }
+    sqlite3_int64 id = sqlite3_column_int64(getLastModifiedStmt, 0);
     sqlite_int64 value = sqlite3_column_int64(getLastModifiedStmt, 1);
+    mark(id);
     
     // reset statement for future use
     sqlite3_clear_bindings(getLastModifiedStmt);
-    sqlite3_reset(getLastModifiedStmt);
+    
+    //qDebug() << "SQLITE get lmod: " << path << ": " << value;
     
     return value;
 }
+
+void Database::mark(sqlite_int64 id)
+{
+    if (!markStmt) {
+        prepare();
+    }
+    assert(markStmt);
+    
+    sqlite3_reset(markStmt);
+    sqlite3_bind_int64(markStmt, 1, id);
+    sqlite3_step(markStmt);
+}
+
+
+void Database::clearMarks()
+{
+    if (!clearMarkStmt) {
+        prepare();
+    }
+    assert(clearMarkStmt);
+    
+    sqlite3_reset(clearMarkStmt);
+    sqlite3_step(clearMarkStmt);
+}
+
+void Database::dropUnmarked()
+{
+    if (!dropUnmarkedStmt) {
+        prepare();
+    }
+    assert(dropUnmarkedStmt);
+    
+    sqlite3_reset(dropUnmarkedStmt);
+    sqlite3_step(dropUnmarkedStmt);
+}
+
 
 /*
  * Check return values for erros
  */
 bool Database::checkReturn(int ret)
 {
+    //qDebug() << "SQLITE checkReturn: " << ret;
     if (!(ret == SQLITE_OK || ret == SQLITE_DONE)) {
-        std::cerr << "sqlite error ("<< ret << "): " << sqlite3_errmsg(db) << std::endl;
+        std::cerr << "SQLITE error ("<< ret << "): " << sqlite3_errmsg(db) << std::endl;
         return false;
     }
     return true;

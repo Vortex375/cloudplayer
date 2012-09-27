@@ -34,6 +34,9 @@ public:
     void commit();
     void insertTrack(const char* title, const char* artist, const char* album, const char* genre, int track, int year, const char* path);
     void updateTrack(const char* title, const char* artist, const char* album, const char* genre, int track, int year, const char* path);
+    void mark(sqlite_int64 id);
+    void dropUnmarked();
+    void clearMarks();
     sqlite3_int64 getLastModified(const char* path);
     
 private:
@@ -43,6 +46,9 @@ private:
     sqlite3_stmt *getLastModifiedStmt;
     sqlite3_stmt *beginStmt;
     sqlite3_stmt *commitStmt;
+    sqlite3_stmt *dropUnmarkedStmt;
+    sqlite3_stmt *clearMarkStmt;
+    sqlite3_stmt *markStmt;
     void prepare();
     bool checkReturn(int ret);
 };
