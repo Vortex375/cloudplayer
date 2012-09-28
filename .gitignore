@@ -8,3 +8,5 @@
 /MusicWebApp/war/musicwebapp
 /MusicWebApp/war/WEB-INF
 *~
+/apache-sshd-0.7.0/src/target/
+/apache-sshd-0.7.0/src/sshd-core/target/
