@@ -1,0 +1,10 @@
+/MediaIndex/build
+/MusicServer/bin
+/MusicServer/nbproject/private/
+/MusicServer/build/
+/MusicServer/dist/
+/MusicWebApp/gwt-unitCache
+/MusicWebApp/test-classes
+/MusicWebApp/war/musicwebapp
+/MusicWebApp/war/WEB-INF
+*~
