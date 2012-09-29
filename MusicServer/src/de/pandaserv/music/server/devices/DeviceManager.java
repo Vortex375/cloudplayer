@@ -11,14 +11,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author ich
  */
 public class DeviceManager {
+    static final Logger logger = LoggerFactory.getLogger(DatabaseManager.class);
+    
     //TODO: static device configuration
     // map device type -> implementing class
 
@@ -38,8 +40,7 @@ public class DeviceManager {
 
     public static DeviceManager setup() {
         if (ourInstance != null) {
-            Logger.getLogger(DatabaseManager.class.getName()).log(Level.WARNING,
-                    "DeviceManager.setup() called but there is already an instance!");
+            logger.warn("DeviceManager.setup() called but there is already an instance!");
         } else {
             ourInstance = new DeviceManager();
         }
@@ -51,8 +52,7 @@ public class DeviceManager {
         devices = new HashMap<>();
 
         loadDevices();
-        Logger.getLogger(DeviceManager.class.getName()).log(Level.INFO,
-                "Loaded {0} devices from database.", devices.size());
+        logger.info("Loaded {} devices from database.", devices.size());
     }
 
     /**
@@ -76,8 +76,7 @@ public class DeviceManager {
 
         for (DeviceHandle dev : devices.values()) {
             if (!DEVICE_TYPES.containsKey(dev.type)) {
-                Logger.getLogger(DeviceManager.class.getName()).log(Level.WARNING,
-                        "The Device {0} has an unknown type {1}. Ignoring device",
+                logger.warn("The Device {} has an unknown type {}. Ignoring device",
                         new Object[]{dev.name, dev.type});
                 continue;
             }
@@ -89,8 +88,7 @@ public class DeviceManager {
 
     public synchronized Device getDevice(String name) {
         if (!devices.containsKey(name)) {
-            Logger.getLogger(DeviceManager.class.getName()).log(Level.SEVERE,
-                    "Unknown device {0} requested with getDevice()", name);
+            logger.error("Unknown device {} requested with getDevice()", name);
             throw new RuntimeException("Unknown device: " + name);
         }
         
@@ -103,10 +101,9 @@ public class DeviceManager {
                 Class<?> cls = Class.forName(DEVICE_TYPES.get(handle.type));
                 dev = (Device) cls.newInstance();
             } catch (InstantiationException | IllegalAccessException ex) {
-                Logger.getLogger(DeviceManager.class.getName()).log(Level.SEVERE, "Device instanciation failed:", ex);
+                logger.error("Device instanciation failed:", ex);
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(DeviceManager.class.getName()).log(Level.SEVERE,
-                        "Unable to find class for device type {0}", handle.type);
+                logger.error("Unable to find class for device type {}", handle.type);
             }
             if (dev == null) {
                 throw new RuntimeException("Device instanciation failed");

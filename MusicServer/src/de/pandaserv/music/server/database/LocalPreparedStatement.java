@@ -6,14 +6,16 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Author: Hayato Hess
  * Date: 3/28/12
  */
 class LocalPreparedStatement extends ThreadLocal<PreparedStatement> {
+    static final Logger logger = LoggerFactory.getLogger(DatabaseManager.class);
+    
     //to create all PreparedStatements (to find syntax errors)
     private final static List<LocalPreparedStatement> allLocalPreparedStatements = new LinkedList<LocalPreparedStatement>();
     private final HashMap<Thread, Integer> connectionRetries = new HashMap<Thread, Integer>();
@@ -57,14 +59,12 @@ class LocalPreparedStatement extends ThreadLocal<PreparedStatement> {
         synchronized (connectionRetries) {
             if (connectionRetries.get(Thread.currentThread()) != null) {
                 //print status
-                Logger.getLogger(LocalPreparedStatement.class.getName()).log(Level.WARNING,
-                        "Retrying to prepare statement after previous failure.");
+                logger.warn("Retrying to prepare statement after previous failure.");
 
                 //close server if value > MAX_RETRIES
                 if (connectionRetries.get(Thread.currentThread()) >= MAX_RETRIES){
-                    Logger.getLogger(LocalPreparedStatement.class.getName()).log(Level.SEVERE,
-                            "Unable to establish database connection"
-                            + " after {0} tries! Shutting down.", MAX_RETRIES);
+                    logger.error("Unable to establish database connection"
+                            + " after {} tries! Shutting down.", MAX_RETRIES);
                     System.exit(1);
                 }
             }
@@ -114,8 +114,7 @@ class LocalPreparedStatement extends ThreadLocal<PreparedStatement> {
             } else {
                 tries = 1;
             }
-            Logger.getLogger(LocalPreparedStatement.class.getName()).log(Level.WARNING,
-                    "Failed to prepare statement. Retrying in 5 seconds ({0}/{1})",
+            logger.warn("Failed to prepare statement. Retrying in 5 seconds ({}/{})",
                     new Object[] {tries, MAX_RETRIES});
             connectionRetries.put(Thread.currentThread(), tries);
         }

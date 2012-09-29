@@ -16,6 +16,8 @@ public interface Device {
     
     public Status getStatus();
     
+    public String getStatusMessage();
+    
     public void getFile(String path, OutputStream out);
     
     public void setup(Properties config);

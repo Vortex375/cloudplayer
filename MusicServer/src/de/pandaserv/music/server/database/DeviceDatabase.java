@@ -6,11 +6,12 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DeviceDatabase {
 
+    static final Logger logger = LoggerFactory.getLogger(DeviceDatabase.class);
     private final LocalPreparedStatement listDevices;
     private final LocalPreparedStatement getDeviceProperties;
     // Singleton
@@ -44,8 +45,7 @@ public class DeviceDatabase {
                 ret.add(new String[]{rs.getString("name"), rs.getString("type")});
             }
         } catch (SQLException e) {
-            Logger.getLogger(DeviceDatabase.class.getName()).log(Level.WARNING,
-                    "SQL Exception in listDevices():");
+            logger.warn("SQL Exception in listDevices():");
             e.printStackTrace();
         }
 
@@ -66,15 +66,14 @@ public class DeviceDatabase {
             while (rs.next()) {
                 String key = rs.getString("key");
                 String value = rs.getString("value");
-                
+
                 ret.setProperty(key, value);
             }
         } catch (SQLException e) {
-            Logger.getLogger(DeviceDatabase.class.getName()).log(Level.WARNING,
-                    "SQL Exception in getDeviceProperties():");
+            logger.warn("SQL Exception in getDeviceProperties():");
             e.printStackTrace();
         }
-        
+
         return ret;
     }
 }

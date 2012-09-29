@@ -18,6 +18,11 @@ public class SshDevice implements Device {
     public Status getStatus() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+    
+    @Override
+    public String getStatusMessage() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
     @Override
     public void getFile(String path, OutputStream out) {

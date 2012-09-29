@@ -4,11 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DatabaseManager {
-
+    static final Logger logger = LoggerFactory.getLogger(DatabaseManager.class);
+    
     // connection properties
     // Class name of jdbc driver
     private static String DRIVER;
@@ -33,8 +34,7 @@ public class DatabaseManager {
 
     public static DatabaseManager setup(Properties config) {
         if (ourInstance != null) {
-            Logger.getLogger(DatabaseManager.class.getName()).log(Level.WARNING,
-                    "DatabaseManager.setup() called but there is already an instance!");
+            logger.warn("DatabaseManager.setup() called but there is already an instance!");
         } else {
             ourInstance = new DatabaseManager(config);
         }
@@ -86,8 +86,7 @@ public class DatabaseManager {
             if (threadLocalConnection.get() == null || !threadLocalConnection.get().isValid(2)) {
                 //creates a new connection
                 Connection newConnection = createConnection();
-                Logger.getLogger(DatabaseManager.class.getName()).log(Level.INFO,
-                        "Created new database connection.");
+                logger.info("Created new database connection.");
                 threadLocalConnection.set(newConnection);
                 return newConnection;
             } else {
@@ -96,13 +95,11 @@ public class DatabaseManager {
             }
 
         } catch (ClassNotFoundException dbDrvNotFound) {
-            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE,
-                    "Database driver not found!");
+            logger.error("Database driver not found!");
             dbDrvNotFound.printStackTrace();
             System.exit(1);
         } catch (SQLException sqlException) {
-            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE,
-                    "There was an error while creating a database connection.");
+            logger.error("There was an error while creating a database connection.");
             sqlException.printStackTrace();
         }
         return null;

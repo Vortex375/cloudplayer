@@ -7,39 +7,43 @@ package de.pandaserv.music.server;
 import de.pandaserv.music.server.database.DatabaseManager;
 import de.pandaserv.music.server.devices.Device;
 import de.pandaserv.music.server.devices.DeviceManager;
+import de.pandaserv.music.server.devices.ssh.SshPortForwardService;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author ich
  */
 public class MusicServer extends Server {
+    static final Logger logger = LoggerFactory.getLogger(MusicServer.class);
+    
     public MusicServer(Properties startupConfig) throws IOException {
         super(Integer.parseInt(startupConfig.getProperty("port")));
         
         // set up database
         DatabaseManager.setup(startupConfig);
-        
         // set up remote device manager
         DeviceManager.setup();
+        // set up ssh forwarding service
+        //TODO: maybe dynamic service starting/stopping?
+        int sshPort = Integer.parseInt(startupConfig.getProperty("ssh_port"));
+        if (sshPort > 0) {
+            SshPortForwardService serv = SshPortForwardService.setup(sshPort);
+        }
         
-        //DEBUG: test device
-        Device testDev = DeviceManager.getInstance().getDevice("testdevice");
-        System.out.println("Test device:" + testDev);
+        // set up http server
         
         // static web app content
         ResourceHandler resource = new ResourceHandler();
-        Logger.getLogger(MusicServer.class.getName()).log(Level.INFO,
-                "Using web content path {0}", startupConfig.getProperty("web_dir"));
+        logger.info("Using web content path {}", startupConfig.getProperty("web_dir"));
         resource.setResourceBase(startupConfig.getProperty("web_dir"));
         resource.setWelcomeFiles(new String[]{"MusicWebApp.html"});
 
