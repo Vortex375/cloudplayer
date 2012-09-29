@@ -60,6 +60,13 @@ public class SshPortForwardService {
         });
         
         sshd.setPublickeyAuthenticator(new DeviceAuthenticator());
+        /*sshd.setPasswordAuthenticator(new PasswordAuthenticator() {
+
+            @Override
+            public boolean authenticate(String username, String password, ServerSession ss) {
+                return true;
+            }
+        });*/
         
         sshd.start();
         logger.info("Started SSH port forwarding service at port {}", port);
