@@ -2,20 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.pandaserv.music.server.devices.ssh;
+package de.pandaserv.music.server.ssh;
 
-import de.pandaserv.music.server.database.DatabaseManager;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.InetSocketAddress;
-import java.util.Properties;
 import org.apache.sshd.SshServer;
 import org.apache.sshd.common.Factory;
 import org.apache.sshd.server.Command;
-import org.apache.sshd.server.Environment;
-import org.apache.sshd.server.ExitCallback;
-import org.apache.sshd.server.ForwardingFilter;
 import org.apache.sshd.server.PasswordAuthenticator;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.apache.sshd.server.session.DefaultForwardingAcceptorFactory;
@@ -67,14 +59,7 @@ public class SshPortForwardService {
             }
         });
         
-        sshd.setPasswordAuthenticator(new PasswordAuthenticator() {
-
-            @Override
-            public boolean authenticate(String username, String password, ServerSession session) {
-                // lol
-                return true;
-            }
-        });
+        sshd.setPublickeyAuthenticator(new DeviceAuthenticator());
         
         sshd.start();
         logger.info("Started SSH port forwarding service at port {}", port);

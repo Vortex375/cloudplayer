@@ -2,12 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.pandaserv.music.server.devices.ssh;
+package de.pandaserv.music.server.ssh;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
@@ -60,6 +61,12 @@ public class DeviceShell implements Command {
 
     @Override
     public void setOutputStream(OutputStream out) {
+        // send welcome message
+        PrintWriter writer = new PrintWriter(out);
+        writer.print("You have successfully connected to Music Server.\r\n");
+        writer.print("\r\n");
+        writer.print("Press Control-C or Control-D to close this connection.\r\n");
+        writer.close();
     }
 
     @Override

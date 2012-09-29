@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * @author ich
  */
 public class DeviceManager {
-    static final Logger logger = LoggerFactory.getLogger(DatabaseManager.class);
+    static Logger logger = LoggerFactory.getLogger(DeviceManager.class);
     
     //TODO: static device configuration
     // map device type -> implementing class

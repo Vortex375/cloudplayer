@@ -7,7 +7,7 @@ package de.pandaserv.music.server;
 import de.pandaserv.music.server.database.DatabaseManager;
 import de.pandaserv.music.server.devices.Device;
 import de.pandaserv.music.server.devices.DeviceManager;
-import de.pandaserv.music.server.devices.ssh.SshPortForwardService;
+import de.pandaserv.music.server.ssh.SshPortForwardService;
 import java.io.IOException;
 import java.util.Properties;
 import org.eclipse.jetty.server.Handler;
@@ -50,7 +50,7 @@ public class MusicServer extends Server {
         // music service
         ContextHandler context = new ContextHandler();
         context.setContextPath("/service");
-        context.setResourceBase(".");
+        context.setResourceBase(startupConfig.getProperty("tmp_dir"));
         context.setClassLoader(Thread.currentThread().getContextClassLoader());
         context.setHandler(new MusicService());
 
