@@ -4,6 +4,7 @@
  */
 package de.pandaserv.music.server;
 
+import de.pandaserv.music.server.cache.CacheManager;
 import de.pandaserv.music.server.database.DatabaseManager;
 import de.pandaserv.music.server.devices.Device;
 import de.pandaserv.music.server.devices.DeviceManager;
@@ -32,8 +33,10 @@ public class MusicServer extends Server {
         DatabaseManager.setup(startupConfig);
         // set up remote device manager
         DeviceManager.setup();
+        // set up cache manager
+        CacheManager.setup(startupConfig);
+        
         // set up ssh forwarding service
-        //TODO: maybe dynamic service starting/stopping?
         int sshPort = Integer.parseInt(startupConfig.getProperty("ssh_port"));
         if (sshPort > 0) {
             SshPortForwardService serv = SshPortForwardService.setup(sshPort);
@@ -50,7 +53,7 @@ public class MusicServer extends Server {
         // music service
         ContextHandler context = new ContextHandler();
         context.setContextPath("/service");
-        context.setResourceBase(startupConfig.getProperty("tmp_dir"));
+        //context.setResourceBase(startupConfig.getProperty("tmp_dir"));
         context.setClassLoader(Thread.currentThread().getContextClassLoader());
         context.setHandler(new MusicService());
 
