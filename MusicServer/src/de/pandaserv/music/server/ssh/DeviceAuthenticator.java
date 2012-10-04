@@ -5,6 +5,7 @@
 package de.pandaserv.music.server.ssh;
 
 import de.pandaserv.music.server.database.DeviceDatabase;
+import de.pandaserv.music.server.ssh.OpenSSHKeyReader.KeyParseException;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.KeyFactory;
@@ -13,6 +14,7 @@ import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.Properties;
+import java.util.logging.Level;
 import org.apache.sshd.server.PublickeyAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
 import org.slf4j.Logger;
@@ -42,26 +44,19 @@ public class DeviceAuthenticator implements PublickeyAuthenticator {
             try {
                 byte[] encodedPublicKey = decoder.decodeBuffer(base64key);
 
-                // TODO: maybe support other formats too
                 // parse OpenSSH key
                 OpenSSHKeyReader keyReader = new OpenSSHKeyReader(encodedPublicKey);
-                KeyFactory rsaFactory = KeyFactory.getInstance("RSA");
-                BigInteger exp = new BigInteger(keyReader.getKeyElement());
-                BigInteger mod = new BigInteger(keyReader.getKeyElement());
-                RSAPublicKeySpec rsaKey = new RSAPublicKeySpec(mod, exp);
-                PublicKey devicePublicKey = rsaFactory.generatePublic(rsaKey);
+                PublicKey devicePublicKey = keyReader.getKey();
                 
                 logger.debug("Offered public key: {}", pk);
                 logger.debug("Stored public key:  {}", devicePublicKey);
                 
                 return devicePublicKey.equals(pk);
+            } catch (KeyParseException ex) {
+                logger.error("The device's public key stored in the database is invalid:", ex);
             } catch (IOException ex) { // thrown from BASE64Decoder
-                logger.error("Unable to decode the device's stored public key.", ex);
-            } catch (NoSuchAlgorithmException ex) {
-                logger.error("Unable to create RSA key factory.", ex);
-            } catch (OpenSSHKeyReader.KeyParseException | InvalidKeySpecException ex) {
-                logger.error("Unable to parse the device's stored public key.", ex);
-            }
+                logger.error("Unable to base64-decode the device's stored public key.", ex);
+            } 
 
         } else {
             logger.info("Rejecting ssh connection for unknown username {}", username);
