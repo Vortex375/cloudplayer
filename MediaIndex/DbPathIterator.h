@@ -17,27 +17,21 @@
 */
 
 
-#include "ProgressOutput.h"
-#include <QTimer>
-#include <QDebug>
+#ifndef DBPATHITERATOR_H
+#define DBPATHITERATOR_H
+#include <sqlite3.h>
 
-ProgressOutput::ProgressOutput(Stats *s) : out(stdout) {
-    stats = s;
-    QTimer *timer = new QTimer(this);
-    timer->setInterval(33);
-    connect(timer, SIGNAL(timeout()), this, SLOT(output()));
-    timer->start();
-}
+class DbPathIterator
+{
 
-ProgressOutput::~ProgressOutput() {
+public:
+    DbPathIterator(sqlite3_stmt *stmt);
+    virtual ~DbPathIterator();
+    bool next();
+    const char* getPath();
+    
+private:
+    sqlite3_stmt *stmt;
+};
 
-}
-
-void ProgressOutput::output() {
-    out << "\33[2K\r";
-    out << "Progress: " << (int) ((stats->getProcessed() / (double) stats->getFound()) * 100) << "% (" << stats->getProcessed() << "/" << stats->getFound() << ")";
-    out.flush();
-}
-
-
-#include "ProgressOutput.moc"
+#endif // DBPATHITERATOR_H

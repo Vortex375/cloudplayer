@@ -17,27 +17,34 @@
 */
 
 
-#include "ProgressOutput.h"
-#include <QTimer>
-#include <QDebug>
+#ifndef COVERS_H
+#define COVERS_H
+#include "Stats.h"
+#include "Database.h"
+#include <QtCore/QThread>
+#include <taglib/id3v2tag.h>
+#include <taglib/xiphcomment.h>
+#include <taglib/attachedpictureframe.h>
 
-ProgressOutput::ProgressOutput(Stats *s) : out(stdout) {
-    stats = s;
-    QTimer *timer = new QTimer(this);
-    timer->setInterval(33);
-    connect(timer, SIGNAL(timeout()), this, SLOT(output()));
-    timer->start();
-}
+using namespace TagLib;
 
-ProgressOutput::~ProgressOutput() {
+class Covers : public QThread
+{
+Q_OBJECT
+public:
+    Covers(Stats *s, char *dbPath);
+    virtual ~Covers();
+    
+protected:
+    virtual void run();
+    
+private:
+    Stats *stats;
+    char *dbPath;
+    QByteArray extractImageID3(ID3v2::Tag *tag, Database *db);
+    QByteArray extractImageOgg(Ogg::XiphComment *tag, Database *db);
+    QByteArray md5(char *input, int length);
+    QByteArray storeID3PictureFrame(ID3v2::AttachedPictureFrame* picture, Database* db);
+};
 
-}
-
-void ProgressOutput::output() {
-    out << "\33[2K\r";
-    out << "Progress: " << (int) ((stats->getProcessed() / (double) stats->getFound()) * 100) << "% (" << stats->getProcessed() << "/" << stats->getFound() << ")";
-    out.flush();
-}
-
-
-#include "ProgressOutput.moc"
+#endif // COVERS_H

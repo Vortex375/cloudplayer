@@ -26,5 +26,17 @@ void Stats::incrementProcessed() {
     QMutexLocker locker(&mutex);
     processed++;
 }
- 
+
+void Stats::setFound(long found)
+{
+    QMutexLocker locker(&mutex);
+    this->found = found;
+}
+
+void Stats::setProcessed(long processed)
+{
+    QMutexLocker locker(&mutex);
+    this->processed = processed;
+}
+
 #include "Stats.moc"

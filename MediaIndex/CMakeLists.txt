@@ -10,7 +10,7 @@ pkg_search_module(SQLITE REQUIRED sqlite3>=3.7)
 
 include_directories(${QT_INCLUDES} ${Boost_INCLUDE_DIRS} ${TAGLIB_INCLUDE_DIRS} ${SQLITE_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR})
 
-set(MediaIndex_SRCS Updater.cpp Database.cpp ProgressOutput.cpp Indexer.cpp DirScanner.cpp main.cpp Stats.cpp BlockingQueue.cpp)
+set(MediaIndex_SRCS DbCoverIterator.cpp DbPathIterator.cpp Covers.cpp Updater.cpp Database.cpp ProgressOutput.cpp Indexer.cpp DirScanner.cpp main.cpp Stats.cpp BlockingQueue.cpp)
 
 qt4_automoc(${MediaIndex_SRCS})
 

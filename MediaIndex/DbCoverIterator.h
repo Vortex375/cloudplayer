@@ -17,27 +17,24 @@
 */
 
 
-#include "ProgressOutput.h"
-#include <QTimer>
-#include <QDebug>
+#ifndef DBCOVERITERATOR_H
+#define DBCOVERITERATOR_H
+#include <sqlite3.h>
+#include <QtCore/QByteArray>
+#include <QtCore/QString>
 
-ProgressOutput::ProgressOutput(Stats *s) : out(stdout) {
-    stats = s;
-    QTimer *timer = new QTimer(this);
-    timer->setInterval(33);
-    connect(timer, SIGNAL(timeout()), this, SLOT(output()));
-    timer->start();
-}
+class DbCoverIterator
+{
 
-ProgressOutput::~ProgressOutput() {
+public:
+    DbCoverIterator(sqlite3_stmt *stmt);
+    virtual ~DbCoverIterator();
+    bool next();
+    QString getHash();
+    QString getMimeType();
+    QByteArray getCover();
+private:
+    sqlite3_stmt *stmt;
+};
 
-}
-
-void ProgressOutput::output() {
-    out << "\33[2K\r";
-    out << "Progress: " << (int) ((stats->getProcessed() / (double) stats->getFound()) * 100) << "% (" << stats->getProcessed() << "/" << stats->getFound() << ")";
-    out.flush();
-}
-
-
-#include "ProgressOutput.moc"
+#endif // DBCOVERITERATOR_H

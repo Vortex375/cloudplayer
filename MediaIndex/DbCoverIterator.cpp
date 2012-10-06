@@ -17,27 +17,37 @@
 */
 
 
-#include "ProgressOutput.h"
-#include <QTimer>
-#include <QDebug>
+#include "DbCoverIterator.h"
 
-ProgressOutput::ProgressOutput(Stats *s) : out(stdout) {
-    stats = s;
-    QTimer *timer = new QTimer(this);
-    timer->setInterval(33);
-    connect(timer, SIGNAL(timeout()), this, SLOT(output()));
-    timer->start();
+DbCoverIterator::DbCoverIterator(sqlite3_stmt *stmt)
+{
+    this->stmt = stmt;
 }
 
-ProgressOutput::~ProgressOutput() {
-
+DbCoverIterator::~DbCoverIterator()
+{
+    sqlite3_finalize(stmt);
 }
 
-void ProgressOutput::output() {
-    out << "\33[2K\r";
-    out << "Progress: " << (int) ((stats->getProcessed() / (double) stats->getFound()) * 100) << "% (" << stats->getProcessed() << "/" << stats->getFound() << ")";
-    out.flush();
+QString DbCoverIterator::getHash()
+{
+    return QString::fromAscii((char*) sqlite3_column_text(stmt, 0));
+}
+
+QString DbCoverIterator::getMimeType()
+{
+    return QString::fromAscii((char*) sqlite3_column_text(stmt, 3));
 }
 
 
-#include "ProgressOutput.moc"
+QByteArray DbCoverIterator::getCover()
+{
+    char *data = (char *) sqlite3_column_blob(stmt, 1);
+    int length = sqlite3_column_int(stmt, 2);
+    return QByteArray::fromRawData(data, length);
+}
+
+bool DbCoverIterator::next()
+{
+    return (sqlite3_step(stmt) == SQLITE_ROW);
+}

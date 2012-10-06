@@ -21,6 +21,8 @@
 #define DATABASE_H
 
 #include <sqlite3.h>
+#include "DbPathIterator.h"
+#include "DbCoverIterator.h"
 
 class Database
 {
@@ -38,6 +40,13 @@ public:
     void dropUnmarked();
     void clearMarks();
     sqlite3_int64 getLastModified(const char* path);
+    void addCover(const char* md5, void* data, int length, const char* mimetype);
+    bool hasCover(const char* md5);
+    void setCover(const char* md5, const char* path);
+    DbPathIterator getAllPaths();
+    sqlite3_int64 getTrackCount();
+    sqlite3_int64 getCoverCount();
+    DbCoverIterator getAllCovers();
     
 private:
     sqlite3 *db;
@@ -49,6 +58,11 @@ private:
     sqlite3_stmt *dropUnmarkedStmt;
     sqlite3_stmt *clearMarkStmt;
     sqlite3_stmt *markStmt;
+    sqlite3_stmt *addCoverStmt;
+    sqlite3_stmt *checkCoverStmt;
+    sqlite3_stmt *setCoverStmt;
+    sqlite3_stmt *countStmt;
+    sqlite3_stmt *coverCountStmt;
     void prepare();
     bool checkReturn(int ret);
 };

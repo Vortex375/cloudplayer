@@ -29,6 +29,9 @@ public:
     Stats();
     virtual ~Stats();
     
+    void setProcessed(long processed);
+    void setFound(long found);
+    
     void incrementProcessed();
     void incrementFound();
     
