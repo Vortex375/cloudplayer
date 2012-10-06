@@ -38,6 +38,7 @@ Database::Database()
     setCoverStmt = NULL;
     countStmt = NULL;
     coverCountStmt = NULL;
+    missingCoverCountStmt = NULL;
 }
 
 Database::~Database()
@@ -57,6 +58,7 @@ Database::~Database()
         sqlite3_finalize(setCoverStmt);
         sqlite3_finalize(countStmt);
         sqlite3_finalize(coverCountStmt);
+        sqlite3_finalize(missingCoverCountStmt);
     }
 
     if (db) {
@@ -98,7 +100,7 @@ void Database::prepare()
                            &insertTrackStmt,
                            NULL));
     success &= checkReturn(sqlite3_prepare_v2(db,
-                           "UPDATE tracks SET title=?, artist=?, album=?, genre=?, track=?, year=?, lastmodified=datetime('now'), mark=1, cover='' WHERE path=?", // unset cover on update
+                           "UPDATE tracks SET title=?, artist=?, album=?, genre=?, track=?, year=?, lastmodified=datetime('now'), mark=1, cover=NULL WHERE path=?", // unset cover on update
                            -1,
                            &updateTrackStmt,
                            NULL));
@@ -146,6 +148,11 @@ void Database::prepare()
                            "SELECT COUNT(*) FROM covers",
                            -1,
                            &coverCountStmt,
+                           NULL));
+    success &= checkReturn(sqlite3_prepare_v2(db,
+                           "SELECT COUNT(*) FROM tracks WHERE cover IS NULL",
+                           -1,
+                           &missingCoverCountStmt,
                            NULL));
     if (!success) {
         std::cerr << "FATAL: Error preparing statements." << std::endl;
@@ -391,13 +398,26 @@ DbPathIterator Database::getAllPaths()
     return DbPathIterator(getAllStmt);
 }
 
+DbPathIterator Database::getMissingCovers()
+{
+    sqlite3_stmt *getMissingCoversStmt;
+    sqlite3_prepare_v2(db,
+                       "SELECT path FROM tracks WHERE cover IS NULL",
+                       -1,
+                       &getMissingCoversStmt,
+                       NULL);
+
+    return DbPathIterator(getMissingCoversStmt);
+}
+
+
 sqlite3_int64 Database::getTrackCount()
 {
     if (!countStmt) {
         prepare();
     }
     assert(countStmt);
-    
+
     sqlite3_reset(countStmt);
     sqlite3_step(countStmt);
     return sqlite3_column_int64(countStmt, 0);
@@ -409,11 +429,24 @@ sqlite3_int64 Database::getCoverCount()
         prepare();
     }
     assert(coverCountStmt);
-    
+
     sqlite3_reset(coverCountStmt);
     sqlite3_step(coverCountStmt);
     return sqlite3_column_int64(coverCountStmt, 0);
 }
+
+sqlite3_int64 Database::getMissingCoverCount()
+{
+    if (!missingCoverCountStmt) {
+        prepare();
+    }
+    assert(missingCoverCountStmt);
+
+    sqlite3_reset(missingCoverCountStmt);
+    sqlite3_step(missingCoverCountStmt);
+    return sqlite3_column_int64(missingCoverCountStmt, 0);
+}
+
 
 DbCoverIterator Database::getAllCovers()
 {

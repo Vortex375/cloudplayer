@@ -28,7 +28,7 @@ static QTextStream out(stdout);
 
 void printUsage() {
     out << "Usage:" << endl;
-    out << "\t mediaindex <create|update> <database file> <media directories ...>" << endl;
+    out << "\t mediaindex (create|update) <database file> <media directory>" << endl;
     out << "\t mediaindex covers <database file>" << endl;
     out << "\t mediaindex dump_covers <database file> <output directory>" << endl;
 }

@@ -43,6 +43,7 @@ private:
     char *dbPath;
     QByteArray extractImageID3(ID3v2::Tag *tag, Database *db);
     QByteArray extractImageOgg(Ogg::XiphComment *tag, Database *db);
+    QByteArray extractImageFromDir(QString path, Database *db);
     QByteArray md5(char *input, int length);
     QByteArray storeID3PictureFrame(ID3v2::AttachedPictureFrame* picture, Database* db);
 };

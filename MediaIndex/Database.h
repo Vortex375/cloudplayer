@@ -44,8 +44,10 @@ public:
     bool hasCover(const char* md5);
     void setCover(const char* md5, const char* path);
     DbPathIterator getAllPaths();
+    DbPathIterator getMissingCovers();
     sqlite3_int64 getTrackCount();
     sqlite3_int64 getCoverCount();
+    sqlite3_int64 getMissingCoverCount();
     DbCoverIterator getAllCovers();
     
 private:
@@ -63,6 +65,7 @@ private:
     sqlite3_stmt *setCoverStmt;
     sqlite3_stmt *countStmt;
     sqlite3_stmt *coverCountStmt;
+    sqlite3_stmt *missingCoverCountStmt;
     void prepare();
     bool checkReturn(int ret);
 };
