@@ -1,0 +1,29 @@
+<component name="ArtifactManager">
+  <artifact name="MusicServer:jar">
+    <output-path>$PROJECT_DIR$/dist</output-path>
+    <root id="root">
+      <element id="archive" name="MusicServer.jar">
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
+        </element>
+        <element id="module-output" name="MusicServer" />
+      </element>
+      <element id="directory" name="lib">
+        <element id="file-copy" path="$PROJECT_DIR$/lib/jackson-annotations-2.0.6.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/lib/jackson-core-2.0.6.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/lib/jackson-databind-2.0.6.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/lib/jetty-continuation.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/lib/jetty-http.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/lib/jetty-io.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/lib/jetty-server.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/lib/jetty-util.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/lib/mina-core-2.0.4.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/lib/mysql-connector-java-5.1.22-bin.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/lib/servlet-api-3.0.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/lib/slf4j-api-1.7.1.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/lib/slf4j-simple-1.7.1.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/lib/sshd-core-0.7.0.jar" />
+      </element>
+    </root>
+  </artifact>
+</component>
