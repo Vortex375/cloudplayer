@@ -8,6 +8,7 @@ import de.pandaserv.music.server.cache.CacheManager;
 import de.pandaserv.music.server.database.DatabaseManager;
 import de.pandaserv.music.server.devices.Device;
 import de.pandaserv.music.server.devices.DeviceManager;
+import de.pandaserv.music.server.jobs.JobManager;
 import de.pandaserv.music.server.ssh.SshPortForwardService;
 import java.io.IOException;
 import java.util.Properties;
@@ -28,14 +29,17 @@ public class MusicServer extends Server {
     
     public MusicServer(Properties startupConfig) throws IOException {
         super(Integer.parseInt(startupConfig.getProperty("port")));
-        
+
+        // set up job manager
+        JobManager.setup();
         // set up database
         DatabaseManager.setup(startupConfig);
         // set up remote device manager
         DeviceManager.setup();
         // set up cache manager
         CacheManager.setup(startupConfig);
-        
+
+
         // set up ssh forwarding service
         int sshPort = Integer.parseInt(startupConfig.getProperty("ssh_port"));
         if (sshPort > 0) {

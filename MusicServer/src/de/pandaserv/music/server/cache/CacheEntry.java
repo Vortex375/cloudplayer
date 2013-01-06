@@ -5,16 +5,18 @@ package de.pandaserv.music.server.cache;
  * @author ich
  */
 class CacheEntry {
-    private final int id;
+    private final long id;
     private FileStatus status;
+    private float completion;
+    private String message;
     private PrepareJob prepareJob;
 
-    public CacheEntry(int id, String localPath, FileStatus initialStatus) {
+    public CacheEntry(long id, FileStatus initialStatus) {
         this.id = id;
         this.status = initialStatus;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
     
@@ -26,13 +28,27 @@ class CacheEntry {
         return status;
     }
 
-    public synchronized void setPrepareJob(PrepareJob prepareJob) {
-        this.prepareJob = prepareJob;
+    public float getCompletion() {
+        return completion;
     }
-    
-    public synchronized PrepareJob getPrepareJob() {
+
+    public void setCompletion(float completion) {
+        this.completion = completion;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public PrepareJob getPrepareJob() {
         return prepareJob;
     }
-    
-    
+
+    public void setPrepareJob(PrepareJob prepareJob) {
+        this.prepareJob = prepareJob;
+    }
 }

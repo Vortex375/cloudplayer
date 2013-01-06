@@ -11,5 +11,6 @@ package de.pandaserv.music.server.cache;
 public enum FileStatus {
     NOT_PREPARED,
     PREPARING,
-    PREPARED
+    PREPARED,
+    FAILED
 }

@@ -13,7 +13,15 @@ public interface Device {
         OFFLINE,
         ERROR
     }
-    
+
+    public boolean needsPrepare();
+
+    public String getName();
+
+    public void setName(String name);
+
+    public String getType();
+
     public Status getStatus();
     
     public String getStatusMessage();

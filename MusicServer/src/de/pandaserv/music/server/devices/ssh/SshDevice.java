@@ -14,6 +14,28 @@ import java.util.Properties;
  */
 public class SshDevice implements Device {
 
+    private String name;
+
+    @Override
+    public boolean needsPrepare() {
+        return true;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getType() {
+        return "ssh";
+    }
+
     @Override
     public Status getStatus() {
         throw new UnsupportedOperationException("Not supported yet.");
