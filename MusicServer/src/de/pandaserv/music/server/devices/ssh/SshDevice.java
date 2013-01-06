@@ -5,6 +5,8 @@
 package de.pandaserv.music.server.devices.ssh;
 
 import de.pandaserv.music.server.devices.Device;
+
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
@@ -47,8 +49,8 @@ public class SshDevice implements Device {
     }
 
     @Override
-    public void getFile(String path, OutputStream out) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public InputStream getFile(String path) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

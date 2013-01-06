@@ -55,7 +55,8 @@ public class CacheManager {
         // prepare cache directory
         String cachePath = config.getProperty("cache_dir");
         cacheDir = new File(cachePath);
-        
+
+        // prepare download directory
         downloadDir = new File(cachePath + "/download");
         if (!downloadDir.exists()) {
             // create download dir if it does not exist already
@@ -67,6 +68,10 @@ public class CacheManager {
             }
         }
         
+        indexCache();
+    }
+
+    private void indexCache() {
         // index existing files in cache directory
         logger.info("Indexing cache...");
         for (File f: cacheDir.listFiles()) {
@@ -74,10 +79,12 @@ public class CacheManager {
                 continue;
             }
             String filename = f.getName();
-            
+
             try {
                 long id = Long.parseLong(filename);
-                cacheMap.put(id, new CacheEntry(id, FileStatus.PREPARED));
+                CacheEntry entry = new CacheEntry(id, FileStatus.PREPARED);
+                entry.setSize(f.length());
+                cacheMap.put(id, entry);
             } catch (NumberFormatException e) {
                 logger.warn("My cache directory contains a strange file: {}", filename);
             }
@@ -92,20 +99,41 @@ public class CacheManager {
             return cacheMap.get(id).getStatus();
         }
     }
+
+    public synchronized long getSize(long id) {
+        if (!cacheMap.containsKey(id)) {
+            return -1;
+        } else {
+            return cacheMap.get(id).getSize();
+        }
+    }
     
-    public synchronized InputStream getInputStream(long id) {
+    public synchronized InputStream getInputStream(long id) throws IOException {
         if (!cacheMap.containsKey(id)) {
             throw new RuntimeException("You must call prepare() first, before requesting a file from cache!");
         }
+
         CacheEntry entry = cacheMap.get(id);
+
         if (entry.getStatus() != FileStatus.PREPARED) {
             throw new RuntimeException("The requested file has not finished preparing.");
         }
-        File f = new File(cacheDir.getAbsolutePath() + "/" + id);
+
+
         try {
+            // try direct access
+            InputStream ret;
+            ret = entry.getDirectAccess();
+            if (ret != null) {
+                return ret;
+            }
+
+            // use file from cache
+            File f = new File(cacheDir.getAbsolutePath() + "/" + id);
             return new FileInputStream(f);
-        } catch (FileNotFoundException ex) {
-            throw new RuntimeException("FATAL: file indexed in cache but does not exist on disk: " + f.getAbsolutePath());
+        } catch (IOException e) {
+            logger.error("IOException while opening input stream for " + id);
+            throw e;
         }
     }
     
@@ -131,7 +159,8 @@ public class CacheManager {
         Device device = DeviceManager.getInstance().getDevice(deviceAndPath[0]);
         if (!device.needsPrepare()) {
             // this device can stream files directly and does not need preparation
-            CacheEntry entry = new CacheEntry(id, FileStatus.PREPARED);
+            // create cache entry for direct access
+            CacheEntry entry = new CacheEntry(id, device, deviceAndPath[1]);
             cacheMap.put(id, entry);
             EventBusService.publish(new PrepareCompleteEvent(id));
             return;
@@ -139,7 +168,7 @@ public class CacheManager {
 
         // prepare (download) the file
 
-        // create or overwrite entry in cache map
+        // create normal cache entry
         CacheEntry entry = new CacheEntry(id, FileStatus.PREPARING);
         cacheMap.put(id, entry);
 
@@ -176,6 +205,7 @@ public class CacheManager {
 
             // update cache entry
             cacheMap.get(id).setStatus(FileStatus.PREPARED);
+            cacheMap.get(id).setSize(targetFile.length());
             EventBusService.publish(new PrepareCompleteEvent(id));
         }
     }

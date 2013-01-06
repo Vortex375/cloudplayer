@@ -27,6 +27,7 @@ public class DeviceManager {
 
     static {
         DEVICE_TYPES = new HashMap<>();
+        DEVICE_TYPES.put("local", "de.pandaserv.music.server.devices.local.LocalDevice");
         DEVICE_TYPES.put("ssh", "de.pandaserv.music.server.devices.ssh.SshDevice");
     }
     private Map<String, Device> devices;

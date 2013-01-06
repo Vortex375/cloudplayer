@@ -6,15 +6,17 @@ package de.pandaserv.music.server;
 
 import de.pandaserv.music.server.cache.CacheManager;
 import de.pandaserv.music.server.database.DatabaseManager;
-import de.pandaserv.music.server.devices.Device;
 import de.pandaserv.music.server.devices.DeviceManager;
 import de.pandaserv.music.server.jobs.JobManager;
+import de.pandaserv.music.server.service.MusicService;
+import de.pandaserv.music.server.service.StreamService;
 import de.pandaserv.music.server.ssh.SshPortForwardService;
 import java.io.IOException;
 import java.util.Properties;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
+import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.slf4j.Logger;
@@ -52,18 +54,17 @@ public class MusicServer extends Server {
         ResourceHandler resource = new ResourceHandler();
         logger.info("Using web content path {}", startupConfig.getProperty("web_dir"));
         resource.setResourceBase(startupConfig.getProperty("web_dir"));
-        resource.setWelcomeFiles(new String[]{"MusicWebApp.html"});
+        //resource.setWelcomeFiles(new String[]{"MusicWebApp.html"});
+        //TODO: for testing only - disable later
+        resource.setDirectoriesListed(true);
+        resource.setAliases(true);
 
         // music service
-        ContextHandler context = new ContextHandler();
-        context.setContextPath("/service");
-        //context.setResourceBase(startupConfig.getProperty("tmp_dir"));
-        context.setClassLoader(Thread.currentThread().getContextClassLoader());
-        context.setHandler(new MusicService());
+        MusicService service = new MusicService();
 
         // register handlers and start server
         HandlerList handlers = new HandlerList();
-        handlers.setHandlers(new Handler[]{resource, context});
+        handlers.setHandlers(new Handler[]{resource, service});
 
         setHandler(handlers);
     }

@@ -1,5 +1,7 @@
 package de.pandaserv.music.server.devices;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
@@ -26,7 +28,7 @@ public interface Device {
     
     public String getStatusMessage();
     
-    public void getFile(String path, OutputStream out);
+    public InputStream getFile(String path) throws IOException;
     
     public void setup(Properties config);
 }

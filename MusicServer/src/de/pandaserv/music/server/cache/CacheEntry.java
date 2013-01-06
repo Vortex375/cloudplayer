@@ -1,25 +1,48 @@
 package de.pandaserv.music.server.cache;
 
+import de.pandaserv.music.server.devices.Device;
+
+import java.io.IOException;
+import java.io.InputStream;
+
 /**
  *
  * @author ich
  */
 class CacheEntry {
     private final long id;
+    private long size; // file size
     private FileStatus status;
     private float completion;
     private String message;
-    private PrepareJob prepareJob;
+
+    private Device directAccessDevice;
+    private String directAccessName;
 
     public CacheEntry(long id, FileStatus initialStatus) {
         this.id = id;
         this.status = initialStatus;
     }
 
+    public CacheEntry(long id, Device directAccessDevice, String directAccessName) {
+        this.id = id;
+        this.directAccessDevice = directAccessDevice;
+        this.directAccessName = directAccessName;
+        this.status = FileStatus.PREPARED;
+    }
+
     public long getId() {
         return id;
     }
-    
+
+    public long getSize() {
+        return size;
+    }
+
+    public void setSize(long size) {
+        this.size = size;
+    }
+
     public synchronized void setStatus(FileStatus status) {
         this.status = status;
     }
@@ -44,11 +67,11 @@ class CacheEntry {
         this.message = message;
     }
 
-    public PrepareJob getPrepareJob() {
-        return prepareJob;
-    }
-
-    public void setPrepareJob(PrepareJob prepareJob) {
-        this.prepareJob = prepareJob;
+    public InputStream getDirectAccess() throws IOException {
+        if (directAccessDevice != null) {
+            return directAccessDevice.getFile(directAccessName);
+        } else {
+            return null;
+        }
     }
 }

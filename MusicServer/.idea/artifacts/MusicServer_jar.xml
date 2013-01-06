@@ -23,6 +23,7 @@
         <element id="file-copy" path="$PROJECT_DIR$/lib/slf4j-api-1.7.1.jar" />
         <element id="file-copy" path="$PROJECT_DIR$/lib/slf4j-simple-1.7.1.jar" />
         <element id="file-copy" path="$PROJECT_DIR$/lib/sshd-core-0.7.0.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/lib/simpleeventbus-1.x.jar" />
       </element>
     </root>
   </artifact>

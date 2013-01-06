@@ -110,6 +110,7 @@ public class DatabaseManager {
         Class.forName(DRIVER);
 
         // make connection
+        logger.info("Connecting to " + JDBC_URL);
         return DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
     }
 }
