@@ -2,6 +2,8 @@ package de.pandaserv.music.server.service;
 
 import de.pandaserv.music.server.cache.CacheManager;
 import de.pandaserv.music.server.cache.FileStatus;
+import de.pandaserv.music.server.jobs.Job;
+import de.pandaserv.music.server.jobs.JobManager;
 import org.eclipse.jetty.http.HttpMethods;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
@@ -23,6 +25,80 @@ public class StreamService extends AbstractHandler {
 
     static final Logger logger = LoggerFactory.getLogger(StreamService.class);
 
+    private static class StreamJob implements Job {
+
+        private final long streamId; // for debug output only
+        private final String client; // ditto
+
+        private final OutputStream outStream;
+        private final InputStream inStream;
+
+        private final long rangeStart;
+        private final long rangeEnd;
+
+        private long bytesSent;
+
+        private StreamJob(long streamId, String client, OutputStream outStream, InputStream inStream, long rangeStart, long rangeEnd) {
+            this.streamId = streamId;
+            this.client = client;
+            this.outStream = outStream;
+            this.inStream = inStream;
+            this.rangeStart = rangeStart;
+            this.rangeEnd = rangeEnd;
+
+            bytesSent = 0;
+        }
+
+        @Override
+        public String getDescription() {
+            return "Streaming task for " + streamId + " (to " + client + ")";
+        }
+
+        @Override
+        public String getStatus() {
+            return bytesSent + " bytes sent";
+        }
+
+        @Override
+        public void cancel() {
+            // cannot cancel
+        }
+
+        @Override
+        public void run() {
+            final long jobId = JobManager.getInstance().addJob(this);
+
+            byte[] buf = new byte[STREAM_BUFFER_SIZE];
+            long streamLength = rangeEnd - rangeStart + 1;
+            int read;
+            try {
+            logger.info("streaming task started for stream " + streamId);
+            long skip = inStream.skip(rangeStart);
+            logger.info("skipped " + skip + " bytes from InputStream.");
+                do {
+                    read = inStream.read(buf, 0, (int) Math.min(buf.length, streamLength));
+                    streamLength -= read;
+                    bytesSent += read;
+                    //rangeStart += read; // for debug output
+                    //logger.info("sending " +  read + " bytes (" + streamLength + " remaining)");
+                    outStream.write(buf, 0, read);
+                } while (read == buf.length);
+                outStream.flush();
+            } catch (IOException e) {
+                logger.info("streaming task interrupted: " + e.getMessage());
+            } finally {
+                JobManager.getInstance().removeJob(jobId);
+                try {
+                    inStream.close();
+                } catch (IOException e) {
+                    logger.warn("failed to close input stream after streaming task ended");
+                    // ignore
+                }
+                logger.info("streaming task ended for stream " + streamId);
+            }
+        }
+    }
+
     @Override
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         if (!request.getMethod().equals(HttpMethods.GET)) {
@@ -38,10 +114,9 @@ public class StreamService extends AbstractHandler {
                     baseRequest, response);
             return;
         }
-        String idString = tk.nextToken();
-
 
         // parse stream id
+        String idString = tk.nextToken();
         long id;
         try {
             id = Long.parseLong(idString);
@@ -59,16 +134,18 @@ public class StreamService extends AbstractHandler {
             return;
         }
 
-        long length = CacheManager.getInstance().getSize(id);
 
         // parse requested range
+        long length = CacheManager.getInstance().getSize(id);
         long rangeStart;
         long rangeEnd;
         String rangeHeader = request.getHeader("Range");
         if (rangeHeader == null) {
+            // no range specified? -> send full file
             rangeStart = 0;
             rangeEnd = length - 1;
         } else if (!rangeHeader.startsWith("bytes=")) {
+            // range not specified in bytes
             fail(HttpServletResponse.SC_BAD_REQUEST, "The only accepted Range is \"byte\"",
                     baseRequest, response);
             return;
@@ -77,6 +154,8 @@ public class StreamService extends AbstractHandler {
             try {
                 rangeStart = Long.parseLong(rangeStrings[0]);
                 if (rangeStrings.length < 2 || rangeStrings[1].equals("*")) {
+                    // range end not specified
+                    // set to end of file
                     rangeEnd = length - 1;
                 } else {
                     rangeEnd = Long.parseLong(rangeStrings[1]);
@@ -101,9 +180,14 @@ public class StreamService extends AbstractHandler {
         InputStream inStream = CacheManager.getInstance().getInputStream(id);
         OutputStream outStream = response.getOutputStream();
 
-
         // setHeaders
-        response.setStatus(HttpServletResponse.SC_OK);
+        if (rangeStart != 0 || rangeEnd != length - 1) {
+            // if the parsed range does not cover the entire file
+            // set response code to PARTIAL CONTENT
+            response.setStatus(HttpServletResponse.SC_PARTIAL_CONTENT);
+        } else {
+            response.setStatus(HttpServletResponse.SC_OK);
+        }
         response.setHeader("Accept-Ranges", "bytes");
         response.setHeader("Content-Type", "audio/mpeg"); //TODO: detect/retrieve format!!
         response.setHeader("Content-Length", "" + (rangeEnd - rangeStart + 1));
@@ -111,26 +195,10 @@ public class StreamService extends AbstractHandler {
         baseRequest.setHandled(true);
 
         // begin streaming task
-        byte[] buf = new byte[STREAM_BUFFER_SIZE];
-        long streamLength = rangeEnd - rangeStart + 1;
-        int read;
-        logger.info("streaming task started for stream " + id);
-        long skip = inStream.skip(rangeStart);
-        logger.info("Skipped " + skip + " bytes from InputStream.");
-        try {
-            do {
-                read = inStream.read(buf, 0, (int) Math.min(buf.length, streamLength));
-                streamLength -= read;
-                //rangeStart += read; // for debug output
-                logger.info("sending " +  read + " bytes (" + streamLength + " remaining)");
-                outStream.write(buf, 0, read);
-            } while (read == buf.length);
-            outStream.flush();
-        } finally {
-            outStream.close();
-            inStream.close();
-            logger.info("streaming task completed for stream " + id);
-        }
+        StreamJob streamJob = new StreamJob(id, request.getRemoteAddr(),
+                                            outStream, inStream,
+                                            rangeStart, rangeEnd);
+        streamJob.run();
     }
 
     private void fail(int statusCode, String message, Request baseRequest, HttpServletResponse response) throws IOException {

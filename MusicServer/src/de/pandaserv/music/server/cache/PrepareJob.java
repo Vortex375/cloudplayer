@@ -42,8 +42,8 @@ public class PrepareJob implements Job {
     }
 
     @Override
-    public synchronized float getCompletion() {
-        return 0;
+    public synchronized String getStatus() {
+        return "running";
     }
 
     @Override
