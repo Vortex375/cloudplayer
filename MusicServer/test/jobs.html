@@ -1,0 +1,72 @@
+<!doctype html>
+
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <title>Stream Test</title>
+
+    <style type="text/css">
+        td {
+            border: 1px solid black;
+            padding: 6px;
+        }
+        thead {
+            font-weight: bold;
+        }
+    </style>
+
+    <script type="text/javascript">
+		function getJobs() {
+            var xmlHttp = new XMLHttpRequest();
+
+            if (xmlHttp) {
+                xmlHttp.open('GET', '/service/jobs', true);
+                xmlHttp.onreadystatechange = function () {
+                    if (xmlHttp.readyState == 4) {
+                        data = JSON.parse(xmlHttp.responseText);
+                        updateTable(data);
+                    }
+                };
+                xmlHttp.send(null);
+            }
+        }
+
+        function updateTable(data) {
+            var table = document.getElementById("jobtable");
+            // clear table
+            while(table.hasChildNodes()) {
+                table.removeChild(table.firstChild);
+            }
+            var html = "<thead><tr><td>Id</td><td>Description</td><td>Status</td></tr></thead>";
+            for (var key in data) {
+                html +="<tr>"
+                html +="<td>"
+                html += key;
+                html += "</td>"
+                html +="<td>"
+                html += data[key]["description"];
+                html += "</td>"
+                html +="<td>"
+                html += data[key]["status"];
+                html += "</td>"
+                html += "</tr>"
+            }
+            table.innerHTML = html;
+            // refresh every 500ms
+            window.setTimeout(getJobs, 500);
+        }
+    </script>
+</head>
+
+
+<body onload="getJobs()">
+
+<div style="text-align: center">
+    <h1>Active Jobs running on MusicServer</h1>
+    <table id="jobtable">
+    </table>
+</div>
+
+</body>
+</html>

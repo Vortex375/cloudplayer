@@ -52,7 +52,7 @@ public class JobManager {
 
         EventBusService.publish(new JobAddEvent(jobId));
 
-        return jobId;
+        return jobId-1;
     }
 
     public synchronized void removeJob(long id) {
