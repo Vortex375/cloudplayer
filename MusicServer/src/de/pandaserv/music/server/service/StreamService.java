@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
 public class StreamService extends AbstractHandler {
@@ -38,15 +37,24 @@ public class StreamService extends AbstractHandler {
 
         private long bytesSent;
 
+        /**
+         * Create new a new Job that streams (audio) data to a client.
+         * @param streamId streamId - for debug purposes
+         * @param client client identifier (e.g. an IP-address) - for debug purposes
+         * @param outStream the output stream where the streaming data is written (usually a ServletOutputStream)
+         * @param inStream the input stream where the data to be streamed is read from (usually a FileInputStream)
+         * @param rangeStart start of the range to stream, in bytes
+         * @param rangeEnd end of the range to stream, in bytes
+         */
         private StreamJob(long streamId, String client, OutputStream outStream, InputStream inStream, long rangeStart, long rangeEnd) {
-            this.streamId = streamId;
-            this.client = client;
+            this.streamId = streamId;   // for debug output only
+            this.client = client;       // for debug output only
             this.outStream = outStream;
             this.inStream = inStream;
             this.rangeStart = rangeStart;
             this.rangeEnd = rangeEnd;
 
-            bytesSent = 0;
+            bytesSent = 0;              // for debug output only
         }
 
         @Override
@@ -102,7 +110,7 @@ public class StreamService extends AbstractHandler {
     @Override
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         if (!request.getMethod().equals(HttpMethods.GET)) {
-            fail(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Invalid method for stream. The only supported method is GET.",
+            HttpUtil.fail(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Invalid method for stream. The only supported method is GET.",
                     baseRequest, response);
             return;
         }
@@ -110,7 +118,7 @@ public class StreamService extends AbstractHandler {
         // check if stream id was specified
         StringTokenizer tk = new StringTokenizer(target, "/");
         if (!tk.hasMoreTokens()) {
-            fail(HttpServletResponse.SC_NOT_FOUND, "Please specify a stream id, such as \"/stream/12345\".",
+            HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "Please specify a stream id, such as \"/stream/12345\".",
                     baseRequest, response);
             return;
         }
@@ -121,7 +129,7 @@ public class StreamService extends AbstractHandler {
         try {
             id = Long.parseLong(idString);
         } catch (NumberFormatException e) {
-            fail(HttpServletResponse.SC_NOT_FOUND, "Invalid stream id: " + idString,
+            HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "Invalid stream id: " + idString,
                     baseRequest, response);
             return;
         }
@@ -129,7 +137,7 @@ public class StreamService extends AbstractHandler {
         // get stream data
         if (CacheManager.getInstance().getStatus(id) != FileStatus.PREPARED) {
             // stream is not (yet) available
-            fail(HttpServletResponse.SC_NOT_FOUND, "No data is available for this stream.",
+            HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "No data is available for this stream.",
                     baseRequest, response);
             return;
         }
@@ -146,7 +154,7 @@ public class StreamService extends AbstractHandler {
             rangeEnd = length - 1;
         } else if (!rangeHeader.startsWith("bytes=")) {
             // range not specified in bytes
-            fail(HttpServletResponse.SC_BAD_REQUEST, "The only accepted Range is \"byte\"",
+            HttpUtil.fail(HttpServletResponse.SC_BAD_REQUEST, "The only accepted Range is \"byte\"",
                     baseRequest, response);
             return;
         } else {
@@ -161,7 +169,7 @@ public class StreamService extends AbstractHandler {
                     rangeEnd = Long.parseLong(rangeStrings[1]);
                 }
             } catch (NumberFormatException e) {
-                fail(HttpServletResponse.SC_BAD_REQUEST, "Unable to parse Range header.",
+                HttpUtil.fail(HttpServletResponse.SC_BAD_REQUEST, "Unable to parse Range header.",
                         baseRequest, response);
                 return;
             }
@@ -169,7 +177,7 @@ public class StreamService extends AbstractHandler {
 
         // check for valid ranges
         if (rangeEnd < rangeStart) {
-            fail(HttpServletResponse.SC_BAD_REQUEST, "Invalid ranges specified in request.",
+            HttpUtil.fail(HttpServletResponse.SC_BAD_REQUEST, "Invalid ranges specified in request.",
                     baseRequest, response);
             return;
         }
@@ -199,13 +207,5 @@ public class StreamService extends AbstractHandler {
                                             outStream, inStream,
                                             rangeStart, rangeEnd);
         streamJob.run();
-    }
-
-    private void fail(int statusCode, String message, Request baseRequest, HttpServletResponse response) throws IOException {
-        response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-        PrintWriter out = new PrintWriter(response.getOutputStream());
-        out.println(message);
-        out.close();
-        baseRequest.setHandled(true);
     }
 }
