@@ -222,6 +222,9 @@ QByteArray Covers::extractImageFromDir(QString path, Database* db)
         if (files.at(i).contains("front", Qt::CaseInsensitive)) {
             score[i]++;
         }
+        if (files.at(i).contains("folder", Qt::CaseInsensitive)) {
+            score[i]++;
+        }
     }
 
     // find file with max score

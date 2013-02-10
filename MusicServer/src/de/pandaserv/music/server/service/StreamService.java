@@ -78,10 +78,10 @@ public class StreamService extends AbstractHandler {
                 do {
                     read = inStream.read(buf, 0, (int) Math.min(buf.length, streamLength));
                     streamLength -= read;
-                    bytesSent += read;
                     //rangeStart += read; // for debug output
                     //logger.info("sending " +  read + " bytes (" + streamLength + " remaining)");
                     outStream.write(buf, 0, read);
+                    bytesSent += read;
                 } while (read == buf.length);
                 outStream.flush();
             } catch (IOException e) {
@@ -189,13 +189,20 @@ public class StreamService extends AbstractHandler {
             response.setStatus(HttpServletResponse.SC_OK);
         }
         response.setHeader("Accept-Ranges", "bytes");
-        response.setHeader("Content-Type", "audio/mpeg"); //TODO: detect/retrieve format!!
+        response.setHeader("Content-Type", "audio/webm"); //TODO: always webm!!
         response.setHeader("Content-Length", "" + (rangeEnd - rangeStart + 1));
         response.setHeader("Content-Range", "bytes " + rangeStart + "-" + rangeEnd + "/" + length);
         baseRequest.setHandled(true);
 
         // begin streaming task
-        StreamJob streamJob = new StreamJob(id, request.getRemoteAddr(),
+
+        // get name of client (for debug) and also respect proxy requests
+        // only for debug purposes
+        String client = request.getHeader("X-Forwarded-For");
+        if (client == null) {
+            client = request.getRemoteAddr();
+        }
+        StreamJob streamJob = new StreamJob(id, client,
                                             outStream, inStream,
                                             rangeStart, rangeEnd);
         streamJob.run();
