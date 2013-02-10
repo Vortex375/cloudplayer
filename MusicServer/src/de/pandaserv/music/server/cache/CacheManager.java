@@ -1,13 +1,5 @@
 package de.pandaserv.music.server.cache;
 
-import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.logging.Level;
-
 import com.adamtaft.eb.EventBusService;
 import de.pandaserv.music.server.database.TrackDatabase;
 import de.pandaserv.music.server.devices.Device;
@@ -16,6 +8,16 @@ import de.pandaserv.music.server.events.PrepareCompleteEvent;
 import de.pandaserv.music.server.events.PrepareFailedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  *
@@ -48,9 +50,9 @@ public class CacheManager {
     private CacheManager(Properties config) {
         cacheMap = new HashMap<>();
 
-        // prepare at most three files simultaneously
+        // prepare at most five files simultaneously
         //TODO: make configurable
-        executorService = Executors.newFixedThreadPool(3);
+        executorService = Executors.newFixedThreadPool(5);
 
         // prepare cache directory
         String cachePath = config.getProperty("cache_dir");
@@ -187,7 +189,7 @@ public class CacheManager {
         executorService.submit(new PrepareJob(id, device, deviceAndPath[1], downloadFile));
     }
 
-    /* package-private functions for PrepareJob */
+    /* package-private callback functions for PrepareJob */
 
     synchronized void prepareComplete(long id) {
         String filename = "" + id;

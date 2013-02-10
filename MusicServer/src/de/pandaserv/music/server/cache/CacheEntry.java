@@ -24,10 +24,10 @@ class CacheEntry {
         this.status = initialStatus;
     }
 
-    public CacheEntry(long id, Device directAccessDevice, String directAccessName) {
+    public CacheEntry(long id, Device directAccessDevice, String directAccessFileName) {
         this.id = id;
         this.directAccessDevice = directAccessDevice;
-        this.directAccessName = directAccessName;
+        this.directAccessName = directAccessFileName;
         this.status = FileStatus.PREPARED;
     }
 
