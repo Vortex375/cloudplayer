@@ -31,11 +31,18 @@
                         <g:Label ui:field="artistLabel" addStyleNames="artistLabel">Artist Name</g:Label>
                         <g:Label ui:field="albumLabel" addStyleNames="albumLabel">Album</g:Label>
                     </g:HTMLPanel>
-                    <b:ButtonGroup addStyleNames="pull-left">
-                        <b:Button ui:field="prevButton" icon="BACKWARD"/>
-                        <b:Button ui:field="playButton" icon="PLAY"/>
-                        <b:Button ui:field="nextButton" icon="FORWARD"/>
-                    </b:ButtonGroup>
+                    <g:HTMLPanel addStyleNames="centerText">
+                        <b:ButtonGroup addStyleNames="pull-left">
+                            <b:Button ui:field="prevButton" icon="BACKWARD"/>
+                            <b:Button ui:field="playButton" icon="PLAY"/>
+                            <b:Button ui:field="nextButton" icon="FORWARD"/>
+                        </b:ButtonGroup>
+                        <g:Label ui:field="errorLabel" addStyleNames="errorLabel" visible="false"/>
+                        <g:Label addStyleNames="pull-right" ui:field="timeLabel">0:00 / 0:00</g:Label>
+                    </g:HTMLPanel>
+                </b:Row>
+                <b:Row addStyleNames="styled-row">
+                    <g:Label ui:field="debugLabel"/>
                 </b:Row>
             </b:Column>
         </b:Container>

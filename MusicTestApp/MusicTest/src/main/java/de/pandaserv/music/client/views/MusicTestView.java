@@ -1,6 +1,7 @@
 package de.pandaserv.music.client.views;
 
-import com.google.gwt.media.client.Audio;
+import com.google.gwt.dom.client.AudioElement;
+import de.pandaserv.music.shared.PlaybackStatus;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,8 +12,19 @@ import com.google.gwt.media.client.Audio;
  */
 public interface MusicTestView {
     public interface Presenter {
-
+        void play();
     }
 
-    Audio getAudio();
+    void showError(boolean show);
+    void setErrorMessage(String message);
+
+    void setDuration(int ms);
+    void setTime(int ms);
+    void setPlaybackStatus(PlaybackStatus status);
+
+    void setDebugString(String debug);
+
+    AudioElement getAudioElement();
+
+    void setPresenter(Presenter presenter);
 }

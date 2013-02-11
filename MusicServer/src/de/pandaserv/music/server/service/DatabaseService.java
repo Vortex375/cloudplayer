@@ -16,13 +16,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.StringTokenizer;
 
-/**
- * Created with IntelliJ IDEA.
- * User: ich
- * Date: 1/31/13
- * Time: 2:00 PM
- * To change this template use File | Settings | File Templates.
- */
 public class DatabaseService extends AbstractHandler{
     @Override
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

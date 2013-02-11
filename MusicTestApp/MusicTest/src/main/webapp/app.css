@@ -10,6 +10,10 @@ body {
     background: white;
 }
 
+.centerText {
+    text-align: center;
+}
+
 .strut { /* vertical placeholder */
     display: block;
     height: 2.5em; /* 52 / 15 */
@@ -27,6 +31,11 @@ body {
     line-height: 20px;
     font-weight: bold;
     margin-bottom: 0.5em;
+}
+
+.errorLabel {
+    color: red;
+    font-weight: bold;
 }
 
 .titleLabel {
