@@ -33,9 +33,9 @@
                     </g:HTMLPanel>
                     <g:HTMLPanel addStyleNames="centerText">
                         <b:ButtonGroup addStyleNames="pull-left">
-                            <b:Button ui:field="prevButton" icon="BACKWARD"/>
-                            <b:Button ui:field="playButton" icon="PLAY"/>
-                            <b:Button ui:field="nextButton" icon="FORWARD"/>
+                            <b:Button ui:field="prevButton" icon="BACKWARD" addStyleNames="playbackButton"/>
+                            <b:Button ui:field="playButton" icon="PLAY" addStyleNames="playbackButton"/>
+                            <b:Button ui:field="nextButton" icon="FORWARD" addStyleNames="playbackButton"/>
                         </b:ButtonGroup>
                         <g:Label ui:field="errorLabel" addStyleNames="errorLabel" visible="false"/>
                         <g:Label addStyleNames="pull-right" ui:field="timeLabel">0:00 / 0:00</g:Label>

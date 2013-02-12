@@ -1,6 +1,7 @@
 package de.pandaserv.music.client.views;
 
 import com.github.gwtbootstrap.client.ui.Button;
+import com.github.gwtbootstrap.client.ui.constants.IconType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.AudioElement;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -12,6 +13,7 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
+import de.pandaserv.music.client.misc.TimeUtil;
 import de.pandaserv.music.shared.PlaybackStatus;
 
 /**
@@ -24,7 +26,7 @@ import de.pandaserv.music.shared.PlaybackStatus;
 public class MusicTestViewImpl extends Composite implements MusicTestView {
     private Presenter presenter;
     private Audio audio;
-    private int duration;
+    private double duration;
 
     @UiTemplate("MusicTestView.ui.xml")
     interface MusicTestViewUiBinder extends UiBinder<HTMLPanel, MusicTestViewImpl> {
@@ -59,19 +61,23 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
     }
 
     @Override
-    public void setDuration(int ms) {
-        this.duration = ms;
-        timeLabel.setText("0 / " + duration);
+    public void setDuration(double seconds) {
+        this.duration = seconds;
+        timeLabel.setText("0 / " + TimeUtil.formatTime(duration));
     }
 
     @Override
-    public void setTime(int ms) {
-        timeLabel.setText(ms + " / " + duration);
+    public void setTime(double seconds) {
+        timeLabel.setText(TimeUtil.formatTime(seconds) + " / " + TimeUtil.formatTime(duration));
     }
 
     @Override
     public void setPlaybackStatus(PlaybackStatus status) {
-        //TODO
+        if (status == PlaybackStatus.PLAY) {
+            playButton.setIcon(IconType.PAUSE);
+        } else {
+            playButton.setIcon(IconType.PLAY);
+        }
     }
 
     @Override
@@ -95,6 +101,6 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
 
     @UiHandler("playButton")
     void onPlayButtonClicked(ClickEvent e) {
-        presenter.play();
+        presenter.playToggle();
     }
 }

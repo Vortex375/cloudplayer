@@ -51,3 +51,8 @@ body {
     font-size: small;
     color: gray;
 }
+
+.playbackButton {
+    font-size: 24px !important;
+    padding-top: 0.3em
+}

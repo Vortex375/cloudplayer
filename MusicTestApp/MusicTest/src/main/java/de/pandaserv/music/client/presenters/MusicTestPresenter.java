@@ -2,9 +2,9 @@ package de.pandaserv.music.client.presenters;
 
 import com.google.gwt.dom.client.AudioElement;
 import com.google.gwt.dom.client.MediaElement;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import de.pandaserv.music.client.views.MusicTestView;
+import de.pandaserv.music.shared.PlaybackStatus;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,7 +18,9 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
     private AudioElement audio;
     private long streamId;
 
-    private Timer debugTimer;
+    //private Timer debugTimer;
+
+    private PlaybackStatus playbackStatus;
 
     private static final String SERVICE_URL = Window.Location.getProtocol() + "//" + Window.Location.getHost() +
     "/service/stream/";
@@ -28,21 +30,38 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
 
         audio = view.getAudioElement();
 
-        debugTimer = new Timer() {
+        /*debugTimer = new Timer() {
             @Override
             public void run() {
                 updateDebug();
             }
-        };
+        };*/
 
         if (audio == null) {
             view.setErrorMessage("This browser does not support the Audio element.");
             view.showError(true);
         } else {
             audio.setAutoplay(false);
-            debugTimer.scheduleRepeating(500);
+            bind(audio);
+            //debugTimer.scheduleRepeating(500);
         }
     }
+
+    private native void bind(MediaElement element) /*-{
+        var that = this;
+        element.addEventListener("play", function () {
+            that.@de.pandaserv.music.client.presenters.MusicTestPresenter::onPlay()();
+        });
+        element.addEventListener("pause", function () {
+            that.@de.pandaserv.music.client.presenters.MusicTestPresenter::onPause()();
+        });
+        element.addEventListener("durationchange", function () {
+            that.@de.pandaserv.music.client.presenters.MusicTestPresenter::onDurationChange()();
+        });
+        element.addEventListener("timeupdate", function () {
+            that.@de.pandaserv.music.client.presenters.MusicTestPresenter::onTimeUpdate()();
+        });
+    }-*/;
 
     public void setStreamId(long id) {
         this.streamId = id;
@@ -98,7 +117,29 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
     }
 
     @Override
-    public void play() {
-        audio.play();
+    public void playToggle() {
+        if (playbackStatus == PlaybackStatus.PLAY) {
+            audio.pause();
+        } else {
+            audio.play();
+        }
+    }
+
+    void onPlay() {
+        playbackStatus = PlaybackStatus.PLAY;
+        view.setPlaybackStatus(playbackStatus);
+    }
+
+    void onPause() {
+        playbackStatus = PlaybackStatus.PAUSE;
+        view.setPlaybackStatus(playbackStatus);
+    }
+
+    void onDurationChange() {
+        view.setDuration(audio.getDuration());
+    }
+
+    void onTimeUpdate() {
+        view.setTime(audio.getCurrentTime());
     }
 }

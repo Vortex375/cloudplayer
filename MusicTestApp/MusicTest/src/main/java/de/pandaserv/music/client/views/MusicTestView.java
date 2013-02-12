@@ -12,14 +12,14 @@ import de.pandaserv.music.shared.PlaybackStatus;
  */
 public interface MusicTestView {
     public interface Presenter {
-        void play();
+        void playToggle();
     }
 
     void showError(boolean show);
     void setErrorMessage(String message);
 
-    void setDuration(int ms);
-    void setTime(int ms);
+    void setDuration(double seconds);
+    void setTime(double seconds);
     void setPlaybackStatus(PlaybackStatus status);
 
     void setDebugString(String debug);
