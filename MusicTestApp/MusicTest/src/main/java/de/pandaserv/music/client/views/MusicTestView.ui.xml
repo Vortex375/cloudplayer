@@ -31,14 +31,17 @@
                         <g:Label ui:field="artistLabel" addStyleNames="artistLabel">Artist Name</g:Label>
                         <g:Label ui:field="albumLabel" addStyleNames="albumLabel">Album</g:Label>
                     </g:HTMLPanel>
-                    <g:HTMLPanel addStyleNames="centerText">
-                        <b:ButtonGroup addStyleNames="pull-left">
+                    <g:HTMLPanel>
+                        <b:ButtonGroup addStyleNames="inline">
                             <b:Button ui:field="prevButton" icon="BACKWARD" addStyleNames="playbackButton"/>
                             <b:Button ui:field="playButton" icon="PLAY" addStyleNames="playbackButton"/>
                             <b:Button ui:field="nextButton" icon="FORWARD" addStyleNames="playbackButton"/>
                         </b:ButtonGroup>
-                        <g:Label ui:field="errorLabel" addStyleNames="errorLabel" visible="false"/>
-                        <g:Label addStyleNames="pull-right" ui:field="timeLabel">0:00 / 0:00</g:Label>
+
+                        <g:Label ui:field="errorLabel" addStyleNames="errorLabel inline" visible="false"/>
+                        <g:Label ui:field="timeLabel" addStyleNames="inline"/>
+                        <my:Slider ui:field="timeSlider" addStyleNames="timeSlider inline"/>
+                        <g:Label ui:field="durationLabel" addStyleNames="inline"/>
                     </g:HTMLPanel>
                 </b:Row>
                 <b:Row addStyleNames="styled-row">

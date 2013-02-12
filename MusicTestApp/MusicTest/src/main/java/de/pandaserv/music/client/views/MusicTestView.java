@@ -13,6 +13,8 @@ import de.pandaserv.music.shared.PlaybackStatus;
 public interface MusicTestView {
     public interface Presenter {
         void playToggle();
+
+        void seekTo(double seconds);
     }
 
     void showError(boolean show);

@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import de.pandaserv.music.client.misc.TimeUtil;
+import de.pandaserv.music.client.widgets.Slider;
 import de.pandaserv.music.shared.PlaybackStatus;
 
 /**
@@ -26,7 +27,6 @@ import de.pandaserv.music.shared.PlaybackStatus;
 public class MusicTestViewImpl extends Composite implements MusicTestView {
     private Presenter presenter;
     private Audio audio;
-    private double duration;
 
     @UiTemplate("MusicTestView.ui.xml")
     interface MusicTestViewUiBinder extends UiBinder<HTMLPanel, MusicTestViewImpl> {
@@ -38,7 +38,11 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
     @UiField
     Label timeLabel;
     @UiField
+    Label durationLabel;
+    @UiField
     Label debugLabel;
+    @UiField
+    Slider timeSlider;
     @UiField
     Button playButton;
 
@@ -48,6 +52,13 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
 
         audio = Audio.createIfSupported();
         audio.getAudioElement().setControls(false);
+
+        timeSlider.addValueChangeHandler(new Slider.ValueChangeHandler() {
+            @Override
+            public void onValueChanged(double value) {
+                presenter.seekTo(value);
+            }
+        });
     }
 
     @Override
@@ -62,13 +73,15 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
 
     @Override
     public void setDuration(double seconds) {
-        this.duration = seconds;
-        timeLabel.setText("0 / " + TimeUtil.formatTime(duration));
+        durationLabel.setText(TimeUtil.formatTime(seconds));
+        timeSlider.setMin(0);
+        timeSlider.setMax(seconds);
     }
 
     @Override
     public void setTime(double seconds) {
-        timeLabel.setText(TimeUtil.formatTime(seconds) + " / " + TimeUtil.formatTime(duration));
+        timeLabel.setText(TimeUtil.formatTime(seconds));
+        timeSlider.setValue(seconds);
     }
 
     @Override

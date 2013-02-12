@@ -10,6 +10,10 @@ body {
     background: white;
 }
 
+.inline {
+    display: inline-block;
+}
+
 .centerText {
     text-align: center;
 }
@@ -55,4 +59,10 @@ body {
 .playbackButton {
     font-size: 24px !important;
     padding-top: 0.3em
+}
+
+.timeSlider {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    min-width: 50%;
 }
