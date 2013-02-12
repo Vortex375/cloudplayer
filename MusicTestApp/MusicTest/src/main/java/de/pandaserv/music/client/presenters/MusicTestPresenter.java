@@ -4,6 +4,7 @@ import com.google.gwt.dom.client.AudioElement;
 import com.google.gwt.dom.client.MediaElement;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+import de.pandaserv.music.client.audio.AudioSystem;
 import de.pandaserv.music.client.views.MusicTestView;
 import de.pandaserv.music.shared.PlaybackStatus;
 
@@ -17,6 +18,7 @@ import de.pandaserv.music.shared.PlaybackStatus;
 public class MusicTestPresenter implements MusicTestView.Presenter {
     private MusicTestView view;
     private AudioElement audio;
+    private AudioSystem system;
     private long streamId;
 
     //private Timer debugTimer;
@@ -42,6 +44,7 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
             view.setErrorMessage("This browser does not support the Audio element.");
             view.showError(true);
         } else {
+            system = new AudioSystem(audio);
             audio.setAutoplay(false);
             bind(audio);
             debugTimer.scheduleRepeating(250);
@@ -133,11 +136,13 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
 
     void onPlay() {
         playbackStatus = PlaybackStatus.PLAY;
+        system.startCollectVisData();
         view.setPlaybackStatus(playbackStatus);
     }
 
     void onPause() {
         playbackStatus = PlaybackStatus.PAUSE;
+        system.stopCollectVisData();
         view.setPlaybackStatus(playbackStatus);
     }
 
