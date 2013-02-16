@@ -6,6 +6,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import de.pandaserv.music.client.audio.AudioSystem;
 import de.pandaserv.music.client.views.MusicTestView;
+import de.pandaserv.music.shared.NotSupportedException;
 import de.pandaserv.music.shared.PlaybackStatus;
 
 /**
@@ -17,8 +18,8 @@ import de.pandaserv.music.shared.PlaybackStatus;
  */
 public class MusicTestPresenter implements MusicTestView.Presenter {
     private MusicTestView view;
-    private AudioElement audio;
-    private AudioSystem system;
+    private AudioElement audioElement;
+    private AudioSystem audioSystem;
     private long streamId;
 
     //private Timer debugTimer;
@@ -31,7 +32,7 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
     public MusicTestPresenter(MusicTestView view) {
         this.view = view;
 
-        audio = view.getAudioElement();
+        audioElement = view.getAudioElement();
 
         Timer debugTimer = new Timer() {
             @Override
@@ -40,13 +41,18 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
             }
         };
 
-        if (audio == null) {
+        if (audioElement == null) {
             view.setErrorMessage("This browser does not support the Audio element.");
             view.showError(true);
         } else {
-            system = new AudioSystem(audio);
-            audio.setAutoplay(false);
-            bind(audio);
+            try {
+                audioSystem = new AudioSystem(audioElement);
+            } catch (NotSupportedException e) {
+                audioSystem = null;
+            }
+
+            audioElement.setAutoplay(false);
+            bind(audioElement);
             debugTimer.scheduleRepeating(250);
         }
     }
@@ -69,16 +75,16 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
 
     public void setStreamId(long id) {
         this.streamId = id;
-        audio.setSrc(SERVICE_URL + id);
-        audio.setPreload(MediaElement.PRELOAD_AUTO);
-        audio.load();
+        audioElement.setSrc(SERVICE_URL + id);
+        audioElement.setPreload(MediaElement.PRELOAD_AUTO);
+        audioElement.load();
     }
 
 
 
     private void updateDebug() {
         String readyState;
-        switch(audio.getReadyState()) {
+        switch(audioElement.getReadyState()) {
             case (MediaElement.HAVE_NOTHING):
                 readyState = "HAVE_NOTHING";
                 break;
@@ -99,7 +105,7 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
                 break;
         }
         String networkState;
-        switch (audio.getNetworkState()) {
+        switch (audioElement.getNetworkState()) {
             case (MediaElement.NETWORK_EMPTY):
                 networkState = "NETWORK_EMPTY";
                 break;
@@ -123,34 +129,38 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
     @Override
     public void playToggle() {
         if (playbackStatus == PlaybackStatus.PLAY) {
-            audio.pause();
+            audioElement.pause();
         } else {
-            audio.play();
+            audioElement.play();
         }
     }
 
     @Override
     public void seekTo(double seconds) {
-        audio.setCurrentTime(seconds);
+        audioElement.setCurrentTime(seconds);
     }
 
     void onPlay() {
         playbackStatus = PlaybackStatus.PLAY;
-        system.startCollectVisData();
+        if (audioSystem != null) {
+            audioSystem.startCollectVisData();
+        }
         view.setPlaybackStatus(playbackStatus);
     }
 
     void onPause() {
         playbackStatus = PlaybackStatus.PAUSE;
-        system.stopCollectVisData();
+        if (audioSystem != null) {
+            audioSystem.stopCollectVisData();
+        }
         view.setPlaybackStatus(playbackStatus);
     }
 
     void onDurationChange() {
-        view.setDuration(audio.getDuration());
+        view.setDuration(audioElement.getDuration());
     }
 
     void onTimeUpdate() {
-        view.setTime(audio.getCurrentTime());
+        view.setTime(audioElement.getCurrentTime());
     }
 }

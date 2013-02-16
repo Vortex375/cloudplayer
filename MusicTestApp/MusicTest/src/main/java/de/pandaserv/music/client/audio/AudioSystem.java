@@ -3,6 +3,7 @@ package de.pandaserv.music.client.audio;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.MediaElement;
 import com.google.gwt.user.client.Timer;
+import de.pandaserv.music.shared.NotSupportedException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,7 +19,7 @@ public class AudioSystem {
 
     private Timer visDataTimer;
 
-    public AudioSystem(MediaElement mediaElement) {
+    public AudioSystem(MediaElement mediaElement) throws NotSupportedException {
         this.mediaElement = mediaElement;
 
         visDataTimer = new Timer() {
@@ -28,6 +29,10 @@ public class AudioSystem {
             }
         };
 
+        audioContext = createContext();
+        if (audioContext == null) {
+            throw new NotSupportedException();
+        }
         /*
          * delay connecting the audio nodes until after the
          * window.onload event
@@ -44,7 +49,6 @@ public class AudioSystem {
     }-*/;
 
     void start() {
-        audioContext = createContext();
         setup(audioContext, mediaElement);
     }
 
@@ -65,6 +69,10 @@ public class AudioSystem {
         var sourceNode = context.createMediaElementSource(element);
         var analyserNode = context.createAnalyser();
         analyserNode.fftSize = 512;
+        analyserNode.minDecibels = -100;
+        analyserNode.maxDecibels = 0;
+        console.log("minDb: " + analyserNode.minDecibels);
+        console.log("maxDb: " + analyserNode.maxDecibels);
 
         sourceNode.connect(analyserNode);
         analyserNode.connect(context.destination);
@@ -131,12 +139,12 @@ public class AudioSystem {
                 n /= dif;
             }
 
-            var x;
-            if (n == 0) {
-                x = 0
-            } else {
-                x = Math.log(n * 200) / Math.LN10;
-            }
+            //var x;
+            //if (n == 0) {
+            //    x = 0
+            //} else {
+            //    x = 20 * Math.log(n * 100) / Math.LN10;
+            //}
             //x = Math.max(0, Math.min(x, 100));
 
             //TODO: falloff
