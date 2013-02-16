@@ -45,8 +45,9 @@ public class AudioSystem {
 
     private static final int FFT_SIZE = 512;
     private static final int VIS_BARS = 12;
-    private static final int VIS_DELAY = 2; /* delay before falloff in frames */
-    private static final int VIS_FALLOFF = 8; /* falloff in pixels per frame */
+    private static final int VIS_FPS = 60;
+    private static final int VIS_DELAY = 4; /* delay before falloff in frames */
+    private static final int VIS_FALLOFF = 4; /* falloff in pixels per frame */
 
     private MediaElement mediaElement;
     private JavaScriptObject audioContext;
@@ -56,6 +57,9 @@ public class AudioSystem {
     private Timer visDataTimer;
     private int[] bars;
     private byte[] delay;
+
+    private double[] scale;
+    private boolean haveScale;
 
     public AudioSystem(MediaElement mediaElement) throws NotSupportedException {
         this.mediaElement = mediaElement;
@@ -70,6 +74,7 @@ public class AudioSystem {
         bars = new int[VIS_BARS];
         delay = new byte[VIS_BARS];
         handlers = new ArrayList<VisDataHandler>();
+        haveScale = false;
 
         audioContext = createContext();
         if (audioContext == null) {
@@ -77,11 +82,9 @@ public class AudioSystem {
             throw new NotSupportedException();
         }
         /*
-         * delay connecting the audio nodes until after the
-         * window.onload event
+         * delay connecting the audio nodes
          * as a workaround to http://crbug.com/112368
          */
-        //delayedStart();
         new Timer() {
             @Override
             public void run() {
@@ -89,13 +92,6 @@ public class AudioSystem {
             }
         }.schedule(1);
     }
-
-    private native void delayedStart() /*-{
-        var that = this;
-        $wnd.addEventListener('load', function(e) {
-            that.@de.pandaserv.music.client.audio.AudioSystem::start()();
-        })
-    }-*/;
 
     void start() {
         setup(audioContext, mediaElement);
@@ -120,7 +116,7 @@ public class AudioSystem {
         analyserNode.fftSize = 512; //TODO: use FFT_SIZE constant
         analyserNode.minDecibels = -60;
         analyserNode.maxDecibels = 0;
-        analyserNode.smoothingTimeConstant = 0;
+        analyserNode.smoothingTimeConstant = 0.3;
         console.log("minDb: " + analyserNode.minDecibels);
         console.log("maxDb: " + analyserNode.maxDecibels);
         console.log("smoothing: " + analyserNode.smoothingTimeConstant);
@@ -133,7 +129,7 @@ public class AudioSystem {
     }-*/;
 
     public void startCollectVisData() {
-        visDataTimer.scheduleRepeating(33); // 30 FPS
+        visDataTimer.scheduleRepeating(1000 / VIS_FPS);
     }
 
     public void stopCollectVisData() {
@@ -155,7 +151,7 @@ public class AudioSystem {
     }
 
     private native void doCollectVisData(JavaScriptObject analyser, VisArray visArray) /*-{
-        var byteArray = new Uint8Array(256); // TODO: use FFT_SIZE constant
+        var byteArray = new Uint8Array(256); // TODO: use FFT_SIZE / 2 constant
         analyser.getByteFrequencyData(byteArray);
 
         for (var i = 0; i < byteArray.length; i++) {
@@ -163,11 +159,24 @@ public class AudioSystem {
         }
     }-*/;
 
+    private void calculateScale() {
+        // calculate logarithmic scale
+        scale = new double[VIS_BARS + 1];
+        for (int i = 0; i < scale.length; i++) {
+            scale[i] = Math.pow(FFT_SIZE / 2, i / (double) VIS_BARS) - 1;
+        }
+        GWT.log("calculated logarithmic scale: " + Arrays.toString(scale));
+        haveScale = true;
+    }
+
     private void formatVis(double[] fftData) {
         GWT.log("formatVis(): fftData=" + Arrays.toString(fftData));
-        double[] scale = {0.0, 0.58740105196819947475, 1.51984209978974632953, 3, 5.34960420787279789901,
+        /*double[] scale = {0.0, 0.58740105196819947475, 1.51984209978974632953, 3, 5.34960420787279789901,
                 9.07936839915898531814, 15, 24.39841683149119159603, 39.31747359663594127255, 63, 100.59366732596476638411,
-                160.2698943865437650902, 255};
+                160.2698943865437650902, 255};*/
+        if (!haveScale) {
+            calculateScale();
+        }
 
         int bandsPerBar = fftData.length / VIS_BARS;
         double[] bars = new double[VIS_BARS];
@@ -188,7 +197,7 @@ public class AudioSystem {
                     n += fftData[a];
                     a++;
                 }
-                if (b < 256) {
+                if (b < (FFT_SIZE / 2)) {
                     n += fftData[b] * (scale[i + 1] - b);
                 }
             }

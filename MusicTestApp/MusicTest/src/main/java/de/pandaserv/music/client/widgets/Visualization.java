@@ -51,7 +51,7 @@ public class Visualization extends Composite {
         //cx.fillRect(width - 1, 0, 1, 1);
         //cx.fillRect(width - 1, height - 1, 1, 1);
         for (int i = 0; i < data.length; i++) {
-            int grey = 20 + (int) (150 * (i / (double) data.length));
+            int grey = 20 + (int) (120 * (i / (double) data.length));
             cx.setFillStyle("rgb(" + grey + "," + grey + "," + grey + ")");
             // draw bars
             int barHeight = (int) (height * (data[i] / 255.0));

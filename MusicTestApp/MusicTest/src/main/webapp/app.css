@@ -2,6 +2,7 @@
 
 body {
     background: url(img/noize.jpg) repeat;
+    padding: 0 !important;
 }
 
 .styled-row {
