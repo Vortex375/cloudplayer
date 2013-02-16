@@ -23,6 +23,7 @@ public interface MusicTestView {
     void setDuration(double seconds);
     void setTime(double seconds);
     void setPlaybackStatus(PlaybackStatus status);
+    void setVisData(int[] bars);
 
     void setDebugString(String debug);
 

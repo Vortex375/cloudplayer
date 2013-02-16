@@ -1,9 +1,15 @@
 package de.pandaserv.music.client.audio;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.MediaElement;
 import com.google.gwt.user.client.Timer;
+import com.google.web.bindery.event.shared.HandlerRegistration;
 import de.pandaserv.music.shared.NotSupportedException;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,11 +19,43 @@ import de.pandaserv.music.shared.NotSupportedException;
  * To change this template use File | Settings | File Templates.
  */
 public class AudioSystem {
+    static class VisArray {
+        private double[] data;
+
+        private VisArray(int size) {
+            data = new double[size];
+        }
+
+        public static VisArray create(int size) {
+            return new VisArray(size);
+        }
+
+        public void set(int index, double value) {
+            data[index] = value;
+        }
+
+        public double[] asArray() {
+            return data;
+        }
+    }
+
+    public interface VisDataHandler {
+        public void onVisDataUpdate(int[] data);
+    }
+
+    private static final int FFT_SIZE = 512;
+    private static final int VIS_BARS = 12;
+    private static final int VIS_DELAY = 2; /* delay before falloff in frames */
+    private static final int VIS_FALLOFF = 8; /* falloff in pixels per frame */
+
     private MediaElement mediaElement;
     private JavaScriptObject audioContext;
     private JavaScriptObject analyserNode;
 
+    private List<VisDataHandler> handlers;
     private Timer visDataTimer;
+    private int[] bars;
+    private byte[] delay;
 
     public AudioSystem(MediaElement mediaElement) throws NotSupportedException {
         this.mediaElement = mediaElement;
@@ -29,8 +67,13 @@ public class AudioSystem {
             }
         };
 
+        bars = new int[VIS_BARS];
+        delay = new byte[VIS_BARS];
+        handlers = new ArrayList<VisDataHandler>();
+
         audioContext = createContext();
         if (audioContext == null) {
+            GWT.log("Web Audio API not supported");
             throw new NotSupportedException();
         }
         /*
@@ -38,7 +81,13 @@ public class AudioSystem {
          * window.onload event
          * as a workaround to http://crbug.com/112368
          */
-        delayedStart();
+        //delayedStart();
+        new Timer() {
+            @Override
+            public void run() {
+                start();
+            }
+        }.schedule(1);
     }
 
     private native void delayedStart() /*-{
@@ -68,11 +117,13 @@ public class AudioSystem {
         console.log("creating and connecting audio nodes");
         var sourceNode = context.createMediaElementSource(element);
         var analyserNode = context.createAnalyser();
-        analyserNode.fftSize = 512;
-        analyserNode.minDecibels = -100;
+        analyserNode.fftSize = 512; //TODO: use FFT_SIZE constant
+        analyserNode.minDecibels = -60;
         analyserNode.maxDecibels = 0;
+        analyserNode.smoothingTimeConstant = 0;
         console.log("minDb: " + analyserNode.minDecibels);
         console.log("maxDb: " + analyserNode.maxDecibels);
+        console.log("smoothing: " + analyserNode.smoothingTimeConstant);
 
         sourceNode.connect(analyserNode);
         analyserNode.connect(context.destination);
@@ -94,62 +145,92 @@ public class AudioSystem {
     }
 
     private void updateVisData() {
-        doCollectVisData(analyserNode);
+        VisArray visArray = VisArray.create(FFT_SIZE / 2);
+        doCollectVisData(analyserNode, visArray);
+        formatVis(visArray.asArray());
+
+        for (VisDataHandler handler: handlers) {
+            handler.onVisDataUpdate(this.bars);
+        }
     }
 
-    private native void doCollectVisData(JavaScriptObject analyser) /*-{
-        var byteArray = new Uint8Array(256);
+    private native void doCollectVisData(JavaScriptObject analyser, VisArray visArray) /*-{
+        var byteArray = new Uint8Array(256); // TODO: use FFT_SIZE constant
         analyser.getByteFrequencyData(byteArray);
-        //var debug= "freq.data: ";
-        //for (var i = 0; i < byteArray.length; i++) {
-        //    debug += byteArray[i] + ", "
-        //}
-        //console.log(debug);
-        this.@de.pandaserv.music.client.audio.AudioSystem::drawVis(Lcom/google/gwt/core/client/JavaScriptObject;)(byteArray);
+
+        for (var i = 0; i < byteArray.length; i++) {
+            visArray.@de.pandaserv.music.client.audio.AudioSystem.VisArray::set(ID)(i, byteArray[i]);
+        }
     }-*/;
 
-    private native void drawVis(JavaScriptObject data)/*-{
-        var scale = [0.0, 0.58740105196819947475, 1.51984209978974632953, 3, 5.34960420787279789901,
-            9.07936839915898531814, 15, 24.39841683149119159603, 39.31747359663594127255, 63, 100.59366732596476638411,
-            160.2698943865437650902, 255];
+    private void formatVis(double[] fftData) {
+        GWT.log("formatVis(): fftData=" + Arrays.toString(fftData));
+        double[] scale = {0.0, 0.58740105196819947475, 1.51984209978974632953, 3, 5.34960420787279789901,
+                9.07936839915898531814, 15, 24.39841683149119159603, 39.31747359663594127255, 63, 100.59366732596476638411,
+                160.2698943865437650902, 255};
 
-        var bars = new Array();
-        for (var i = 0; i < 12; i++) {
-            var a = Math.ceil(scale[i]);
-            var b = Math.floor(scale[i+1]);
-            var dif = b - a;
-            var n = 0;
+        int bandsPerBar = fftData.length / VIS_BARS;
+        double[] bars = new double[VIS_BARS];
+        for (int i = 0; i < bars.length; i++) {
+            int a = (int) Math.ceil(scale[i]);
+            int b = (int) Math.floor(scale[i+1]);
+            int dif = b - a;
+            double n = 0;
 
             if (b < a){
-                n += data[b] * (scale[i + 1] - scale[i]);
+                n += fftData[b] * (scale[i + 1] - scale[i]);
             } else {
 
                 if (a > 0){
-                    n += data[a - 1] * (a - scale[i]);
+                    n += fftData[a - 1] * (a - scale[i]);
                 }
                 while (a < b){
-                    n += data[a];
-                    a += 1;
+                    n += fftData[a];
+                    a++;
                 }
                 if (b < 256) {
-                    n += data[b] * (scale[i + 1] - b);
+                    n += fftData[b] * (scale[i + 1] - b);
                 }
             }
-            if (dif > 0) {
-                n /= dif;
+
+            double x;
+            if (n == 0) {
+                x = 0;
+            } else {
+                //x = 20 * Math.log10(n * 100);
+                //x = 20 * Math.log10(n * 100);
+                //x = 60 * Math.log10(n);
+                //x = (Math.pow(255, n / 255)) - 1;
+                x = 127 * (Math.log(n) / Math.log(127));
             }
+            x = Math.max(0, Math.min(x, 256));
 
-            //var x;
-            //if (n == 0) {
-            //    x = 0
-            //} else {
-            //    x = 20 * Math.log(n * 100) / Math.LN10;
-            //}
-            //x = Math.max(0, Math.min(x, 100));
+            /*double x = 0;
+            for (int j = 0; j < bandsPerBar; j++) {
+                x += fftData[i*bandsPerBar+j];
+            }
+            x = 40 * Math.log10(x);
+            x = Math.max(0, Math.min(x, 256));*/
 
-            //TODO: falloff
-            bars.push(n);
+
+            this.bars[i] -= Math.max(0, VIS_FALLOFF - this.delay[i]);
+            if (delay[i] > 0) {
+                delay[i]--;
+            }
+            if (x > this.bars[i]) {
+                this.bars[i] = (int) x;
+                delay[i] = VIS_DELAY;
+            }
         }
-        console.log("bars: " + bars);
-    }-*/;
+    }
+
+    public HandlerRegistration addVisDataHandler(final VisDataHandler handler) {
+        handlers.add(handler);
+        return new HandlerRegistration() {
+            @Override
+            public void removeHandler() {
+                handlers.remove(handler);
+            }
+        };
+    }
 }

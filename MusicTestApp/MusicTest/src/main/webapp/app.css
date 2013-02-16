@@ -66,3 +66,9 @@ body {
     margin-right: 0.5em;
     min-width: 50%;
 }
+
+.visCanvas {
+    width: 200px;
+    height: 100px;
+    background-color: #f5f5f5;
+}

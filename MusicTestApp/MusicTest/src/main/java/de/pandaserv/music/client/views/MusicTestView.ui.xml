@@ -30,6 +30,7 @@
                         <g:Label ui:field="titleLabel" addStyleNames="titleLabel">Track Title</g:Label>
                         <g:Label ui:field="artistLabel" addStyleNames="artistLabel">Artist Name</g:Label>
                         <g:Label ui:field="albumLabel" addStyleNames="albumLabel">Album</g:Label>
+                        <g:FlowPanel ui:field="visHolder"/>
                     </g:HTMLPanel>
                     <g:HTMLPanel>
                         <b:ButtonGroup addStyleNames="inline">

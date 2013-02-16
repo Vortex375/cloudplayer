@@ -11,10 +11,13 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import de.pandaserv.music.client.misc.TimeUtil;
 import de.pandaserv.music.client.widgets.Slider;
+import de.pandaserv.music.client.widgets.Visualization;
+import de.pandaserv.music.shared.NotSupportedException;
 import de.pandaserv.music.shared.PlaybackStatus;
 
 /**
@@ -27,6 +30,7 @@ import de.pandaserv.music.shared.PlaybackStatus;
 public class MusicTestViewImpl extends Composite implements MusicTestView {
     private Presenter presenter;
     private Audio audio;
+    private Visualization vis;
 
     @UiTemplate("MusicTestView.ui.xml")
     interface MusicTestViewUiBinder extends UiBinder<HTMLPanel, MusicTestViewImpl> {
@@ -45,6 +49,8 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
     Slider timeSlider;
     @UiField
     Button playButton;
+    @UiField
+    FlowPanel visHolder;
 
     private static MusicTestViewUiBinder ourUiBinder = GWT.create(MusicTestViewUiBinder.class);
     public MusicTestViewImpl() {
@@ -59,6 +65,14 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
                 presenter.seekTo(value);
             }
         });
+
+        try {
+            vis = new Visualization();
+            visHolder.add(vis);
+        } catch (NotSupportedException e) {
+            GWT.log("Canvas element not supported");
+            vis = null;
+        }
     }
 
     @Override
@@ -90,6 +104,13 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
             playButton.setIcon(IconType.PAUSE);
         } else {
             playButton.setIcon(IconType.PLAY);
+        }
+    }
+
+    @Override
+    public void setVisData(int[] bars) {
+        if (vis != null) {
+            vis.update(bars);
         }
     }
 

@@ -29,7 +29,7 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
     private static final String SERVICE_URL = Window.Location.getProtocol() + "//" + Window.Location.getHost() +
     "/service/stream/";
 
-    public MusicTestPresenter(MusicTestView view) {
+    public MusicTestPresenter(final MusicTestView view) {
         this.view = view;
 
         audioElement = view.getAudioElement();
@@ -47,6 +47,12 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
         } else {
             try {
                 audioSystem = new AudioSystem(audioElement);
+                audioSystem.addVisDataHandler(new AudioSystem.VisDataHandler() {
+                    @Override
+                    public void onVisDataUpdate(int[] data) {
+                        view.setVisData(data);
+                    }
+                });
             } catch (NotSupportedException e) {
                 audioSystem = null;
             }
