@@ -18,7 +18,7 @@ public class MusicTest implements EntryPoint {
       MusicTestPresenter presenter = new MusicTestPresenter(view);
 
       view.setPresenter(presenter);
-      presenter.setStreamId(42);
+      presenter.setStreamId(54321);
 
       RootPanel.get().add(view);
   }

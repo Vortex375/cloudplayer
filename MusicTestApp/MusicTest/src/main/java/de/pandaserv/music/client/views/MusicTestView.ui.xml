@@ -27,10 +27,20 @@
 
                 <b:Row addStyleNames="styled-row">
                     <g:HTMLPanel addStyleNames="nowPlayingWell">
-                        <g:Label ui:field="titleLabel" addStyleNames="titleLabel">Track Title</g:Label>
-                        <g:Label ui:field="artistLabel" addStyleNames="artistLabel">Artist Name</g:Label>
-                        <g:Label ui:field="albumLabel" addStyleNames="albumLabel">Album</g:Label>
-                        <g:FlowPanel ui:field="visHolder"/>
+                        <table class="fullWidth">
+                            <tr>
+                                <td class="nowrap">
+                                    <g:FlowPanel>
+                                        <g:Label ui:field="titleLabel" addStyleNames="titleLabel">Track Title</g:Label>
+                                        <g:Label ui:field="artistLabel" addStyleNames="artistLabel">Artist Name</g:Label>
+                                        <g:Label ui:field="albumLabel" addStyleNames="albumLabel">Album</g:Label>
+                                    </g:FlowPanel>
+                                </td>
+                                <td class="fullWidth rightText">
+                                    <g:FlowPanel ui:field="visHolder"/>
+                                </td>
+                            </tr>
+                        </table>
                     </g:HTMLPanel>
                     <g:HTMLPanel>
                         <b:ButtonGroup addStyleNames="inline">

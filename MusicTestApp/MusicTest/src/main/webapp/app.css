@@ -10,12 +10,24 @@ body {
     background: white;
 }
 
+.fullWidth {
+    width: 100%;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
 .inline {
     display: inline-block;
 }
 
 .centerText {
     text-align: center;
+}
+
+.rightText {
+    text-align: right;
 }
 
 .strut { /* vertical placeholder */
@@ -68,7 +80,7 @@ body {
 }
 
 .visCanvas {
-    width: 200px;
-    height: 100px;
+    width: 150px;
+    height: 70px;
     background-color: #f5f5f5;
 }
