@@ -38,12 +38,8 @@ public class AudioSystem {
     static class VisArray {
         private double[] data;
 
-        private VisArray(int size) {
+        public VisArray(int size) {
             data = new double[size];
-        }
-
-        public static VisArray create(int size) {
-            return new VisArray(size);
         }
 
         public void set(int index, double value) {
@@ -59,20 +55,21 @@ public class AudioSystem {
         public void onVisDataUpdate(int[] data);
     }
 
-    private static final int FFT_SIZE = 512;
-    private static final int VIS_BARS = 12;
-    private static final int VIS_FPS = 30;
-    private static final int VIS_DELAY = 2; /* delay before falloff in frames */
-    private static final int VIS_FALLOFF = 8; /* falloff in pixels per frame */
-
     private MediaElement mediaElement;
     private JavaScriptObject audioContext;
 
+    /* Visualization stuff */
+    private static final int FFT_SIZE = 512;
+    private static final int VIS_BARS = 12;
+    private static final int VIS_FPS = 30;
+    private static final int VIS_DELAY = 2;     /* delay before falloff in frames */
+    private static final int VIS_FALLOFF = 8;   /* falloff in pixels per frame */
+
     private List<VisDataHandler> handlers;
-    private Timer visDataTimer;
-    private int[] bars;
-    private byte[] delay;
-    private double[] scale;
+    private Timer visDataTimer;                 /* fired VIS_FPS times per second */
+    private int[] bars;                         /* current value of the (visible) spectrum bars */
+    private byte[] delay;                       /* delay value for each bar until falloff begins */
+    private double[] scale;                     /* logarithmic scale for transformation from FFT output -> vis bars */
     private boolean haveScale;
 
     public AudioSystem(MediaElement mediaElement) throws NotSupportedException {
@@ -126,7 +123,7 @@ public class AudioSystem {
     private native void setup(JavaScriptObject context, MediaElement element) /*-{
         console.log("creating and connecting audio nodes");
         var sourceNode = context.createMediaElementSource(element);
-        var analyserNode = context.createScriptProcessor(512);
+        var analyserNode = context.createScriptProcessor(512); // FFT_SIZE
         // prepare arrays to store sample data for visualization
        // $wnd.vis_left_channel = new Float32Array(512);
         //$wnd.vis_right_channel = new Float32Array(512);
@@ -158,7 +155,7 @@ public class AudioSystem {
     }
 
     private void updateVisData() {
-        VisArray visArray = VisArray.create(FFT_SIZE / 2);
+        VisArray visArray = new VisArray(FFT_SIZE);
         if (!doCollectVisData(visArray)) {
            return;
         }

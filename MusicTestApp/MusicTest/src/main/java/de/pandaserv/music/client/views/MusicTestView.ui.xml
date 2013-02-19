@@ -4,7 +4,7 @@
              xmlns:my='urn:import:de.pandaserv.music.client.widgets'>
     <g:HTMLPanel>
         <g:HTMLPanel addStyleNames="pageHeader styled-row">
-            <h3 class="pageHeading">PandaServ Music <i>(Test App)</i></h3>
+            <h4 class="inline pageHeading">PandaServ Music <i>(Test App)</i></h4>
         </g:HTMLPanel>
         <b:Container>
             <b:Column offset="1" size="10">

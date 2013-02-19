@@ -1,5 +1,9 @@
 package de.pandaserv.music.client.math;
 
+import de.pandaserv.music.client.misc.JSUtil;
+
+import java.util.Arrays;
+
 /**
  * This code is heavily based on fft.c from Audacious Media Player (http://audacious-media-player.org/)
  *
@@ -30,6 +34,8 @@ public class FFT {
     private static int[] reversed = new int[FFT_SIZE];              /* bit-reversal table */
     private static Complex[] roots = new Complex[FFT_SIZE / 2];     /* N-th roots of unity */
 
+    private static Complex[] fft = new Complex[FFT_SIZE];
+
     static {
         // generate tables
         for (int n = 0; n < FFT_SIZE; n++) {
@@ -41,6 +47,11 @@ public class FFT {
         for (int n = 0; n < FFT_SIZE / 2; n ++) {
             //roots[n] = cexpf (2 * M_PI * I * n / N);
             roots[n] = new Complex(0, 2 * Math.PI * n / FFT_SIZE).exp();
+        }
+        /* we prepare the fft array here, to avoid having to do "new Complex()" 512 times
+         * every time calcFreq() is called */
+        for (int n = 0; n < FFT_SIZE; n++) {
+            fft[n] = new Complex();
         }
     }
 
@@ -89,27 +100,27 @@ public class FFT {
     /* Input is N=512 PCM samples.
      * Output is intensity of frequencies from 1 to N/2=256. */
     public static double[] calcFreq(double data[]) {
-        //JSUtil.log("calcFreq()");
+        //JSUtil.log("calcFreq() n=" + data.length + " data=" + Arrays.toString(data));
         double[] freq = new double[FFT_SIZE / 2];
 
         /* input is filtered by a Hamming window */
         /* input values are in bit-reversed order */
-        Complex[] a = new Complex[FFT_SIZE];
         for (int n = 0; n < FFT_SIZE; n ++) {
-            a[reversed[n]] = new Complex(data[n] * hamming[n], 0);
+            fft[reversed[n]].real = data[n] * hamming[n];
+            fft[reversed[n]].im = 0;
         }
 
         //JSUtil.log("pre-FFT: " + Arrays.toString(a));
-        doFFT(a);
+        doFFT(fft);
         //JSUtil.log("post-FFT: " + Arrays.toString(a));
 
         /* output values are divided by N */
         /* frequencies from 1 to N/2-1 are doubled */
         for (int n = 0; n < FFT_SIZE / 2 - 1; n ++)
-            freq[n] = 2 * a[1 + n].abs() / FFT_SIZE;
+            freq[n] = 2 * fft[1 + n].abs() / FFT_SIZE;
 
         /* frequency N/2 is not doubled */
-        freq[FFT_SIZE / 2 - 1] = a[FFT_SIZE / 2].abs() / FFT_SIZE;
+        freq[FFT_SIZE / 2 - 1] = fft[FFT_SIZE / 2].abs() / FFT_SIZE;
 
         //JSUtil.log("result: " + Arrays.toString(freq));
         return freq;
