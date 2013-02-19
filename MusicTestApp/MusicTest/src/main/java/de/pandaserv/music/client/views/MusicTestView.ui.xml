@@ -3,12 +3,11 @@
              xmlns:b='urn:import:com.github.gwtbootstrap.client.ui'
              xmlns:my='urn:import:de.pandaserv.music.client.widgets'>
     <g:HTMLPanel>
+        <g:HTMLPanel addStyleNames="fullWidth styled-row">
+            <h3 class="pageHeading">PandaServ Music <i>(Test App)</i></h3>
+        </g:HTMLPanel>
         <b:Container>
-            <b:Column  offset="1" size="10">
-                <b:Row addStyleNames="styled-row">
-                    <b:Heading  size="1">PandaServ Music Test App</b:Heading>
-                </b:Row>
-
+            <b:Column offset="1" size="10">
                 <b:Row addStyleNames="strut">
                     <!-- spacing -->
                 </b:Row>

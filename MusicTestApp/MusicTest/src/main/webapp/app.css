@@ -36,6 +36,10 @@ body {
     height: 2.5em; /* 52 / 15 */
 }
 
+.pageHeading {
+    line-height: 0;
+}
+
 .nowPlayingWell {
     background-color: #f5f5f5;
     border: 1px solid #e3e3e3;
