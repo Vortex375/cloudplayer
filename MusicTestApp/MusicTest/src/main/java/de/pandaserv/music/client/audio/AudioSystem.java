@@ -67,13 +67,11 @@ public class AudioSystem {
 
     private MediaElement mediaElement;
     private JavaScriptObject audioContext;
-    private JavaScriptObject analyserNode;
 
     private List<VisDataHandler> handlers;
     private Timer visDataTimer;
     private int[] bars;
     private byte[] delay;
-
     private double[] scale;
     private boolean haveScale;
 
@@ -138,8 +136,6 @@ public class AudioSystem {
         sourceNode.connect(analyserNode);
         analyserNode.connect(context.destination); // need to connect to destination or no audio is processed. BUG?
         console.log("audio setup complete");
-        // pass the analyserNode to java code
-        //this.@de.pandaserv.music.client.audio.AudioSystem::setAnalyserNode(Lcom/google/gwt/core/client/JavaScriptObject;)(analyserNode);
     }-*/;
 
     public void startCollectVisData() {
@@ -148,10 +144,6 @@ public class AudioSystem {
 
     public void stopCollectVisData() {
         visDataTimer.cancel();
-    }
-
-    void setAnalyserNode(JavaScriptObject node) {
-        this.analyserNode = node;
     }
 
     private void updateVisData() {

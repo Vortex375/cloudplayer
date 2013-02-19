@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="52b2b0b8-67dd-45d8-9f4d-7df17230357f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/audio/AudioSystem.java" afterPath="$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/audio/AudioSystem.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/views/MusicTestView.ui.xml" afterPath="$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/views/MusicTestView.ui.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/app.css" afterPath="$PROJECT_DIR$/src/main/webapp/app.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" />
     </list>
     <ignored path="MusicTest.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -75,7 +74,7 @@
       <file leaf-file-name="FFT.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/math/FFT.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="3" selection-start="155" selection-end="236" vertical-scroll-proportion="0.0">
+            <state line="42" column="72" selection-start="1930" selection-end="1930" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -120,30 +119,29 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AudioSystem.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="AudioSystem.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/audio/AudioSystem.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="58" selection-start="634" selection-end="634" vertical-scroll-proportion="0.0">
+            <state line="137" column="44" selection-start="4566" selection-end="4566" vertical-scroll-proportion="0.32608697">
               <folding>
-                <marker date="1361237822000" expanded="true" signature="3575:3863" placeholder="{...}" />
-                <marker date="1361237822000" expanded="true" signature="3664:3725" placeholder="{...}" />
-                <marker date="1361237822000" expanded="true" signature="3756:3814" placeholder="{...}" />
-                <marker date="1361237822000" expanded="true" signature="3820:3856" placeholder="{...}" />
-                <marker date="1361237822000" expanded="true" signature="3950:4801" placeholder="{...}" />
-                <marker date="1361237822000" expanded="true" signature="4198:4356" placeholder="{...}" />
-                <marker date="1361237822000" expanded="true" signature="4619:4795" placeholder="//..." />
-                <marker date="1361237822000" expanded="true" signature="5478:6068" placeholder="{...}" />
-                <marker date="1361237822000" expanded="true" signature="5569:5688" placeholder="{...}" />
-                <marker date="1361237822000" expanded="true" signature="5821:5997" placeholder="{...}" />
+                <marker date="1361265120000" expanded="true" signature="3531:3819" placeholder="{...}" />
+                <marker date="1361265120000" expanded="true" signature="3620:3681" placeholder="{...}" />
+                <marker date="1361265120000" expanded="true" signature="3712:3770" placeholder="{...}" />
+                <marker date="1361265120000" expanded="true" signature="3776:3812" placeholder="{...}" />
+                <marker date="1361265120000" expanded="true" signature="3906:4572" placeholder="{...}" />
+                <marker date="1361265120000" expanded="true" signature="4154:4312" placeholder="{...}" />
+                <marker date="1361265120000" expanded="true" signature="5158:5748" placeholder="{...}" />
+                <marker date="1361265120000" expanded="true" signature="5249:5368" placeholder="{...}" />
+                <marker date="1361265120000" expanded="true" signature="5501:5677" placeholder="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MusicTestView.ui.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="MusicTestView.ui.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/views/MusicTestView.ui.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="64" selection-start="398" selection-end="398" vertical-scroll-proportion="0.16304348">
+            <state line="5" column="46" selection-start="321" selection-end="321" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -152,7 +150,7 @@
       <file leaf-file-name="app.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/app.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="1" selection-start="289" selection-end="289" vertical-scroll-proportion="0.0">
+            <state line="18" column="9" selection-start="286" selection-end="286" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -161,7 +159,7 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="9" selection-start="691" selection-end="691" vertical-scroll-proportion="-8.958333">
+            <state line="15" column="9" selection-start="691" selection-end="691" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -201,10 +199,10 @@
         <option value="$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/math/Complex.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/misc/JSUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/math/FFT.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/audio/AudioSystem.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/app.css" />
         <option value="$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/views/MusicTestView.ui.xml" />
+        <option value="$PROJECT_DIR$/src/main/webapp/app.css" />
+        <option value="$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/audio/AudioSystem.java" />
       </list>
     </option>
   </component>
@@ -255,6 +253,20 @@
             <PATH_ELEMENT USER_OBJECT="Root">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MusicTest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MusicTest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -591,20 +603,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MusicTest" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MusicTest" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -622,9 +620,9 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.searchVisible" value="true" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="GwtCreateUiBinderDialog.RecentRootElementType">
@@ -652,24 +650,6 @@
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
@@ -706,6 +686,24 @@
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" />
@@ -723,6 +721,26 @@
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
         <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="GWT.ConfigurationType" factoryName="GWT Configuration">
+      <module name="" />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JavascriptDebugSession" factoryName="Local">
+      <JSDebuggerConfigurationSettings>
+        <option name="engineId" value="embedded" />
+        <option name="fileUrl" />
+      </JSDebuggerConfigurationSettings>
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
@@ -745,26 +763,6 @@
       </option>
       <envs />
       <patterns />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
-    <configuration default="true" type="JavascriptDebugSession" factoryName="Local">
-      <JSDebuggerConfigurationSettings>
-        <option name="engineId" value="embedded" />
-        <option name="fileUrl" />
-      </JSDebuggerConfigurationSettings>
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
-    <configuration default="true" type="GWT.ConfigurationType" factoryName="GWT Configuration">
-      <module name="" />
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
@@ -970,24 +968,9 @@
         <state line="25" column="23" selection-start="652" selection-end="652" vertical-scroll-proportion="0.62608695" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/math/Complex.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="39" selection-start="1207" selection-end="1207" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/math/FFT.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="3" selection-start="155" selection-end="236" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/widgets/Slider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="16" column="13" selection-start="407" selection-end="407" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/widgets/Visualization.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="40" selection-start="1078" selection-end="1078" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/misc/JSUtil.java">
@@ -995,34 +978,63 @@
         <state line="6" column="11" selection-start="117" selection-end="117" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="9" selection-start="691" selection-end="691" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/MusicTest.gwt.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="24" column="9" selection-start="1235" selection-end="1235" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/math/Complex.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="9" selection-start="691" selection-end="691" vertical-scroll-proportion="-8.958333">
-          <folding />
-        </state>
+        <state line="59" column="39" selection-start="1207" selection-end="1207" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/audio/AudioSystem.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/math/FFT.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="58" selection-start="634" selection-end="634" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/app.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="1" selection-start="289" selection-end="289" vertical-scroll-proportion="0.0">
+        <state line="42" column="72" selection-start="1930" selection-end="1930" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/views/MusicTestView.ui.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="64" selection-start="398" selection-end="398" vertical-scroll-proportion="0.16304348">
+        <state line="5" column="46" selection-start="321" selection-end="321" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/app.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="9" selection-start="286" selection-end="286" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/widgets/Visualization.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="40" selection-start="1078" selection-end="1078" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/audio/AudioSystem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="137" column="44" selection-start="4566" selection-end="4566" vertical-scroll-proportion="0.32608697">
+          <folding>
+            <marker date="1361265120000" expanded="true" signature="3531:3819" placeholder="{...}" />
+            <marker date="1361265120000" expanded="true" signature="3620:3681" placeholder="{...}" />
+            <marker date="1361265120000" expanded="true" signature="3712:3770" placeholder="{...}" />
+            <marker date="1361265120000" expanded="true" signature="3776:3812" placeholder="{...}" />
+            <marker date="1361265120000" expanded="true" signature="3906:4572" placeholder="{...}" />
+            <marker date="1361265120000" expanded="true" signature="4154:4312" placeholder="{...}" />
+            <marker date="1361265120000" expanded="true" signature="5158:5748" placeholder="{...}" />
+            <marker date="1361265120000" expanded="true" signature="5249:5368" placeholder="{...}" />
+            <marker date="1361265120000" expanded="true" signature="5501:5677" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>

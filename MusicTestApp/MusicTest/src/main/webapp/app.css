@@ -3,6 +3,7 @@
 body {
     background: url(img/noize.jpg) repeat;
     padding: 0 !important;
+    overflow-x: hidden;
 }
 
 .styled-row {
@@ -34,6 +35,10 @@ body {
 .strut { /* vertical placeholder */
     display: block;
     height: 2.5em; /* 52 / 15 */
+}
+
+.pageHeader {
+    width: 100%;
 }
 
 .pageHeading {

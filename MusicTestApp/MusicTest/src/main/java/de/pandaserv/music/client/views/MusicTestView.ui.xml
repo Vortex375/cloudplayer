@@ -3,7 +3,7 @@
              xmlns:b='urn:import:com.github.gwtbootstrap.client.ui'
              xmlns:my='urn:import:de.pandaserv.music.client.widgets'>
     <g:HTMLPanel>
-        <g:HTMLPanel addStyleNames="fullWidth styled-row">
+        <g:HTMLPanel addStyleNames="pageHeader styled-row">
             <h3 class="pageHeading">PandaServ Music <i>(Test App)</i></h3>
         </g:HTMLPanel>
         <b:Container>
