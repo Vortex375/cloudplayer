@@ -61,9 +61,9 @@ public class AudioSystem {
 
     private static final int FFT_SIZE = 512;
     private static final int VIS_BARS = 12;
-    private static final int VIS_FPS = 60;
-    private static final int VIS_DELAY = 4; /* delay before falloff in frames */
-    private static final int VIS_FALLOFF = 4; /* falloff in pixels per frame */
+    private static final int VIS_FPS = 30;
+    private static final int VIS_DELAY = 2; /* delay before falloff in frames */
+    private static final int VIS_FALLOFF = 8; /* falloff in pixels per frame */
 
     private MediaElement mediaElement;
     private JavaScriptObject audioContext;
@@ -127,9 +127,20 @@ public class AudioSystem {
         console.log("creating and connecting audio nodes");
         var sourceNode = context.createMediaElementSource(element);
         var analyserNode = context.createScriptProcessor(512);
+        // prepare arrays to store sample data for visualization
+       // $wnd.vis_left_channel = new Float32Array(512);
+        //$wnd.vis_right_channel = new Float32Array(512);
         analyserNode.onaudioprocess = function (event) {
-            $wnd.vis_left_channel = event.inputBuffer.getChannelData(0);
-            $wnd.vis_right_channel = event.inputBuffer.getChannelData(1);
+            //console.log("begin onaudioprocess");
+            try {
+                if ($wnd.vis_left_channel === undefined || $wnd.vis_right_channel === undefined) {
+                    $wnd.vis_left_channel = event.inputBuffer.getChannelData(0);
+                    $wnd.vis_right_channel = event.inputBuffer.getChannelData(1);
+                    console.log("onaudioprocess: set references");
+                }
+            } catch (e) {
+                console.log("Exception in onaudioprocess: " + e);
+            }
         };
 
         sourceNode.connect(context.destination);
@@ -170,8 +181,8 @@ public class AudioSystem {
             // hand off data and convert to mono
             visArray.@de.pandaserv.music.client.audio.AudioSystem.VisArray::set(ID)(i, (left[i] + right[i]) / 2.0);
         }
+        //console.log("handed off " + left.length + " samples");
         return true;
-        //console.log("collected vis data")
     }-*/;
 
     private void calculateScale() {
