@@ -5,18 +5,34 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.MediaElement;
 import com.google.gwt.user.client.Timer;
 import com.google.web.bindery.event.shared.HandlerRegistration;
+import de.pandaserv.music.client.math.FFT;
 import de.pandaserv.music.shared.NotSupportedException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: ich
- * Date: 2/12/13
- * Time: 11:13 PM
- * To change this template use File | Settings | File Templates.
+/*
+ * The formatVis() method is based on code from Audacious Media Player (http://audacious-media-player.org/)
+ *
+ * The following is the copyright notice from "ui_infoarea.c" where the code was taken from:
+ *
+ * ui_infoarea.c
+ * Copyright 2010-2012 William Pitcock and John Lindgren
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions, and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions, and the following disclaimer in the documentation
+ *    provided with the distribution.
+ *
+ * This software is provided "as is" and without any warranty, express or
+ * implied. In no event shall the authors be liable for any damages arising from
+ * the use of this software.
  */
 public class AudioSystem {
     static class VisArray {
@@ -112,20 +128,18 @@ public class AudioSystem {
     private native void setup(JavaScriptObject context, MediaElement element) /*-{
         console.log("creating and connecting audio nodes");
         var sourceNode = context.createMediaElementSource(element);
-        var analyserNode = context.createAnalyser();
-        analyserNode.fftSize = 512; //TODO: use FFT_SIZE constant
-        analyserNode.minDecibels = -60;
-        analyserNode.maxDecibels = 0;
-        analyserNode.smoothingTimeConstant = 0.3;
-        console.log("minDb: " + analyserNode.minDecibels);
-        console.log("maxDb: " + analyserNode.maxDecibels);
-        console.log("smoothing: " + analyserNode.smoothingTimeConstant);
+        var analyserNode = context.createScriptProcessor(512);
+        analyserNode.onaudioprocess = function (event) {
+            $wnd.vis_left_channel = event.inputBuffer.getChannelData(0);
+            $wnd.vis_right_channel = event.inputBuffer.getChannelData(1);
+        };
 
+        sourceNode.connect(context.destination);
         sourceNode.connect(analyserNode);
-        analyserNode.connect(context.destination);
+        analyserNode.connect(context.destination); // need to connect to destination or no audio is processed. BUG?
         console.log("audio setup complete");
         // pass the analyserNode to java code
-        this.@de.pandaserv.music.client.audio.AudioSystem::setAnalyserNode(Lcom/google/gwt/core/client/JavaScriptObject;)(analyserNode);
+        //this.@de.pandaserv.music.client.audio.AudioSystem::setAnalyserNode(Lcom/google/gwt/core/client/JavaScriptObject;)(analyserNode);
     }-*/;
 
     public void startCollectVisData() {
@@ -142,21 +156,30 @@ public class AudioSystem {
 
     private void updateVisData() {
         VisArray visArray = VisArray.create(FFT_SIZE / 2);
-        doCollectVisData(analyserNode, visArray);
-        formatVis(visArray.asArray());
+        if (!doCollectVisData(visArray)) {
+           return;
+        }
+        formatVis(FFT.calcFreq(visArray.asArray()));
 
         for (VisDataHandler handler: handlers) {
             handler.onVisDataUpdate(this.bars);
         }
     }
 
-    private native void doCollectVisData(JavaScriptObject analyser, VisArray visArray) /*-{
-        var byteArray = new Uint8Array(256); // TODO: use FFT_SIZE / 2 constant
-        analyser.getByteFrequencyData(byteArray);
-
-        for (var i = 0; i < byteArray.length; i++) {
-            visArray.@de.pandaserv.music.client.audio.AudioSystem.VisArray::set(ID)(i, byteArray[i]);
+    private native boolean doCollectVisData(VisArray visArray) /*-{
+        if ($wnd.vis_left_channel === undefined || $wnd.vis_right_channel === undefined) {
+            // no data available
+            console.log("no vis data available")
+            return false;
         }
+        var left = $wnd.vis_left_channel;
+        var right = $wnd.vis_right_channel;
+        for (var i = 0; i < left.length; i++) {
+            // hand off data and convert to mono
+            visArray.@de.pandaserv.music.client.audio.AudioSystem.VisArray::set(ID)(i, (left[i] + right[i]) / 2.0);
+        }
+        return true;
+        //console.log("collected vis data")
     }-*/;
 
     private void calculateScale() {
@@ -206,11 +229,11 @@ public class AudioSystem {
             if (n == 0) {
                 x = 0;
             } else {
+                x = 100 * Math.log10(n * 100);
                 //x = 20 * Math.log10(n * 100);
-                //x = 20 * Math.log10(n * 100);
-                //x = 60 * Math.log10(n);
+                //x = 50 * Math.log10(n * 200);
                 //x = (Math.pow(255, n / 255)) - 1;
-                x = 127 * (Math.log(n) / Math.log(127));
+                //x = 127 * (Math.log(n) / Math.log(127));
             }
             x = Math.max(0, Math.min(x, 256));
 
