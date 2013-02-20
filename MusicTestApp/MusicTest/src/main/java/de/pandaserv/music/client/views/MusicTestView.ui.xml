@@ -3,9 +3,10 @@
              xmlns:b='urn:import:com.github.gwtbootstrap.client.ui'
              xmlns:my='urn:import:de.pandaserv.music.client.widgets'>
     <g:HTMLPanel>
-        <g:HTMLPanel addStyleNames="pageHeader styled-row">
-            <h4 class="inline pageHeading">PandaServ Music <i>(Test App)</i></h4>
-        </g:HTMLPanel>
+        <b:Navbar ui:field="header" position="STATIC_TOP">
+            <b:Brand>PandaServ Music (Test App)</b:Brand>
+        </b:Navbar>
+        <g:HTMLPanel ui:field="mainContent" addStyleNames="mainContent">
         <b:Container>
             <b:Column offset="1" size="10">
                 <b:Row addStyleNames="strut">
@@ -24,40 +25,57 @@
                     <!-- spacing -->
                 </b:Row>
 
-                <b:Row addStyleNames="styled-row">
-                    <g:HTMLPanel addStyleNames="nowPlayingWell">
-                        <table class="fullWidth">
-                            <tr>
-                                <td class="nowrap">
-                                    <g:FlowPanel>
-                                        <g:Label ui:field="titleLabel" addStyleNames="titleLabel">Track Title</g:Label>
-                                        <g:Label ui:field="artistLabel" addStyleNames="artistLabel">Artist Name</g:Label>
-                                        <g:Label ui:field="albumLabel" addStyleNames="albumLabel">Album</g:Label>
-                                    </g:FlowPanel>
-                                </td>
-                                <td class="fullWidth rightText">
-                                    <g:FlowPanel ui:field="visHolder"/>
-                                </td>
-                            </tr>
-                        </table>
-                    </g:HTMLPanel>
-                    <g:HTMLPanel>
-                        <b:ButtonGroup addStyleNames="inline">
-                            <b:Button ui:field="prevButton" icon="BACKWARD" addStyleNames="playbackButton"/>
-                            <b:Button ui:field="playButton" icon="PLAY" addStyleNames="playbackButton"/>
-                            <b:Button ui:field="nextButton" icon="FORWARD" addStyleNames="playbackButton"/>
-                        </b:ButtonGroup>
-
-                        <g:Label ui:field="errorLabel" addStyleNames="errorLabel inline" visible="false"/>
-                        <g:Label ui:field="timeLabel" addStyleNames="inline"/>
-                        <my:Slider ui:field="timeSlider" addStyleNames="timeSlider inline"/>
-                        <g:Label ui:field="durationLabel" addStyleNames="inline"/>
-                    </g:HTMLPanel>
-                </b:Row>
-                <b:Row addStyleNames="styled-row">
-                    <g:Label ui:field="debugLabel"/>
-                </b:Row>
             </b:Column>
         </b:Container>
+        </g:HTMLPanel>
+
+        <g:HTMLPanel ui:field="footer" addStyleNames="styled-row fullWidth">
+            <b:Container>
+                <b:Column size="12">
+                    <b:Row>
+                        <g:HTMLPanel addStyleNames="nowPlayingWell">
+                            <table class="fullWidth">
+                                <tr>
+                                    <td class="nowrap fullTableColumn">
+                                        <g:FlowPanel>
+                                            <g:Label ui:field="titleLabel" addStyleNames="titleLabel">Track Title
+                                            </g:Label>
+                                            <g:Label ui:field="artistLabel" addStyleNames="artistLabel">Artist Name
+                                            </g:Label>
+                                            <g:Label ui:field="albumLabel" addStyleNames="albumLabel">Album</g:Label>
+                                        </g:FlowPanel>
+                                    </td>
+                                    <td class="rightText">
+                                        <g:FlowPanel ui:field="visHolder"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </g:HTMLPanel>
+                    </b:Row>
+                </b:Column>
+            </b:Container>
+            <g:HTMLPanel addStyleNames="playbackControls">
+                <table>
+                    <tr>
+                        <td>
+                            <b:ButtonGroup addStyleNames="inline">
+                                <b:Button ui:field="prevButton" icon="BACKWARD" addStyleNames="playbackButton"/>
+                                <b:Button ui:field="playButton" icon="PLAY" addStyleNames="playbackButton"/>
+                                <b:Button ui:field="nextButton" icon="FORWARD" addStyleNames="playbackButton"/>
+                            </b:ButtonGroup>
+                        </td>
+                        <td>
+                            <g:Label ui:field="timeLabel" addStyleNames="timeLabel"/>
+                        </td>
+                        <td class="fullTableColumn">
+                            <my:Slider ui:field="timeSlider" addStyleNames="timeSlider"/>
+                        </td>
+                        <td>
+                            <g:Label ui:field="durationLabel" addStyleNames="durationLabel"/>
+                        </td>
+                    </tr>
+                </table>
+            </g:HTMLPanel>
+        </g:HTMLPanel>
     </g:HTMLPanel>
 </ui:UiBinder>

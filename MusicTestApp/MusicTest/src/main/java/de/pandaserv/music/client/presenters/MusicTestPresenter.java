@@ -59,7 +59,7 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
 
             audioElement.setAutoplay(false);
             bind(audioElement);
-            debugTimer.scheduleRepeating(250);
+            //debugTimer.scheduleRepeating(250);
         }
     }
 

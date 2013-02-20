@@ -3,7 +3,12 @@
 body {
     background: url(img/noize.jpg) repeat;
     padding: 0 !important;
-    overflow-x: hidden;
+    overflow: hidden;
+}
+
+.mainContent {
+    max-width: 100%;
+    overflow: auto;
 }
 
 .styled-row {
@@ -14,6 +19,12 @@ body {
 
 .fullWidth {
     width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.fullTableColumn {
+    width: 99%;
 }
 
 .nowrap {
@@ -39,16 +50,24 @@ body {
 
 .pageHeader {
     width: 100%;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .pageHeading {
     line-height: 0;
+    margin-left: 4px;
+}
+
+.playbackControls {
+    margin-left: 4px;
+    margin-right: 4px;
 }
 
 .nowPlayingWell {
     background-color: #f5f5f5;
     border: 1px solid #e3e3e3;
-    padding: 6px;
+    padding: 0 6px 0 6px;
     margin-bottom: 2px;
 }
 
@@ -84,13 +103,26 @@ body {
 }
 
 .timeSlider {
-    margin-left: 0.5em;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.timeLabel {
     margin-right: 0.5em;
-    min-width: 50%;
+}
+
+.durationLabel {
+    margin-left: 0.5em;
 }
 
 .visCanvas {
-    width: 150px;
-    height: 70px;
+    width: 100px;
+    height: 80px;
     background-color: #f5f5f5;
+}
+
+.debugPanel {
+    padding: 0;
+    font-size: smaller;
 }

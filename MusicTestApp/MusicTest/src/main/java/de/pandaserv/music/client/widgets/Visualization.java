@@ -21,6 +21,8 @@ public class Visualization extends Composite {
     private Canvas canvas;
     private Animation animation;
 
+    private static final int BAR_SPACING = 2;       // horizontal space between bars in pixels
+
     public Visualization() throws NotSupportedException {
         canvas = Canvas.createIfSupported();
         if (canvas == null) {
@@ -38,7 +40,7 @@ public class Visualization extends Composite {
         canvas.setCoordinateSpaceWidth((int) width);
         canvas.setCoordinateSpaceHeight((int) height);
 
-        double barWidth = (width / data.length) - 4; // 4px spacing between bars
+        double barWidth = (width / data.length) - BAR_SPACING; // 4px spacing between bars
 
         // clear background
         cx.setFillStyle("#f5f5f5");
@@ -52,13 +54,16 @@ public class Visualization extends Composite {
         //cx.fillRect(width - 1, height - 1, 1, 1);
         for (int i = 0; i < data.length; i++) {
             int grey = 20 + (int) (120 * (i / (double) data.length));
-            cx.setFillStyle("rgb(" + grey + "," + grey + "," + grey + ")");
             // draw bars
-            int barHeight = (int) (height * (data[i] / 255.0));
-            int x =(int) (barWidth + 4) * i;
-            int y = (int) height - barHeight;
+            int barHeight = (int) (height * 0.625 * (data[i] / 255.0));
+            int x =(int) (barWidth + BAR_SPACING) * i;
+            int y = (int) (height * 0.625) - barHeight;
 
+            cx.setFillStyle("rgb(" + grey + "," + grey + "," + grey + ")");
             cx.fillRect(x, y, barWidth, barHeight);
+            cx.setGlobalAlpha(0.5);
+            cx.fillRect(x, (int) (height * 0.625) - 1, barWidth, barHeight * 0.625);
+            cx.setGlobalAlpha(1.0);
             GWT.log("drawing bar: x=" + x+ " y=" + y + " width=" + barWidth + " height=" + barHeight);
         }
         GWT.log("drawed vis: " + Arrays.toString(data));

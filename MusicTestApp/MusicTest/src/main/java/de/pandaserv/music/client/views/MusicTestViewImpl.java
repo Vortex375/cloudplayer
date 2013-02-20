@@ -5,15 +5,16 @@ import com.github.gwtbootstrap.client.ui.constants.IconType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.AudioElement;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.media.client.Audio;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.*;
 import de.pandaserv.music.client.misc.TimeUtil;
 import de.pandaserv.music.client.widgets.Slider;
 import de.pandaserv.music.client.widgets.Visualization;
@@ -37,14 +38,14 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
 
     }
 
-    @UiField
-    Label errorLabel;
+    @UiField Widget header;
+    @UiField Widget mainContent;
+    @UiField Widget footer;
+
     @UiField
     Label timeLabel;
     @UiField
     Label durationLabel;
-    @UiField
-    Label debugLabel;
     @UiField
     Slider timeSlider;
     @UiField
@@ -73,16 +74,41 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
             GWT.log("Canvas element not supported");
             vis = null;
         }
+
+        Window.addResizeHandler(new ResizeHandler() {
+            @Override
+            public void onResize(ResizeEvent resizeEvent) {
+                resizeMainContent();
+            }
+        });
+
+        new Timer() {
+            @Override
+            public void run() {
+                resizeMainContent();
+            }
+        }.schedule(1);
+    }
+
+    private void resizeMainContent() {
+        int height = Window.getClientHeight();
+        height -= header.getOffsetHeight();
+        height -= footer.getOffsetHeight();
+        height -= 4; // :-/
+        if (height < 10) {
+            height = 10;
+        }
+        mainContent.setHeight(height + "px");
     }
 
     @Override
     public void showError(boolean show) {
-        errorLabel.setVisible(show);
+        //errorLabel.setVisible(show);
     }
 
     @Override
     public void setErrorMessage(String message) {
-        errorLabel.setText(message);
+        //errorLabel.setText(message);
     }
 
     @Override
@@ -116,7 +142,7 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
 
     @Override
     public void setDebugString(String debug) {
-        debugLabel.setText(debug);
+        //debugLabel.setText(debug);
     }
 
     @Override
