@@ -93,7 +93,7 @@ public class StreamService extends AbstractHandler {
                 } while (read == buf.length);
                 outStream.flush();
             } catch (IOException e) {
-                logger.info("streaming task interrupted: " + e.getMessage());
+                logger.info("streaming task interrupted: " + e.toString());
             } finally {
                 JobManager.getInstance().removeJob(jobId);
                 try {
