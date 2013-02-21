@@ -4,9 +4,8 @@ import com.google.gwt.animation.client.Animation;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.user.client.ui.Composite;
-import de.pandaserv.music.shared.NotSupportedException;
+import de.pandaserv.music.client.misc.NotSupportedException;
 
 import java.util.Arrays;
 

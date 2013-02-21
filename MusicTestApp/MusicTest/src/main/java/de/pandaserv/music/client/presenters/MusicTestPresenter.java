@@ -6,8 +6,8 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import de.pandaserv.music.client.audio.AudioSystem;
 import de.pandaserv.music.client.views.MusicTestView;
-import de.pandaserv.music.shared.NotSupportedException;
-import de.pandaserv.music.shared.PlaybackStatus;
+import de.pandaserv.music.client.misc.NotSupportedException;
+import de.pandaserv.music.client.misc.PlaybackStatus;
 
 /**
  * Created with IntelliJ IDEA.

@@ -1,7 +1,7 @@
 package de.pandaserv.music.client.views;
 
 import com.google.gwt.dom.client.AudioElement;
-import de.pandaserv.music.shared.PlaybackStatus;
+import de.pandaserv.music.client.misc.PlaybackStatus;
 
 /**
  * Created with IntelliJ IDEA.
