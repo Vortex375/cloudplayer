@@ -1,4 +1,4 @@
-package de.pandaserv.music.shared;
+package de.pandaserv.music.client.misc;
 
 /**
  * Created with IntelliJ IDEA.

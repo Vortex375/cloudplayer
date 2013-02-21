@@ -3,12 +3,9 @@ package de.pandaserv.music.shared;
 /**
  * Created with IntelliJ IDEA.
  * User: ich
- * Date: 2/11/13
- * Time: 9:12 PM
+ * Date: 2/21/13
+ * Time: 3:25 AM
  * To change this template use File | Settings | File Templates.
  */
-public enum PlaybackStatus {
-    PLAY,
-    PAUSE,
-    STOP
+public interface GwtMusicServiceAsync {
 }

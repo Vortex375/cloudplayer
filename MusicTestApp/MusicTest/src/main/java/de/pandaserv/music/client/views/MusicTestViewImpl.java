@@ -18,8 +18,8 @@ import com.google.gwt.user.client.ui.*;
 import de.pandaserv.music.client.misc.TimeUtil;
 import de.pandaserv.music.client.widgets.Slider;
 import de.pandaserv.music.client.widgets.Visualization;
-import de.pandaserv.music.shared.NotSupportedException;
-import de.pandaserv.music.shared.PlaybackStatus;
+import de.pandaserv.music.client.misc.NotSupportedException;
+import de.pandaserv.music.client.misc.PlaybackStatus;
 
 /**
  * Created with IntelliJ IDEA.

@@ -6,7 +6,7 @@ import com.google.gwt.dom.client.MediaElement;
 import com.google.gwt.user.client.Timer;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 import de.pandaserv.music.client.math.FFT;
-import de.pandaserv.music.shared.NotSupportedException;
+import de.pandaserv.music.client.misc.NotSupportedException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
