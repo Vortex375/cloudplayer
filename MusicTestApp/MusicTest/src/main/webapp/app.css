@@ -6,6 +6,10 @@ body {
     overflow: hidden;
 }
 
+.pageHeader {
+    width: auto !important; /* fix problem with small widths */
+}
+
 .mainContent {
     max-width: 100%;
     overflow: auto;

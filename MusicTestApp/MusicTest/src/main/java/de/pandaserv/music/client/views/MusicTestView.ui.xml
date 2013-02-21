@@ -3,7 +3,7 @@
              xmlns:b='urn:import:com.github.gwtbootstrap.client.ui'
              xmlns:my='urn:import:de.pandaserv.music.client.widgets'>
     <g:HTMLPanel>
-        <b:Navbar ui:field="header" position="STATIC_TOP">
+        <b:Navbar addStyleNames="pageHeader" ui:field="header" position="STATIC_TOP">
             <b:Brand>PandaServ Music (Test App)</b:Brand>
         </b:Navbar>
         <g:HTMLPanel ui:field="mainContent" addStyleNames="mainContent">
