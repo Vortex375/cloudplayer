@@ -1,9 +1,10 @@
 package de.pandaserv.music.server.database;
 
-import java.sql.*;
-import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.sql.*;
+import java.util.Properties;
 
 public class DatabaseManager {
     static final Logger logger = LoggerFactory.getLogger(DatabaseManager.class);
@@ -40,9 +41,14 @@ public class DatabaseManager {
             " password VARCHAR(200)," +
             " isAdmin BOOLEAN)";
 
+    // default admin user account
+    // inserted automatically when the user table is created for the first time
+    private static final String DEFAULT_ADMIN_USERNAME = "admin";
+    private static final String DEFAULT_ADMIN_PASSWORD = "admin";
+
     // path to HSQLDB database file
     private final String DB_PATH;
-    // username and password for HSQLDB (this is always "SA" with no password
+    // username and password for HSQLDB (this is always "SA" with no password)
     private final String USER = "SA";
     private final String PASSWORD = "";
     // jdbc url
@@ -61,6 +67,7 @@ public class DatabaseManager {
             logger.warn("DatabaseManager.setup() called but there is already an instance!");
         } else {
             ourInstance = new DatabaseManager(config);
+            ourInstance.checkDatabase();
         }
 
         return ourInstance;
@@ -71,16 +78,13 @@ public class DatabaseManager {
         DB_PATH = config.getProperty("db_dir");
         JDBC_URL = "jdbc:hsqldb:file:" + DB_PATH + "/db";
         threadLocalConnection = new ThreadLocal<>();
-
-        logger.info("Checking database...");
-        checkDatabase();
-        logger.info("Database setup complete.");
     }
 
     /* called on startup
      * check database and create missing tables
      */
     private void checkDatabase() throws SQLException {
+        logger.info("Checking database...");
         Connection conn = getConnection();
         if (conn == null) {
             throw new SQLException("Unable to connect to database.");
@@ -112,6 +116,12 @@ public class DatabaseManager {
         if (needUsersTable) {
             logger.info("Creating table 'Users'");
             stmt.executeUpdate(CREATE_USERS_TABLE);
+            // add default admin account
+            logger.warn("Adding default administrator account (username=\"{}\", password=\"{}\")." +
+                    " Remember to log in and change the password!!", DEFAULT_ADMIN_USERNAME, DEFAULT_ADMIN_PASSWORD);
+            if (!UserDatabase.getInstance().addUser(DEFAULT_ADMIN_USERNAME, DEFAULT_ADMIN_PASSWORD, true)) {
+                throw new SQLException("unable to add default admin user account!");
+            }
         }
         if (needAttributesTable) {
             logger.info("Creating table 'Attributes'");
@@ -121,6 +131,7 @@ public class DatabaseManager {
             logger.info("Creating table 'Devices'");
             stmt.executeUpdate(CREATE_DEVICES_TABLE);
         }
+        logger.info("Database setup complete.");
     }
 
     /**

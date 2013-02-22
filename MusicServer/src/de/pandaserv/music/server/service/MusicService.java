@@ -1,18 +1,16 @@
 package de.pandaserv.music.server.service;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Enumeration;
-import java.util.StringTokenizer;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.server.Request;
-import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Enumeration;
 
 public class MusicService extends ContextHandlerCollection {
 
@@ -62,7 +60,7 @@ public class MusicService extends ContextHandlerCollection {
             debug.append(request.getHeader(s));
             debug.append("\n");
         }
-        logger.info(debug.toString());
+        logger.debug(debug.toString());
 
         super.handle(target, baseRequest, request, response);
     }
