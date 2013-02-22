@@ -40,6 +40,11 @@ public class ImportJob implements Job {
             "   SELECT md5 FROM Covers" +
             " )";
 
+    private static final String DROP_TRACKS_TABLE = "" +
+            "DROP TABLE import_tracks_%s";
+    private static final String DROP_COVERS_TABLE = "" +
+            "DROP TABLE import_covers_%s";
+
     public ImportJob(String device, String importTableSuffix) {
         this.device = device;
         this.importTableSuffix = importTableSuffix;
@@ -130,6 +135,11 @@ public class ImportJob implements Job {
             }
             conn.commit();
             logger.info("Import complete.");
+
+            logger.info("Removing temporary tables.");
+            Statement dropStmt = conn.createStatement();
+            dropStmt.executeUpdate(String.format(DROP_TRACKS_TABLE, importTableSuffix));
+            dropStmt.executeUpdate(String.format(DROP_COVERS_TABLE, importTableSuffix));
 
         } catch (SQLException e) {
             logger.error("Import job {} interrupted by SQLException: {}", importTableSuffix);
