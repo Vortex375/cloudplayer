@@ -134,12 +134,14 @@ public class ImportJob implements Job {
                 db.insertCover(md5, data, length, mimetype);
             }
             conn.commit();
-            logger.info("Import complete.");
+            logger.info("Cover import complete.");
 
-            logger.info("Removing temporary tables.");
+            logger.info("Removing temporary tables...");
             Statement dropStmt = conn.createStatement();
             dropStmt.executeUpdate(String.format(DROP_TRACKS_TABLE, importTableSuffix));
             dropStmt.executeUpdate(String.format(DROP_COVERS_TABLE, importTableSuffix));
+            conn.commit();
+            logger.info("Import complete.");
 
         } catch (SQLException e) {
             logger.error("Import job {} interrupted by SQLException: {}", importTableSuffix);

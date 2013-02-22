@@ -181,7 +181,7 @@ public class SqliteImportJob implements Job {
 
             logger.info("Commit changes...");
             conn.commit();
-            logger.info("Sqlite import complete");
+            logger.info("Sqlite import complete.");
 
         } catch (SQLException e) {
             logger.error("Sqlite import job {} interrupted by SQLException: {}", importTableSuffix);

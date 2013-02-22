@@ -16,7 +16,7 @@ import java.util.Properties;
  * Helper class for importing Sqlite database from command line
  */
 public class CommandLineImporter {
-    static final Logger logger = LoggerFactory.getLogger(MusicServer.class);
+    static final Logger logger = LoggerFactory.getLogger(CommandLineImporter.class);
 
     public static void main(String[] args) throws Exception {
         if (args.length != 2) {
