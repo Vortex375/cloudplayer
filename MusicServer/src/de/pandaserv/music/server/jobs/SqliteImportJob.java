@@ -90,6 +90,7 @@ public class SqliteImportJob implements Job {
     @Override
     public void run() {
         final long jobId = JobManager.getInstance().addJob(this);
+        Connection conn = null;
 
         try {
             ResultSet rs;
@@ -97,15 +98,17 @@ public class SqliteImportJob implements Job {
             Connection sqliteConn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
             Statement sqliteStmt= sqliteConn.createStatement();
 
-            Connection conn = DatabaseManager.getInstance().getConnection();
+            conn = DatabaseManager.getInstance().getConnection();
             conn.setAutoCommit(false);
             Statement stmt = conn.createStatement();
-            PreparedStatement trackStmt = conn.prepareStatement(String.format(INSERT_TRACK, importTableSuffix));
-            PreparedStatement coverStmt = conn.prepareStatement(String.format(INSERT_COVER, importTableSuffix));
 
             logger.info("Creating import tables...");
             stmt.executeUpdate(String.format(CREATE_TRACKS_TABLE, importTableSuffix));
             stmt.executeUpdate(String.format(CREATE_COVERS_TABLE, importTableSuffix));
+
+            // prepare statements after tables have been created
+            PreparedStatement trackStmt = conn.prepareStatement(String.format(INSERT_TRACK, importTableSuffix));
+            PreparedStatement coverStmt = conn.prepareStatement(String.format(INSERT_COVER, importTableSuffix));
 
             rs = sqliteStmt.executeQuery("SELECT COUNT(*) FROM tracks;");
             rs.next();
@@ -116,7 +119,7 @@ public class SqliteImportJob implements Job {
             }
             rs = sqliteStmt.executeQuery("SELECT id, title, artist, album, genre, track, year, cover, path, lastmodified" +
                     " FROM tracks;");
-            logger.info("Importing {} tracks...", totalRows);
+            logger.info("Copying {} tracks...", totalRows);
             while (rs.next()) {
                 long id = rs.getLong(1);
                 String title = rs.getString(2);
@@ -145,7 +148,9 @@ public class SqliteImportJob implements Job {
                     position++;
                 }
             }
-            logger.info("Importing tracks complete.");
+            logger.info("Commit changes...");
+            conn.commit();
+            logger.info("Copy tracks complete.");
 
             rs = sqliteStmt.executeQuery("SELECT COUNT(*) FROM covers;");
             rs.next();
@@ -156,7 +161,7 @@ public class SqliteImportJob implements Job {
             }
 
             rs = sqliteStmt.executeQuery("SELECT md5, data, length, mimetype FROM covers;");
-            logger.info("Importing {} covers...", totalRows);
+            logger.info("Copying {} covers...", totalRows);
             while (rs.next()) {
                 String md5 = rs.getString(1);
                 Blob data = rs.getBlob(2);
@@ -173,10 +178,22 @@ public class SqliteImportJob implements Job {
                     position++;
                 }
             }
+
+            logger.info("Commit changes...");
+            conn.commit();
             logger.info("Sqlite import complete");
 
         } catch (SQLException e) {
-            logger.error("Sqlite import job {} interrupted by SQLException: {}", importTableSuffix, e.toString());
+            logger.error("Sqlite import job {} interrupted by SQLException: {}", importTableSuffix);
+            logger.error("Trace: ", e);
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException e1) {
+                    // rollback failed O_o
+                    logger.error("Unable to rollback changes of interrupted import job!!");
+                }
+            }
         } finally {
             JobManager.getInstance().removeJob(jobId);
         }

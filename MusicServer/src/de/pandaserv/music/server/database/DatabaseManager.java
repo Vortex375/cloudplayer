@@ -22,7 +22,8 @@ public class DatabaseManager {
             " year INTEGER," +
             " cover VARCHAR(200)," +
             " device_path VARCHAR(800)," +
-            " lastmodified TIMESTAMP)";
+            " lastmodified TIMESTAMP," +
+            " UNIQUE (device, device_id))";
     private static final String CREATE_COVERS_TABLE =
             "CREATE CACHED TABLE Covers (" +
             " md5 VARCHAR(200) PRIMARY KEY," +
