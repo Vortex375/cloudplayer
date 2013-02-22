@@ -23,12 +23,12 @@ public class DeviceDatabase {
 
     private DeviceDatabase() {
         listDevices = new LocalPreparedStatement(""
-                + "SELECT `name`, `type`"
-                + " FROM `Devices`");
+                + "SELECT name, type"
+                + " FROM Devices");
         getDeviceProperties = new LocalPreparedStatement(""
-                + "SELECT `key`, `value`"
-                + " FROM `Attributes`"
-                + " WHERE `object`=?");
+                + "SELECT key, value"
+                + " FROM Attributes"
+                + " WHERE object=?");
     }
 
     public List<String[]> listDevices() {

@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.DispatcherType;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.EnumSet;
 import java.util.Properties;
 
@@ -39,7 +40,13 @@ public class MusicServer extends Server {
         // set up job manager
         JobManager.setup();
         // set up database
-        DatabaseManager.setup(startupConfig);
+        try {
+            DatabaseManager.setup(startupConfig);
+        } catch (SQLException e) {
+            logger.error("Unable to setup database:");
+            e.printStackTrace();
+            System.exit(1);
+        }
         // set up remote device manager
         DeviceManager.setup();
         // set up cache manager
@@ -74,9 +81,11 @@ public class MusicServer extends Server {
         MusicService service = new MusicService();
         // gwt servlet
         ServletContextHandler gwtContext = new ServletContextHandler();
-        gwtContext.setContextPath("/service/gwt");
+        // set resrouce base to web_dir, so the gwt servlet can access the serialization policy file
+        gwtContext.setResourceBase(startupConfig.getProperty("web_dir"));
+        gwtContext.setContextPath("/");
         ServletHolder gwtServletHolder = new ServletHolder(new GwtMusicServiceImpl());
-        gwtContext.addServlet(gwtServletHolder, "/");
+        gwtContext.addServlet(gwtServletHolder, "/service/gwt");
 
         // register handlers and start server
         HandlerList handlers = new HandlerList();

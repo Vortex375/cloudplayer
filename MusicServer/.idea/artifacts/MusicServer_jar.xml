@@ -18,7 +18,6 @@
         <element id="file-copy" path="$PROJECT_DIR$/lib/jetty-server.jar" />
         <element id="file-copy" path="$PROJECT_DIR$/lib/jetty-util.jar" />
         <element id="file-copy" path="$PROJECT_DIR$/lib/mina-core-2.0.4.jar" />
-        <element id="file-copy" path="$PROJECT_DIR$/lib/mysql-connector-java-5.1.22-bin.jar" />
         <element id="file-copy" path="$PROJECT_DIR$/lib/servlet-api-3.0.jar" />
         <element id="file-copy" path="$PROJECT_DIR$/lib/slf4j-api-1.7.1.jar" />
         <element id="file-copy" path="$PROJECT_DIR$/lib/slf4j-simple-1.7.1.jar" />
@@ -27,6 +26,7 @@
         <element id="file-copy" path="$PROJECT_DIR$/lib/jetty-servlet.jar" />
         <element id="file-copy" path="/opt/gwt/gwt-servlet.jar" />
         <element id="file-copy" path="$PROJECT_DIR$/lib/jetty-security.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/lib/hsqldb.jar" />
       </element>
     </root>
   </artifact>

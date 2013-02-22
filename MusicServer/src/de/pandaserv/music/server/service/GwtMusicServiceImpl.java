@@ -2,6 +2,8 @@ package de.pandaserv.music.server.service;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.pandaserv.music.shared.GwtMusicService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,4 +14,11 @@ import de.pandaserv.music.shared.GwtMusicService;
  */
 public class GwtMusicServiceImpl extends RemoteServiceServlet implements GwtMusicService {
 
+    static final Logger logger = LoggerFactory.getLogger(GwtMusicServiceImpl.class);
+
+    @Override
+    public String test() {
+        logger.info("Hello World!");
+        return "Hello World!";
+    }
 }

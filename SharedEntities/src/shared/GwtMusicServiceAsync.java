@@ -1,5 +1,7 @@
 package de.pandaserv.music.shared;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
 /**
  * Created with IntelliJ IDEA.
  * User: ich
@@ -8,4 +10,5 @@ package de.pandaserv.music.shared;
  * To change this template use File | Settings | File Templates.
  */
 public interface GwtMusicServiceAsync {
+    void test(AsyncCallback<String> cb);
 }

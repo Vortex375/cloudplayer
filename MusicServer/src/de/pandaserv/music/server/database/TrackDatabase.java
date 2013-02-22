@@ -28,16 +28,16 @@ public class TrackDatabase {
 
     private TrackDatabase() {
         getDeviceAndPath = new LocalPreparedStatement(""
-                + "SELECT `device`, `device_path`"
-                + " FROM `Devices`"
-                + " WHERE `id`=?");
+                + "SELECT device, device_path"
+                + " FROM Devices"
+                + " WHERE id=?");
         listTracks = new LocalPreparedStatement(""
-                + "SELECT `id`, `title`, `artist`, `album`"
-                + " FROM `Tracks`");
+                + "SELECT id, title, artist, album"
+                + " FROM Tracks");
         getTrackInfo = new LocalPreparedStatement(""
-                + "SELECT `id`, `device`, `title`, `artist`, `album`, `genre`, `track`, `year`, `device_path`"
-                + " FROM `Tracks`"
-                + " WHERE `id`=?");
+                + "SELECT id, device, title, artist, album, genre, track, year, device_path"
+                + " FROM Tracks"
+                + " WHERE id=?");
     }
 
     public String[] getDeviceAndPath(long id) {

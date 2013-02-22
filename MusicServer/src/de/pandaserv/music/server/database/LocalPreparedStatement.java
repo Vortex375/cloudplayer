@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  * Date: 3/28/12
  */
 class LocalPreparedStatement extends ThreadLocal<PreparedStatement> {
-    static final Logger logger = LoggerFactory.getLogger(DatabaseManager.class);
+    static final Logger logger = LoggerFactory.getLogger(LocalPreparedStatement.class);
     
     //to create all PreparedStatements (to find syntax errors)
     private final static List<LocalPreparedStatement> allLocalPreparedStatements = new LinkedList<LocalPreparedStatement>();
@@ -114,8 +114,8 @@ class LocalPreparedStatement extends ThreadLocal<PreparedStatement> {
             } else {
                 tries = 1;
             }
-            logger.warn("Failed to prepare statement. Retrying in 5 seconds ({}/{})",
-                    new Object[] {tries, MAX_RETRIES});
+            logger.warn("Failed to prepare statement: " + statement);
+            logger.warn("Retrying in 5 seconds ({}/{})", new Object[] {tries, MAX_RETRIES});
             connectionRetries.put(Thread.currentThread(), tries);
         }
 

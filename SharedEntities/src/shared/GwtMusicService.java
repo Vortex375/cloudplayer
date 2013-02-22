@@ -11,7 +11,7 @@ import com.google.gwt.core.client.GWT;
  * Time: 3:25 AM
  * To change this template use File | Settings | File Templates.
  */
-@RemoteServiceRelativePath("GwtMusicService")
 public interface GwtMusicService extends RemoteService {
+    public String test();
 
 }
