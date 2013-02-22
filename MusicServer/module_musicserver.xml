@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_musicserver" default="compile.module.musicserver">
+  <dirname property="module.musicserver.basedir" file="${ant.file.module_musicserver}"/>
+  
+  <property name="module.jdk.home.musicserver" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.musicserver" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.musicserver" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.musicserver" value="${compiler.args}"/>
+  
+  <property name="musicserver.output.dir" value="${module.musicserver.basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/build"/>
+  <property name="musicserver.testoutput.dir" value="${module.musicserver.basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/build"/>
+  
+  <path id="musicserver.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="musicserver.module.production.classpath">
+    <path refid="${module.jdk.classpath.musicserver}"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jackson-annotations-2.0.6.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jackson-core-2.0.6.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jackson-databind-2.0.6.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-continuation.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-http.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-io.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-server.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-util.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/mina-core-2.0.4.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/servlet-api-3.0.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/slf4j-api-1.7.1.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/slf4j-simple-1.7.1.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/sshd-core-0.7.0.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/simpleeventbus-1.x.jar"/>
+    <pathelement location="${basedir}/../../../../../../../opt/gwt/gwt-servlet.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-servlet.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-security.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/hsqldb.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/sqlite-jdbc-3.7.2.jar"/>
+  </path>
+  
+  <path id="musicserver.runtime.production.module.classpath">
+    <pathelement location="${musicserver.output.dir}"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jackson-annotations-2.0.6.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jackson-core-2.0.6.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jackson-databind-2.0.6.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-continuation.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-http.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-io.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-server.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-util.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/mina-core-2.0.4.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/servlet-api-3.0.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/slf4j-api-1.7.1.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/slf4j-simple-1.7.1.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/sshd-core-0.7.0.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/simpleeventbus-1.x.jar"/>
+    <pathelement location="${basedir}/../../../../../../../opt/gwt/gwt-servlet.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-servlet.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-security.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/hsqldb.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/sqlite-jdbc-3.7.2.jar"/>
+  </path>
+  
+  <path id="musicserver.module.classpath">
+    <path refid="${module.jdk.classpath.musicserver}"/>
+    <pathelement location="${musicserver.output.dir}"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jackson-annotations-2.0.6.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jackson-core-2.0.6.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jackson-databind-2.0.6.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-continuation.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-http.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-io.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-server.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-util.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/mina-core-2.0.4.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/servlet-api-3.0.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/slf4j-api-1.7.1.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/slf4j-simple-1.7.1.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/sshd-core-0.7.0.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/simpleeventbus-1.x.jar"/>
+    <pathelement location="${basedir}/../../../../../../../opt/gwt/gwt-servlet.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-servlet.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-security.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/hsqldb.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/sqlite-jdbc-3.7.2.jar"/>
+  </path>
+  
+  <path id="musicserver.runtime.module.classpath">
+    <pathelement location="${musicserver.output.dir}"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jackson-annotations-2.0.6.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jackson-core-2.0.6.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jackson-databind-2.0.6.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-continuation.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-http.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-io.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-server.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-util.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/mina-core-2.0.4.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/servlet-api-3.0.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/slf4j-api-1.7.1.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/slf4j-simple-1.7.1.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/sshd-core-0.7.0.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/simpleeventbus-1.x.jar"/>
+    <pathelement location="${basedir}/../../../../../../../opt/gwt/gwt-servlet.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-servlet.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-security.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/hsqldb.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/sqlite-jdbc-3.7.2.jar"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.musicserver">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.musicserver">
+    <patternset refid="excluded.from.module.musicserver"/>
+  </patternset>
+  
+  <path id="musicserver.module.sourcepath">
+    <dirset dir="${module.musicserver.basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.musicserver" depends="compile.module.musicserver.production,compile.module.musicserver.tests" description="Compile module MusicServer"/>
+  
+  <target name="compile.module.musicserver.production" description="Compile module MusicServer; production classes">
+    <mkdir dir="${musicserver.output.dir}"/>
+    <javac destdir="${musicserver.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.musicserver}/javac">
+      <compilerarg line="${compiler.args.musicserver}"/>
+      <bootclasspath refid="musicserver.module.bootclasspath"/>
+      <classpath refid="musicserver.module.production.classpath"/>
+      <src refid="musicserver.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.musicserver"/>
+    </javac>
+    
+    <copy todir="${musicserver.output.dir}">
+      <fileset dir="${module.musicserver.basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.musicserver.tests" depends="compile.module.musicserver.production" description="compile module MusicServer; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.musicserver" description="cleanup module">
+    <delete dir="${musicserver.output.dir}"/>
+    <delete dir="${musicserver.testoutput.dir}"/>
+  </target>
+</project>

@@ -7,12 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7bd93867-2de8-4e07-bcf9-3e56608483f4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/CommandLineImporter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/jobs/ImportJob.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/database/DatabaseManager.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/database/DatabaseManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/database/TrackDatabase.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/database/TrackDatabase.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/jobs/SqliteImportJob.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/jobs/SqliteImportJob.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/sqlite-jdbc-3.7.2.jar" />
     </list>
     <ignored path="MusicServer.iws" />
     <ignored path=".idea/workspace.xml" />
