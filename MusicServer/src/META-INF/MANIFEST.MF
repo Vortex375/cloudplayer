@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
-Class-Path: lib/hsqldb.jar lib/jackson-annotations-2.0.6.jar lib/jetty-server.jar lib/jackson-databind-2.0.6.jar lib/mina-core-2.0.4.jar lib/jetty-continuation.jar lib/servlet-api-3.0.jar lib/jetty-io.jar lib/jetty-servlet.jar lib/jetty-security.jar lib/gwt-servlet.jar lib/jackson-core-2.0.6.jar lib/jetty-util.jar lib/jetty-http.jar lib/sshd-core-0.7.0.jar lib/slf4j-simple-1.7.1.jar lib/slf4j-api-1.7.1.jar lib/simpleeventbus-1.x.jar
+Class-Path: lib/hsqldb.jar lib/sqlite-jdbc-3.7.2.jar lib/jackson-annotations-2.0.6.jar lib/jetty-server.jar lib/jackson-databind-2.0.6.jar lib/mina-core-2.0.4.jar lib/jetty-continuation.jar lib/servlet-api-3.0.jar lib/jetty-io.jar lib/jetty-servlet.jar lib/jetty-security.jar lib/gwt-servlet.jar lib/jackson-core-2.0.6.jar lib/jetty-util.jar lib/jetty-http.jar lib/sshd-core-0.7.0.jar lib/slf4j-simple-1.7.1.jar lib/slf4j-api-1.7.1.jar lib/simpleeventbus-1.x.jar
 Main-Class: de.pandaserv.music.server.Main
 

@@ -20,8 +20,14 @@ public class DatabaseManager {
             " genre VARCHAR(200)," +
             " track INTEGER," +
             " year INTEGER," +
+            " cover VARCHAR(200)," +
             " device_path VARCHAR(800)," +
             " lastmodified TIMESTAMP)";
+    private static final String CREATE_COVERS_TABLE =
+            "CREATE CACHED TABLE Covers (" +
+            " md5 VARCHAR(200) PRIMARY KEY," +
+            " length INTEGER," +
+            " mimetype VARCHAR(50))";
     private static final String CREATE_DEVICES_TABLE =
             "CREATE MEMORY TABLE Devices (" +
             " name VARCHAR(200) PRIMARY KEY," +
@@ -95,6 +101,7 @@ public class DatabaseManager {
         // check if tables exist
         // TODO: also check columns
         boolean needTracksTable = false;
+        boolean needCoversTable = false;
         boolean needUsersTable = false;
         boolean needAttributesTable = false;
         boolean needDevicesTable = false;
@@ -102,6 +109,8 @@ public class DatabaseManager {
 
         rs = stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME='TRACKS'");
         needTracksTable = !rs.next();
+        rs = stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME='COVERS'");
+        needCoversTable = !rs.next();
         rs = stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME='USERS'");
         needUsersTable = !rs.next();
         rs = stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME='ATTRIBUTES'");
@@ -112,6 +121,10 @@ public class DatabaseManager {
         if (needTracksTable) {
             logger.info("Creating table 'Tracks'");
             stmt.executeUpdate(CREATE_TRACKS_TABLE);
+        }
+        if (needCoversTable) {
+            logger.info("Creating table 'Covers'");
+            stmt.executeUpdate(CREATE_COVERS_TABLE);
         }
         if (needUsersTable) {
             logger.info("Creating table 'Users'");
