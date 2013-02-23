@@ -199,14 +199,14 @@ public class TrackDatabase {
         }
     }
 
-    public void insertCover(String md5, Blob data, int length, String mimetype) {
+    public void insertCover(String md5, byte[] data, int length, String mimetype) {
         PreparedStatement ps;
         ResultSet rs;
 
         try {
             ps = insertCover.get();
             ps.setString(1, md5);
-            ps.setBlob(2, data);
+            ps.setBytes(2, data);
             ps.setInt(3, length);
             ps.setString(4, mimetype);
 

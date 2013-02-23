@@ -21,24 +21,26 @@ public class ImportJob implements Job {
     private final String importTableSuffix;
     private boolean cancelled;
 
-    private static final String SELECT_NEW_TRACKS = "" +
-            "SELECT id, title, artist, album, genre, track, year, cover, path, lastmodified" +
-            " FROM import_tracks_%s" +
-            " WHERE id NOT IN (" +
-            "   SELECT device_id FROM Tracks WHERE device=?" +
-            " )";
-    private static final String SELECT_CHANGED_TRACKS = "" +
-            "SELECT t.id, i.title, i.artist, i.album, i.genre, i.track, i.year, i.cover, i.path, i.lastmodified" +
-            " FROM import_tracks_%s AS i" +
-            " JOIN Tracks AS t ON t.device_id=i.id" +
-            " WHERE t.device=? AND (i.lastmodified > t.lastmodified)";
+    private static final String MERGE_COVERS = "" +
+            "MERGE INTO Covers AS c" +
+            " USING import_covers_%s AS i" +
+            " ON c.md5=i.md5" +
+            " WHEN NOT MATCHED THEN INSERT (md5, data, length, mimetype)" +
+            " VALUES (i.md5, i.data, i.length, i.mimetype)";
 
-    private static final String SELECT_NEW_COVERS = "" +
-            "SELECT md5, data, length, mimetype" +
-            " FROM import_covers_%s" +
-            " WHERE md5 NOT IN (" +
-            "   SELECT md5 FROM Covers" +
-            " )";
+    private static final String MERGE_TRACKS = "" +
+            "MERGE INTO Tracks AS t" +
+            // here, we add the bogus column "device" to the import table
+            // because using a string constant in the ON clause apparently does not work
+            " USING (SELECT ? AS device, id, title, artist, album, genre, track, year, cover, path, lastmodified FROM import_tracks_%s) AS i" +
+            " ON t.device=i.device AND t.device_id=i.id" +
+            " WHEN MATCHED THEN UPDATE SET" +
+            "       t.title = i.title, t.artist = i.artist, t.album = i.album, t.genre = i.genre," +
+            "       t.track = i.track, t.year = i.year, t.cover = i.cover, " +
+            "       t.device_path = i.path, t.lastmodified = i.lastmodified" +
+            " WHEN NOT MATCHED THEN INSERT (device, device_id, title, artist, album, genre," +
+            "       track, year, cover, device_path, lastmodified)" +
+            " VALUES (i.device, i.id, i.title, i.artist, i.album, i.genre, i.track, i.year, i.cover, i.path, i.lastmodified)";
 
     private static final String DROP_TRACKS_TABLE = "" +
             "DROP TABLE import_tracks_%s";
@@ -74,86 +76,38 @@ public class ImportJob implements Job {
         try {
             TrackDatabase db = TrackDatabase.getInstance();
             conn = DatabaseManager.getInstance().getConnection();
-            conn.setAutoCommit(false);
-            PreparedStatement selectNewTracksStmt = conn.prepareStatement(String.format(SELECT_NEW_TRACKS,
-                    importTableSuffix));
-            PreparedStatement selectChangedTracksStmt = conn.prepareStatement(String.format(SELECT_CHANGED_TRACKS,
-                    importTableSuffix));
-            PreparedStatement selectNewCoversStmt = conn.prepareStatement(String.format(SELECT_NEW_COVERS,
-                    importTableSuffix));
-            ResultSet rs;
+            //conn.setAutoCommit(false);
+            PreparedStatement mergeTracksStmt = conn.prepareStatement(String.format(MERGE_TRACKS, importTableSuffix));
+            mergeTracksStmt.setString(1, device);
+            //mergeTracksStmt.setString(2, device);
+            PreparedStatement mergeCoversStmt = conn.prepareStatement(String.format(MERGE_COVERS, importTableSuffix));
 
-            selectNewTracksStmt.setString(1, device);
-            rs = selectNewTracksStmt.executeQuery();
-            logger.info("Importing new tracks...");
-            while (rs.next()) {
-                long id = rs.getLong(1);
-                String title = rs.getString(2);
-                String artist = rs.getString(3);
-                String album = rs.getString(4);
-                String genre = rs.getString(5);
-                int track = rs.getInt(6);
-                int year =  rs.getInt(7);
-                String cover = rs.getString(8);
-                String path = rs.getString(9);
-                Date lmod = rs.getDate(10);
+            logger.info("Merging tracks...");
+            int affectedRows = mergeTracksStmt.executeUpdate();
+            logger.info("Warnings during merge: {}", mergeTracksStmt.getWarnings());
+            logger.info("{} tracks merged.", affectedRows);
 
-                db.insertTrack(device, id, title, artist, album, genre, track, year, cover, path, lmod);
-            }
-            conn.commit();
-            logger.info("Importing new tracks complete.");
-
-            selectChangedTracksStmt.setString(1, device);
-            rs = selectChangedTracksStmt.executeQuery();
-            logger.info("Importing changes to existing tracks...");
-            while (rs.next()) {
-                long id = rs.getLong(1);
-                String title = rs.getString(2);
-                String artist = rs.getString(3);
-                String album = rs.getString(4);
-                String genre = rs.getString(5);
-                int track = rs.getInt(6);
-                int year =  rs.getInt(7);
-                String cover = rs.getString(8);
-                String path = rs.getString(9);
-                Date lmod = rs.getDate(10);
-
-                db.updateTrack(id, title, artist, album, genre, track, year, cover, path, lmod);
-            }
-            conn.commit();
-            logger.info("Importing changed tracks complete.");
-
-            rs = selectNewCoversStmt.executeQuery();
-            logger.info("Importing new covers...");
-            while (rs.next()) {
-                String md5 = rs.getString(1);
-                Blob data = rs.getBlob(2);
-                int length = rs.getInt(3);
-                String mimetype = rs.getString(4);
-
-                db.insertCover(md5, data, length, mimetype);
-            }
-            conn.commit();
-            logger.info("Cover import complete.");
+            logger.info("Merging covers...");
+            affectedRows = mergeCoversStmt.executeUpdate();
+            logger.info("{} covers imported.", affectedRows);
 
             logger.info("Removing temporary tables...");
             Statement dropStmt = conn.createStatement();
             dropStmt.executeUpdate(String.format(DROP_TRACKS_TABLE, importTableSuffix));
             dropStmt.executeUpdate(String.format(DROP_COVERS_TABLE, importTableSuffix));
-            conn.commit();
+            //logger.info("Committing changes...");
+            //conn.commit();
             logger.info("Import complete.");
 
         } catch (SQLException e) {
             logger.error("Import job {} interrupted by SQLException: {}", importTableSuffix);
             logger.error("Trace: ", e);
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException e1) {
-                    // rollback failed O_o
-                    logger.error("Unable to rollback changes of interrupted import job!!");
-                }
-            }
+            /*try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                // rollback failed O_o
+                logger.error("Unable to rollback changes of interrupted import job!!");
+            }*/
         } finally {
             JobManager.getInstance().removeJob(jobId);
         }

@@ -27,6 +27,7 @@ public class DatabaseManager {
     private static final String CREATE_COVERS_TABLE =
             "CREATE CACHED TABLE Covers (" +
             " md5 VARCHAR(200) PRIMARY KEY," +
+            " data LONGVARBINARY," +
             " length INTEGER," +
             " mimetype VARCHAR(50))";
     private static final String CREATE_DEVICES_TABLE =

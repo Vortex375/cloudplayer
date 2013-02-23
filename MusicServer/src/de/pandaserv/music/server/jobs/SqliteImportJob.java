@@ -38,7 +38,7 @@ public class SqliteImportJob implements Job {
     private static final String CREATE_COVERS_TABLE =
             "CREATE CACHED TABLE import_covers_%s (" +
             " md5 VARCHAR(200) PRIMARY KEY," +
-            " data BLOB," +
+            " data LONGVARBINARY," +
             " length INTEGER," +
             " mimetype VARCHAR(50))";
     private static final String INSERT_TRACK =
@@ -62,6 +62,7 @@ public class SqliteImportJob implements Job {
         this.dbPath = dbPath;
         this.importTableSuffix = importTableSuffix;
         cancelled = false;
+        state = State.INITIAL;
     }
 
     @Override
@@ -75,9 +76,9 @@ public class SqliteImportJob implements Job {
             case INITIAL:
                 return "Preparing...";
             case TRACKS:
-                return String.format("Copying tracks %d%% (%d/%d)", (position / totalRows) * 100, position, totalRows);
+                return String.format("Copying tracks %d%% (%d/%d)", (int) ((position / (double) totalRows) * 100), position, totalRows);
             case COVERS:
-                return String.format("Copying covers %d%% (%d/%d)", (position / totalRows) * 100, position, totalRows);
+                return String.format("Copying covers %d%% (%d/%d)", (int) ((position / (double) totalRows) * 100), position, totalRows);
         }
         return "...";
     }
@@ -148,7 +149,7 @@ public class SqliteImportJob implements Job {
                     position++;
                 }
             }
-            logger.info("Commit changes...");
+            logger.info("Committing changes...");
             conn.commit();
             logger.info("Copy tracks complete.");
 
@@ -164,37 +165,51 @@ public class SqliteImportJob implements Job {
             logger.info("Copying {} covers...", totalRows);
             while (rs.next()) {
                 String md5 = rs.getString(1);
-                Blob data = rs.getBlob(2);
+                byte[] data = rs.getBytes(2);
                 int length = rs.getInt(3);
                 String mimetype = rs.getString(4);
 
                 coverStmt.setString(1, md5);
-                coverStmt.setBlob(2, data);
+                coverStmt.setBytes(2, data);
                 coverStmt.setInt(3, length);
                 coverStmt.setString(4, mimetype);
                 coverStmt.executeUpdate();
 
                 synchronized (this) {
                     position++;
+                    /*if (position % 100 == 0) {
+                        // call commit every 100 rows
+                        // to balance speed and memory consumption
+                        conn.commit();
+                        logger.info("commit...");
+                    }*/
                 }
             }
 
-            logger.info("Commit changes...");
+            logger.info("Committing changes...");
             conn.commit();
             logger.info("Sqlite import complete.");
 
         } catch (SQLException e) {
             logger.error("Sqlite import job {} interrupted by SQLException: {}", importTableSuffix);
             logger.error("Trace: ", e);
-            if (conn != null) {
+            /*if (conn != null) {
                 try {
                     conn.rollback();
                 } catch (SQLException e1) {
                     // rollback failed O_o
                     logger.error("Unable to rollback changes of interrupted import job!!");
                 }
-            }
+            }*/
         } finally {
+            try {
+                conn.setAutoCommit(true);
+            } catch (SQLException e) {
+                try {
+                    conn.close();
+                } catch (SQLException e1) {}
+                logger.error("Unable to set autocommit status!!");
+            }
             JobManager.getInstance().removeJob(jobId);
         }
     }
