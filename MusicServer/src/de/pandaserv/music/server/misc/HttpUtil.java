@@ -1,4 +1,4 @@
-package de.pandaserv.music.server.service;
+package de.pandaserv.music.server.misc;
 
 import org.eclipse.jetty.server.Request;
 

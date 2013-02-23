@@ -156,19 +156,21 @@ public class CacheManager {
 
 
         try {
-            // try direct access
+            /*// try direct access
             //TODO: unused
             InputStream ret;
             ret = entry.getDirectAccess();
             if (ret != null) {
                 return ret;
-            }
+            }*/
 
             // use file from cache
             File f = new File(cacheDir.getAbsolutePath() + "/" + id);
             return new FileInputStream(f);
         } catch (IOException e) {
             logger.error("IOException while opening input stream for " + id);
+            // invalidate the cache entry for this file
+            entry.setStatus(FileStatus.FAILED);
             throw e;
         }
     }

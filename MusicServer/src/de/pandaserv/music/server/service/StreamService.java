@@ -4,6 +4,7 @@ import de.pandaserv.music.server.cache.CacheManager;
 import de.pandaserv.music.server.cache.FileStatus;
 import de.pandaserv.music.server.jobs.Job;
 import de.pandaserv.music.server.jobs.JobManager;
+import de.pandaserv.music.server.misc.HttpUtil;
 import org.eclipse.jetty.http.HttpMethods;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
@@ -185,7 +186,14 @@ public class StreamService extends AbstractHandler {
             rangeEnd = length - 1;
         }
 
-        InputStream inStream = CacheManager.getInstance().getInputStream(id);
+        InputStream inStream;
+        try {
+            inStream = CacheManager.getInstance().getInputStream(id);
+        } catch (IOException e) {
+            logger.error("Unable to get input stream for {}", id);
+            HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "Unable to open input stream", baseRequest, response);
+            return;
+        }
         OutputStream outStream = response.getOutputStream();
 
         // setHeaders

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import de.pandaserv.music.server.data.Track;
 import de.pandaserv.music.server.data.TrackDetail;
 import de.pandaserv.music.server.database.TrackDatabase;
+import de.pandaserv.music.server.misc.HttpUtil;
 import org.eclipse.jetty.http.HttpMethods;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
