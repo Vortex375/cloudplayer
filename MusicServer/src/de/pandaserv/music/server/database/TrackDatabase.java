@@ -31,7 +31,7 @@ public class TrackDatabase {
     private TrackDatabase() {
         getDeviceAndPath = new LocalPreparedStatement(""
                 + "SELECT device, device_path"
-                + " FROM Devices"
+                + " FROM Tracks"
                 + " WHERE id=?");
         listTracks = new LocalPreparedStatement(""
                 + "SELECT id, title, artist, album"

@@ -26,6 +26,7 @@ public class PrepareJob implements Job {
     private final Device device;
     private final String path;
     private final File outputFile;
+    private long startTime;
 
     private boolean canceled = false;
 
@@ -53,6 +54,8 @@ public class PrepareJob implements Job {
 
     @Override
     public void run() {
+        startTime = System.currentTimeMillis();
+        logger.info("Downloading {} from {} to {}", path, device, outputFile.getAbsolutePath());
         final long jobId = JobManager.getInstance().addJob(this);
         try {
             try {
@@ -82,10 +85,12 @@ public class PrepareJob implements Job {
                 return;
             }
 
+            logger.info("Download completed sucessfully.");
             CacheManager.getInstance().prepareComplete(id);
 
         } finally {
             JobManager.getInstance().removeJob(jobId);
+            logger.info("PrepareJob finished for {} (took {}ms)", id, (System.currentTimeMillis() - startTime));
         }
     }
 }

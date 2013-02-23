@@ -11,4 +11,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface GwtMusicServiceAsync {
     void test(AsyncCallback<String> cb);
+
+    void prepare(long id, AsyncCallback<Void> async);
 }

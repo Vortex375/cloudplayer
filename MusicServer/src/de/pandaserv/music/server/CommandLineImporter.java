@@ -1,16 +1,18 @@
 package de.pandaserv.music.server;
 
 import de.pandaserv.music.server.database.DatabaseManager;
-import de.pandaserv.music.server.jobs.ImportJob;
+import de.pandaserv.music.server.database.ImportJob;
 import de.pandaserv.music.server.jobs.Job;
 import de.pandaserv.music.server.jobs.JobManager;
-import de.pandaserv.music.server.jobs.SqliteImportJob;
+import de.pandaserv.music.server.database.SqliteImportJob;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.Map;
 import java.util.Properties;
 
@@ -94,9 +96,17 @@ public class CommandLineImporter {
         JobManager.setup();
         DatabaseManager.setup(startupConfig);
 
+        // get command line arguments
         String device = args[0];
         String dbPath = args[1];
         String tableSuffix = device + "_" + System.currentTimeMillis();
+
+        // prepare the database
+        logger.info("Preparing database for bulk insert...");
+        Connection conn = DatabaseManager.getInstance().getConnection();
+        Statement stmt = conn.createStatement();
+        stmt.executeUpdate("SET FILES LOG FALSE");
+        stmt.executeUpdate("CHECKPOINT");
 
         ProgressOutput progressOutput = new ProgressOutput();
         SqliteImportJob sqliteImport = new SqliteImportJob(dbPath, tableSuffix);
@@ -105,9 +115,15 @@ public class CommandLineImporter {
         sqliteImport.run();
         progressOutput.finish(); // import job has no interesting progress output :-(
         logger.info("Sqlite import finished.");
+
         ImportJob importJob = new ImportJob(device, tableSuffix);
         logger.info("Running import job...");
         importJob.run();
+
+        logger.info("Performing cleanup operations...");
+        stmt.executeUpdate("SET FILES LOG TRUE");
+        stmt.executeUpdate("CHECKPOINT DEFRAG");
+
         logger.info("Import finished.");
     }
 }

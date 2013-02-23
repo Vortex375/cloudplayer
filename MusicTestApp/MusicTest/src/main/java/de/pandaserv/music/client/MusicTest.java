@@ -62,6 +62,20 @@ public class MusicTest implements EntryPoint {
                       JSUtil.log("call successful: " + s);
                   }
               });
+              long id = Long.parseLong(Dictionary.getDictionary("startupConfig").get("prepareId"));
+              JSUtil.log("preparing file " + id);
+              service.prepare(id, new AsyncCallback<Void>() {
+                  @Override
+                  public void onFailure(Throwable throwable) {
+                      JSUtil.log("prepare failed: " + throwable.toString());
+                  }
+
+                  @Override
+                  public void onSuccess(Void aVoid) {
+                      JSUtil.log("prepare successful:");
+                  }
+              });
+
           }
       }.schedule(500);
   }

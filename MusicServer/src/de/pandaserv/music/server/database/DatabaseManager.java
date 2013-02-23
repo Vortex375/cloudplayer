@@ -160,6 +160,8 @@ public class DatabaseManager {
         if (needDevicesTable) {
             logger.info("Creating table 'Devices'");
             stmt.executeUpdate(CREATE_DEVICES_TABLE);
+            logger.info("Adding default device for local file access (name=\"local\", type=\"local\")");
+            DeviceDatabase.getInstance().addDevice("local", "local", false);
         }
         logger.info("Database setup complete.");
     }

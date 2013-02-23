@@ -14,4 +14,5 @@ import com.google.gwt.core.client.GWT;
 public interface GwtMusicService extends RemoteService {
     public String test();
 
+    public void prepare(long id);
 }

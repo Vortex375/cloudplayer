@@ -14,6 +14,7 @@ public class DeviceDatabase {
     static final Logger logger = LoggerFactory.getLogger(DeviceDatabase.class);
     private final LocalPreparedStatement listDevices;
     private final LocalPreparedStatement getDeviceProperties;
+    private final LocalPreparedStatement addDevice;
     // Singleton
     private static final DeviceDatabase ourInstance = new DeviceDatabase();
 
@@ -29,6 +30,10 @@ public class DeviceDatabase {
                 + "SELECT key, value"
                 + " FROM Attributes"
                 + " WHERE object=?");
+        addDevice = new LocalPreparedStatement("" +
+                "INSERT INTO Devices" +
+                " (name, type, cache)" +
+                " VALUES (?,?,?)");
     }
 
     public List<String[]> listDevices() {
@@ -75,5 +80,21 @@ public class DeviceDatabase {
         }
 
         return ret;
+    }
+
+    public void addDevice(String name, String type, boolean needsPrepare) {
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+            ps = addDevice.get();
+            ps.setString(1, name);
+            ps.setString(2, type);
+            ps.setBoolean(3, needsPrepare);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            logger.warn("SQL Exception in listDevices():");
+            e.printStackTrace();
+        }
     }
 }

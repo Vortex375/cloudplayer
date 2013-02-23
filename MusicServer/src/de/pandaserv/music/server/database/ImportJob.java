@@ -1,7 +1,7 @@
-package de.pandaserv.music.server.jobs;
+package de.pandaserv.music.server.database;
 
-import de.pandaserv.music.server.database.DatabaseManager;
-import de.pandaserv.music.server.database.TrackDatabase;
+import de.pandaserv.music.server.jobs.Job;
+import de.pandaserv.music.server.jobs.JobManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,6 +1,7 @@
 package de.pandaserv.music.server.service;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import de.pandaserv.music.server.cache.CacheManager;
 import de.pandaserv.music.shared.GwtMusicService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,5 +21,10 @@ public class GwtMusicServiceImpl extends RemoteServiceServlet implements GwtMusi
     public String test() {
         logger.info("Hello World!");
         return "Hello World!";
+    }
+
+    @Override
+    public void prepare(long id) {
+        CacheManager.getInstance().prepare(id);
     }
 }

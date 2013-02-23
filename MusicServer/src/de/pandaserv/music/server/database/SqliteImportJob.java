@@ -1,6 +1,7 @@
-package de.pandaserv.music.server.jobs;
+package de.pandaserv.music.server.database;
 
-import de.pandaserv.music.server.database.DatabaseManager;
+import de.pandaserv.music.server.jobs.Job;
+import de.pandaserv.music.server.jobs.JobManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -100,7 +101,6 @@ public class SqliteImportJob implements Job {
             Statement sqliteStmt= sqliteConn.createStatement();
 
             conn = DatabaseManager.getInstance().getConnection();
-            conn.setAutoCommit(false);
             Statement stmt = conn.createStatement();
 
             logger.info("Creating import tables...");
@@ -149,8 +149,6 @@ public class SqliteImportJob implements Job {
                     position++;
                 }
             }
-            logger.info("Committing changes...");
-            conn.commit();
             logger.info("Copy tracks complete.");
 
             rs = sqliteStmt.executeQuery("SELECT COUNT(*) FROM covers;");
@@ -177,39 +175,15 @@ public class SqliteImportJob implements Job {
 
                 synchronized (this) {
                     position++;
-                    /*if (position % 100 == 0) {
-                        // call commit every 100 rows
-                        // to balance speed and memory consumption
-                        conn.commit();
-                        logger.info("commit...");
-                    }*/
                 }
             }
 
-            logger.info("Committing changes...");
-            conn.commit();
             logger.info("Sqlite import complete.");
 
         } catch (SQLException e) {
             logger.error("Sqlite import job {} interrupted by SQLException: {}", importTableSuffix);
             logger.error("Trace: ", e);
-            /*if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException e1) {
-                    // rollback failed O_o
-                    logger.error("Unable to rollback changes of interrupted import job!!");
-                }
-            }*/
         } finally {
-            try {
-                conn.setAutoCommit(true);
-            } catch (SQLException e) {
-                try {
-                    conn.close();
-                } catch (SQLException e1) {}
-                logger.error("Unable to set autocommit status!!");
-            }
             JobManager.getInstance().removeJob(jobId);
         }
     }
