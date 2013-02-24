@@ -15,4 +15,10 @@ public interface GwtMusicService extends RemoteService {
     public String test();
 
     public void prepare(long id);
+
+    // query methods
+    public TrackDetail[] trackQuerySimple(String query);
+
+    public Track getTrackInfo(long id);
+    public FileStatus getStatus(long id);
 }

@@ -1,5 +1,6 @@
-package de.pandaserv.music.server.data;
+package de.pandaserv.music.shared;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Date;
  *
  * Contains all information on a track in the database
  */
-public class Track {
+public class Track implements Serializable {
     private long id;
     private String device;
     private String title;

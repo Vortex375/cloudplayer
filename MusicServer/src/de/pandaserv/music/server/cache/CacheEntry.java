@@ -1,6 +1,7 @@
 package de.pandaserv.music.server.cache;
 
 import de.pandaserv.music.server.devices.Device;
+import de.pandaserv.music.shared.FileStatus;
 
 import java.io.IOException;
 import java.io.InputStream;

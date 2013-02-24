@@ -2,12 +2,20 @@ package de.pandaserv.music.client.presenters;
 
 import com.google.gwt.dom.client.AudioElement;
 import com.google.gwt.dom.client.MediaElement;
+import com.google.gwt.media.client.Audio;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.sun.script.javascript.JSAdapter;
+import de.pandaserv.music.client.MusicTest;
 import de.pandaserv.music.client.audio.AudioSystem;
+import de.pandaserv.music.client.misc.JSUtil;
 import de.pandaserv.music.client.views.MusicTestView;
 import de.pandaserv.music.client.misc.NotSupportedException;
 import de.pandaserv.music.client.misc.PlaybackStatus;
+import de.pandaserv.music.shared.FileStatus;
+import de.pandaserv.music.shared.Track;
+import de.pandaserv.music.shared.TrackDetail;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,6 +29,10 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
     private AudioElement audioElement;
     private AudioSystem audioSystem;
     private long streamId;
+    private long watchId;
+    private long[] queryResultIds;
+    private Timer watchTimer;
+    private boolean audioSystemConnected;
 
     //private Timer debugTimer;
 
@@ -32,12 +44,17 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
     public MusicTestPresenter(final MusicTestView view) {
         this.view = view;
 
-        audioElement = view.getAudioElement();
+        Audio audio = Audio.createIfSupported();
+        if (audio != null) {
+            audioElement = audio.getAudioElement();
+        } else {
+            audioElement = null;
+        }
 
-        Timer debugTimer = new Timer() {
+        watchTimer = new Timer() {
             @Override
             public void run() {
-                updateDebug();
+                checkFileStatus();
             }
         };
 
@@ -46,18 +63,25 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
             view.showError(true);
         } else {
             try {
-                audioSystem = new AudioSystem(audioElement);
+                audioSystem = new AudioSystem();
                 audioSystem.addVisDataHandler(new AudioSystem.VisDataHandler() {
                     @Override
                     public void onVisDataUpdate(int[] data) {
                         view.setVisData(data);
                     }
                 });
+                audioSystem.setMediaElement(audioElement);
+                /*new Timer() {
+                    @Override
+                    public void run() {
+                        audioSystem.setMediaElement(audioElement);
+                    }
+                }.schedule(50);*/
             } catch (NotSupportedException e) {
                 audioSystem = null;
             }
 
-            audioElement.setAutoplay(false);
+            //audioElement.setAutoplay(false);
             bind(audioElement);
             //debugTimer.scheduleRepeating(250);
         }
@@ -79,14 +103,58 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
         });
     }-*/;
 
-    public void setStreamId(long id) {
+    public void setStreamId(final long id) {
         this.streamId = id;
-        audioElement.setSrc(SERVICE_URL + id);
-        audioElement.setPreload(MediaElement.PRELOAD_AUTO);
+        audioSystem.disconnect();
+        audioElement.setSrc("");
+        audioElement.pause();
         audioElement.load();
+        /*
+         * Create a new audio element !!
+         * This _should_ not be necessary but it is needed
+         * to work around an audio playback bug
+         */
+        audioElement = Audio.createIfSupported().getAudioElement();
+        bind(audioElement); //TODO: unbind old element?
+        audioSystem.setMediaElement(audioElement);
+        audioElement.setSrc(SERVICE_URL + id);
+        audioElement.pause();
+        audioElement.load();
+        audioSystem.connect();
+        //audioElement.setCurrentTime(0);
+
+        MusicTest.getService().getTrackInfo(id, new AsyncCallback<Track>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+
+            }
+
+            @Override
+            public void onSuccess(Track track) {
+                view.setCurrentTrackInfo(track);
+            }
+        });
     }
 
+    private void checkFileStatus() {
+        watchTimer.cancel();
+        MusicTest.getService().getStatus(watchId, new AsyncCallback<FileStatus>() {
+            @Override
+            public void onFailure(Throwable throwable) {
 
+            }
+
+            @Override
+            public void onSuccess(FileStatus fileStatus) {
+                if (fileStatus == FileStatus.PREPARED) {
+                    setStreamId(watchId);
+                    audioElement.play();
+                } else {
+                    watchTimer.schedule(500);
+                }
+            }
+        });
+    }
 
     private void updateDebug() {
         String readyState;
@@ -139,6 +207,41 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
         } else {
             audioElement.play();
         }
+    }
+
+    @Override
+    public void newSearchQuery() {
+        MusicTest.getService().trackQuerySimple(view.getSearchQuery(), new AsyncCallback<TrackDetail[]>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+                view.showError(true);
+                view.setErrorMessage("search query failed");
+            }
+
+            @Override
+            public void onSuccess(TrackDetail[] results) {
+                queryResultIds = new long[results.length];
+                for (int i = 0; i < results.length; i++) {
+                    queryResultIds[i] = results[i].getId();
+                }
+                view.setSearchResults(results);
+            }
+        });
+    }
+
+    @Override
+    public void onSearchResultClicked(int index) {
+        watchId = queryResultIds[index];
+        MusicTest.getService().prepare(watchId, new AsyncCallback<Void>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+            }
+
+            @Override
+            public void onSuccess(Void aVoid) {
+            }
+        });
+        checkFileStatus();
     }
 
     @Override

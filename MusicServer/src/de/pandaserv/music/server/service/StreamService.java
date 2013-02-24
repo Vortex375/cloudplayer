@@ -1,7 +1,7 @@
 package de.pandaserv.music.server.service;
 
 import de.pandaserv.music.server.cache.CacheManager;
-import de.pandaserv.music.server.cache.FileStatus;
+import de.pandaserv.music.shared.FileStatus;
 import de.pandaserv.music.server.jobs.Job;
 import de.pandaserv.music.server.jobs.JobManager;
 import de.pandaserv.music.server.misc.HttpUtil;

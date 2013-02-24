@@ -2,6 +2,7 @@ package de.pandaserv.music.client.audio;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.MediaElement;
 import com.google.gwt.user.client.Timer;
 import com.google.web.bindery.event.shared.HandlerRegistration;
@@ -55,8 +56,9 @@ public class AudioSystem {
         public void onVisDataUpdate(int[] data);
     }
 
-    private MediaElement mediaElement;
+    private Element mediaElement;
     private JavaScriptObject audioContext;
+    private boolean connected;
 
     /* Visualization stuff */
     private static final int FFT_SIZE = 512;
@@ -72,8 +74,7 @@ public class AudioSystem {
     private double[] scale;                     /* logarithmic scale for transformation from FFT output -> vis bars */
     private boolean haveScale;
 
-    public AudioSystem(MediaElement mediaElement) throws NotSupportedException {
-        this.mediaElement = mediaElement;
+    public AudioSystem() throws NotSupportedException {
 
         visDataTimer = new Timer() {
             @Override
@@ -92,20 +93,12 @@ public class AudioSystem {
             GWT.log("Web Audio API not supported");
             throw new NotSupportedException();
         }
-        /*
-         * delay connecting the audio nodes
-         * as a workaround to http://crbug.com/112368
-         */
-        new Timer() {
-            @Override
-            public void run() {
-                start();
-            }
-        }.schedule(1);
+        mediaElement = null;
+        connected = false;
     }
 
-    void start() {
-        setup(audioContext, mediaElement);
+    public void setMediaElement(final MediaElement mediaElement) {
+        this.mediaElement = mediaElement;
     }
 
     private native JavaScriptObject createContext()/*-{
@@ -120,15 +113,15 @@ public class AudioSystem {
 
     }-*/;
 
-    private native void setup(JavaScriptObject context, MediaElement element) /*-{
+    private native void setup(JavaScriptObject context, Element element) /*-{
         console.log("creating and connecting audio nodes");
-        var sourceNode = context.createMediaElementSource(element);
-        var analyserNode = context.createScriptProcessor(512); // FFT_SIZE
+        $wnd.audioSystemSourceNode = context.createMediaElementSource(element);
+        $wnd.audioSystemAnalyserNode = context.createScriptProcessor(512); // FFT_SIZE
         // prepare arrays to store sample data for visualization
        // $wnd.vis_left_channel = new Float32Array(512);
         //$wnd.vis_right_channel = new Float32Array(512);
-        analyserNode.onaudioprocess = function (event) {
-            //console.log("begin onaudioprocess");
+        $wnd.audioSystemAnalyserNode.onaudioprocess = function (event) {
+            //console.log("onaudioprocess");
             try {
                 if ($wnd.vis_left_channel === undefined || $wnd.vis_right_channel === undefined) {
                     $wnd.vis_left_channel = event.inputBuffer.getChannelData(0);
@@ -140,10 +133,33 @@ public class AudioSystem {
             }
         };
 
-        sourceNode.connect(context.destination);
-        sourceNode.connect(analyserNode);
-        analyserNode.connect(context.destination); // need to connect to destination or no audio is processed. BUG?
+        $wnd.audioSystemSourceNode.connect(context.destination);
+        $wnd.audioSystemSourceNode.connect($wnd.audioSystemAnalyserNode);
+        $wnd.audioSystemAnalyserNode.connect(context.destination); // need to connect to destination or no audio is processed. BUG?
         console.log("audio setup complete");
+    }-*/;
+
+
+    public void connect() {
+        setup(audioContext, mediaElement);
+        connected = true;
+    }
+
+    public void disconnect() {
+        if (connected) {
+            doDisconnect();
+            connected = false;
+        }
+    }
+
+    public native void doDisconnect() /*-{
+        console.log("disconnecting source");
+        $wnd.audioSystemSourceNode.disconnect();
+        $wnd.audioSystemAnalyserNode.disconnect();
+        // make sure the old analyser node does not collect data anymore
+        $wnd.audioSystemAnalyserNode.onaudioprocess = undefined;
+        $wnd.vis_left_channel = undefined;
+        $wnd.vis_right_channel = undefined;
     }-*/;
 
     public void startCollectVisData() {

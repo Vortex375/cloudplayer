@@ -14,11 +14,13 @@
                 </b:Row>
 
                 <b:Row addStyleNames="styled-row">
-                    <b:NavList ui:field="sampleTracksList">
-                        <b:NavHeader>Sample Tracks</b:NavHeader>
-                        <b:NavLink>Track 1</b:NavLink>
-                        <b:NavLink>Track 2</b:NavLink>
-                    </b:NavList>
+                    <b:Form type="SEARCH">
+                        <b:InputAddOn prependIcon="SEARCH">
+                            <b:TextBox ui:field="searchBox" placeholder="Type here to find tracks..."/>
+                        </b:InputAddOn>
+                        <b:Button ui:field="searchButton">Search</b:Button>
+                        <g:FlexTable ui:field="searchResults" addStyleNames="fullWidth"/>
+                    </b:Form>
                 </b:Row>
 
                 <b:Row addStyleNames="strut">

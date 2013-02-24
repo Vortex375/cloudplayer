@@ -2,8 +2,8 @@ package de.pandaserv.music.server.service;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
-import de.pandaserv.music.server.data.Track;
-import de.pandaserv.music.server.data.TrackDetail;
+import de.pandaserv.music.shared.Track;
+import de.pandaserv.music.shared.TrackDetail;
 import de.pandaserv.music.server.database.TrackDatabase;
 import de.pandaserv.music.server.misc.HttpUtil;
 import org.eclipse.jetty.http.HttpMethods;

@@ -2,13 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.pandaserv.music.server.cache;
+package de.pandaserv.music.shared;
+
+import java.io.Serializable;
 
 /**
  *
  * @author ich
  */
-public enum FileStatus {
+public enum FileStatus implements Serializable {
     NOT_PREPARED,
     PREPARING,
     PREPARED,

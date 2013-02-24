@@ -1,7 +1,7 @@
 package de.pandaserv.music.server.database;
 
-import de.pandaserv.music.server.data.Track;
-import de.pandaserv.music.server.data.TrackDetail;
+import de.pandaserv.music.shared.Track;
+import de.pandaserv.music.shared.TrackDetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,13 +13,16 @@ public class TrackDatabase {
 
     static final Logger logger = LoggerFactory.getLogger(TrackDatabase.class);
 
-    private final LocalPreparedStatement getDeviceAndPath;
-    private final LocalPreparedStatement listTracks;
-    private final LocalPreparedStatement getTrackInfo;
     private final LocalPreparedStatement insertTrack;
     private final LocalPreparedStatement updateTrack;
     private final LocalPreparedStatement insertCover;
     private final LocalPreparedStatement cleanupCovers;
+
+    // Query statements
+    private final LocalPreparedStatement getDeviceAndPath;
+    private final LocalPreparedStatement listTracks;
+    private final LocalPreparedStatement getTrackInfo;
+    private final LocalPreparedStatement trackQuerySimple;
 
     // Singleton
     private static final TrackDatabase ourInstance = new TrackDatabase();
@@ -29,17 +32,6 @@ public class TrackDatabase {
     }
 
     private TrackDatabase() {
-        getDeviceAndPath = new LocalPreparedStatement(""
-                + "SELECT device, device_path"
-                + " FROM Tracks"
-                + " WHERE id=?");
-        listTracks = new LocalPreparedStatement(""
-                + "SELECT id, title, artist, album"
-                + " FROM Tracks");
-        getTrackInfo = new LocalPreparedStatement(""
-                + "SELECT id, device, title, artist, album, genre, track, year, device_path"
-                + " FROM Tracks"
-                + " WHERE id=?");
         insertTrack = new LocalPreparedStatement("" +
                 "INSERT INTO Tracks" +
                 " (device, device_id, title, artist, album, genre, track, year, cover, device_path, lastmodified)" +
@@ -67,6 +59,22 @@ public class TrackDatabase {
                 " WHERE md5 NOT IN (" +
                 "   SELECT DISTINCT cover FROM Tracks" +
                 "   )");
+        getDeviceAndPath = new LocalPreparedStatement(""
+                + "SELECT device, device_path"
+                + " FROM Tracks"
+                + " WHERE id=?");
+        listTracks = new LocalPreparedStatement(""
+                + "SELECT id, title, artist, album"
+                + " FROM Tracks");
+        getTrackInfo = new LocalPreparedStatement(""
+                + "SELECT id, device, title, artist, album, genre, track, year, device_path"
+                + " FROM Tracks"
+                + " WHERE id=?");
+        trackQuerySimple = new LocalPreparedStatement("" +
+                "SELECT id, title, artist, album" +
+                " FROM Tracks" +
+                " WHERE LOWER(title) LIKE LOWER(?) OR LOWER(artist) LIKE LOWER(?) or LOWER(album) LIKE LOWER(?) or LOWER(device_path) LIKE LOWER(?)" +
+                " ORDER BY device_path");
     }
 
     public String[] getDeviceAndPath(long id) {
@@ -117,12 +125,43 @@ public class TrackDatabase {
         }
     }
 
+    public List<TrackDetail> trackQuerySimple(String query) {
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+            ps = trackQuerySimple.get();
+            query = "%" + query + "%"; // wildcard match
+            ps.setString(1, query);
+            ps.setString(2, query);
+            ps.setString(3, query);
+            ps.setString(4, query);
+            rs = ps.executeQuery();
+
+            LinkedList<TrackDetail> ret = new LinkedList<>();
+
+            while(rs.next()) {
+                long id = rs.getLong(1);
+                String title = rs.getString(2);
+                String artist = rs.getString(3);
+                String album = rs.getString(4);
+                ret.add(new TrackDetail(id, title, artist, album));
+            }
+
+            return ret;
+        } catch (SQLException e) {
+            logger.warn("SQL Exception in trackQuerySimple():");
+            e.printStackTrace();
+            return new LinkedList<>();
+        }
+    }
+
     public Track getTrackInfo(long id) {
         PreparedStatement ps;
         ResultSet rs;
 
         try {
-            ps = listTracks.get();
+            ps = getTrackInfo.get();
             ps.setLong(1, id);
             rs = ps.executeQuery();
 

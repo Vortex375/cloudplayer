@@ -13,4 +13,11 @@ public interface GwtMusicServiceAsync {
     void test(AsyncCallback<String> cb);
 
     void prepare(long id, AsyncCallback<Void> async);
+
+    // query methods
+    void trackQuerySimple(String query, AsyncCallback<TrackDetail[]> async);
+
+    void getTrackInfo(long id, AsyncCallback<Track> async);
+
+    void getStatus(long id, AsyncCallback<FileStatus> async);
 }

@@ -22,6 +22,10 @@ public class MusicTest implements EntryPoint {
     //TODO: testing only
     private static final GwtMusicServiceAsync service = GWT.create(GwtMusicService.class);
 
+    public static GwtMusicServiceAsync getService() {
+        return service;
+    }
+
   /**
    * This is the entry point method.
    */
@@ -43,7 +47,7 @@ public class MusicTest implements EntryPoint {
 
       view.setPresenter(presenter);
       Dictionary startupConfig = Dictionary.getDictionary("startupConfig");
-      presenter.setStreamId(Integer.parseInt(startupConfig.get("demoStreamId")));
+      //presenter.setStreamId(Integer.parseInt(startupConfig.get("demoStreamId")));
 
       RootPanel.get().add(view);
 

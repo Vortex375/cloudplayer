@@ -2,6 +2,8 @@ package de.pandaserv.music.client.views;
 
 import com.google.gwt.dom.client.AudioElement;
 import de.pandaserv.music.client.misc.PlaybackStatus;
+import de.pandaserv.music.shared.Track;
+import de.pandaserv.music.shared.TrackDetail;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,11 +16,17 @@ public interface MusicTestView {
     public interface Presenter {
         void playToggle();
 
+        void newSearchQuery();
+        void onSearchResultClicked(int index);
+
         void seekTo(double seconds);
     }
 
     void showError(boolean show);
     void setErrorMessage(String message);
+
+    void setSearchResults(TrackDetail[] results);
+    void setCurrentTrackInfo(Track track);
 
     void setDuration(double seconds);
     void setTime(double seconds);
@@ -27,7 +35,7 @@ public interface MusicTestView {
 
     void setDebugString(String debug);
 
-    AudioElement getAudioElement();
+    String getSearchQuery();
 
     void setPresenter(Presenter presenter);
 }

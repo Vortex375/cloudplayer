@@ -2,9 +2,15 @@ package de.pandaserv.music.server.service;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.pandaserv.music.server.cache.CacheManager;
+import de.pandaserv.music.server.database.TrackDatabase;
+import de.pandaserv.music.shared.FileStatus;
 import de.pandaserv.music.shared.GwtMusicService;
+import de.pandaserv.music.shared.Track;
+import de.pandaserv.music.shared.TrackDetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,4 +33,32 @@ public class GwtMusicServiceImpl extends RemoteServiceServlet implements GwtMusi
     public void prepare(long id) {
         CacheManager.getInstance().prepare(id);
     }
+
+    @Override
+    public TrackDetail[] trackQuerySimple(String query) {
+        query = query.trim();
+        if (query.length() < 3) {
+            // reject very short queries
+            return new TrackDetail[0];
+        }
+        List<TrackDetail> list = TrackDatabase.getInstance().trackQuerySimple(query);
+        if (list == null) {
+            // exception in query - this shouldn't normally happen
+            // return empty result
+            return new TrackDetail[0];
+        }
+
+        return list.toArray(new TrackDetail[list.size()]);
+    }
+
+    @Override
+    public Track getTrackInfo(long id) {
+        return TrackDatabase.getInstance().getTrackInfo(id);
+    }
+
+    @Override
+    public FileStatus getStatus(long id) {
+        return CacheManager.getInstance().getStatus(id);
+    }
+
 }

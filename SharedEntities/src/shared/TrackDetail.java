@@ -1,11 +1,13 @@
-package de.pandaserv.music.server.data;
+package de.pandaserv.music.shared;
+
+import java.io.Serializable;
 
 /**
  * Track Detail Data Object
  *
  * Contains compact information on a track
  */
-public class TrackDetail {
+public class TrackDetail implements Serializable {
     private long id;
     private String title;
     private String artist;

@@ -7,6 +7,7 @@ import de.pandaserv.music.server.devices.DeviceManager;
 import de.pandaserv.music.server.events.PrepareCompleteEvent;
 import de.pandaserv.music.server.events.PrepareFailedEvent;
 import de.pandaserv.music.server.misc.StringUtil;
+import de.pandaserv.music.shared.FileStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +27,10 @@ public class CacheManager {
     private class CacheMap extends HashMap<Long, CacheEntry> {
         @Override
         public CacheEntry put(Long key, CacheEntry value) {
+            if (containsKey(key)) {
+                // remove size of previous entry
+                currentCacheSize -= get(key).getSize();
+            }
             currentCacheSize += value.getSize();
             return super.put(key, value);
         }
@@ -81,9 +86,9 @@ public class CacheManager {
         priorityQueue = new LinkedList<>();
         transcodeCommand = config.getProperty("transcode_cmd");
 
-        // prepare at most five files simultaneously
+        // prepare at most three files simultaneously
         //TODO: make configurable
-        executorService = Executors.newFixedThreadPool(5);
+        executorService = Executors.newFixedThreadPool(3);
 
         // prepare cache directory
         String cachePath = config.getProperty("cache_dir");
@@ -175,20 +180,22 @@ public class CacheManager {
         }
     }
     
-    public void prepare(long id) {
+    public synchronized void prepare(long id) {
+        // clean up cache if necessary
+        cacheCleanup();
         if (cacheMap.containsKey(id)) {
             priorityQueue.removeFirstOccurrence(id);
             priorityQueue.addFirst(id);
            CacheEntry entry = cacheMap.get(id);
            if (entry.getStatus() == FileStatus.PREPARING || entry.getStatus() == FileStatus.PREPARED) {
-               // preparation is already in-progress or complete
+               // preparation is already in progress or complete
                logger.info("{} is already prepared", id);
                return;
            }
         } else {
             priorityQueue.addFirst(id);
         }
-        
+
         // start or re-start prepare process
 
         // get neccessary information from track database
@@ -222,7 +229,7 @@ public class CacheManager {
         executorService.submit(new PrepareJob(id, device, deviceAndPath[1], downloadFile));
     }
 
-    public void cacheCleanup() {
+    public synchronized void cacheCleanup() {
         if (currentCacheSize > maxCacheSize) {
             logger.info("running cache cleanup...");
             int count = 0;
@@ -247,33 +254,39 @@ public class CacheManager {
 
     /* package-private callback functions for PrepareJob */
 
-    //TODO: this keeps a lock on the CacheManager during transcoding which is not good!
-    synchronized void prepareComplete(long id) {
+    //TODO: this is a bit not-so elegantly done
+    void prepareComplete(long id) {
         String filename = "" + id;
         File downloadFile = new File(downloadDir.getPath() +"/" + filename);
-
-        if (!cacheMap.containsKey(id)) {
-            logger.info("Discarding downloaded file for {}: file dropped from cache index.", id);
-            // file was removed from cache during preparation
-            // that means it is no longer needed
-            // delete downloaded file
-            downloadFile.delete();
-        } else {
-            // transcode the downloaded file to a temporary file
-            File transcodeFile = new File(downloadDir.getPath()  + "/" + filename + "_transcode");
-            logger.info("Starting transcode for {}", id);
-            try {
-                transcode(downloadFile, transcodeFile);
-            } catch (IOException | InterruptedException e) {
-                // transcode failed -> call prepareFailed()
-                logger.error("Error during transcoding of file " + id);
-                logger.error("Trace: ", e);
-                transcodeFile.delete();
-                prepareFailed(id, "Error during transcoding of file.");
+        synchronized (this) {
+            if (!cacheMap.containsKey(id)) {
+                logger.info("Discarding downloaded file for {}: file dropped from cache index.", id);
+                // file was removed from cache during preparation
+                // that means it is no longer needed
+                // delete downloaded file
+                downloadFile.delete();
                 return;
             }
-            logger.info("Transcode finished for {}", id);
-            // transcode finished - move the _transcode file to the target dir
+        }
+        // else
+
+        // release object lock during transcode
+        File transcodeFile = new File(downloadDir.getPath()  + "/" + filename + "_transcode");
+        logger.info("Starting transcode for {}", id);
+        try {
+            transcode(downloadFile, transcodeFile);
+        } catch (IOException | InterruptedException e) {
+            // transcode failed -> call prepareFailed()
+            logger.error("Error during transcoding of file " + id);
+            logger.error("Trace: ", e);
+            transcodeFile.delete();
+            prepareFailed(id, "Error during transcoding of file.");
+            return;
+        }
+        logger.info("Transcode finished for {}", id);
+
+        synchronized (this) {
+            // transcode finished - move the _transcoded file to the target dir
             // and delete the downloaded file
             File targetFile = new File(cacheDir.getPath() + "/" + filename);
             transcodeFile.renameTo(targetFile);
@@ -282,9 +295,11 @@ public class CacheManager {
             // update cache entry
             cacheMap.get(id).setStatus(FileStatus.PREPARED);
             cacheMap.get(id).setSize(targetFile.length());
+            // *HACK*: refresh size
+            cacheMap.put(id, cacheMap.get(id));
             logger.info("Preparation of {} complete.", id);
-            EventBusService.publish(new PrepareCompleteEvent(id));
         }
+        EventBusService.publish(new PrepareCompleteEvent(id));
     }
 
     synchronized void prepareFailed(long id, String message) {

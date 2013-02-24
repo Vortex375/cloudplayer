@@ -1,10 +1,14 @@
 package de.pandaserv.music.client.views;
 
 import com.github.gwtbootstrap.client.ui.Button;
+import com.github.gwtbootstrap.client.ui.TextBox;
 import com.github.gwtbootstrap.client.ui.constants.IconType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.AudioElement;
+import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.media.client.Audio;
@@ -20,6 +24,8 @@ import de.pandaserv.music.client.widgets.Slider;
 import de.pandaserv.music.client.widgets.Visualization;
 import de.pandaserv.music.client.misc.NotSupportedException;
 import de.pandaserv.music.client.misc.PlaybackStatus;
+import de.pandaserv.music.shared.Track;
+import de.pandaserv.music.shared.TrackDetail;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,8 +36,9 @@ import de.pandaserv.music.client.misc.PlaybackStatus;
  */
 public class MusicTestViewImpl extends Composite implements MusicTestView {
     private Presenter presenter;
-    private Audio audio;
     private Visualization vis;
+
+    private Timer searchTimer;
 
     @UiTemplate("MusicTestView.ui.xml")
     interface MusicTestViewUiBinder extends UiBinder<HTMLPanel, MusicTestViewImpl> {
@@ -40,8 +47,12 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
 
     @UiField Widget header;
     @UiField Widget mainContent;
-    @UiField Widget footer;
+    @UiField
+    Widget footer;
 
+    @UiField Label titleLabel;
+    @UiField Label artistLabel;
+    @UiField Label albumLabel;
     @UiField
     Label timeLabel;
     @UiField
@@ -53,12 +64,22 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
     @UiField
     FlowPanel visHolder;
 
+    @UiField
+    TextBox searchBox;
+    @UiField Button searchButton;
+    @UiField
+    FlexTable searchResults;
+
     private static MusicTestViewUiBinder ourUiBinder = GWT.create(MusicTestViewUiBinder.class);
     public MusicTestViewImpl() {
         initWidget(ourUiBinder.createAndBindUi(this));
 
-        audio = Audio.createIfSupported();
-        audio.getAudioElement().setControls(false);
+        searchTimer = new Timer() {
+            @Override
+            public void run() {
+                presenter.newSearchQuery();
+            }
+        };
 
         timeSlider.addValueChangeHandler(new Slider.ValueChangeHandler() {
             @Override
@@ -112,6 +133,36 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
     }
 
     @Override
+    public void setSearchResults(TrackDetail[] results) {
+        searchResults.clear();
+        for (int i = 0; i < results.length; i++) {
+            final int index = i;
+            ClickHandler handler = new ClickHandler() {
+                @Override
+                public void onClick(ClickEvent event) {
+                    presenter.onSearchResultClicked(index);
+                }
+            };
+            Label titleLabel = new Label(results[i].getTitle());
+            Label artistLabel = new Label(results[i].getArtist());
+            Label albumLabel = new Label(results[i].getAlbum());
+            titleLabel.addClickHandler(handler);
+            artistLabel.addClickHandler(handler);
+            albumLabel.addClickHandler(handler);
+            searchResults.setWidget(i, 0, titleLabel);
+            searchResults.setWidget(i, 1, artistLabel);
+            searchResults.setWidget(i, 2, albumLabel);
+        }
+    }
+
+    @Override
+    public void setCurrentTrackInfo(Track track) {
+        titleLabel.setText(track.getTitle());
+        artistLabel.setText(track.getArtist());
+        albumLabel.setText(track.getAlbum());
+    }
+
+    @Override
     public void setDuration(double seconds) {
         durationLabel.setText(TimeUtil.formatTime(seconds));
         timeSlider.setMin(0);
@@ -146,12 +197,8 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
     }
 
     @Override
-    public AudioElement getAudioElement() {
-        if (audio == null) {
-            return null;
-        } else {
-            return audio.getAudioElement();
-        }
+    public String getSearchQuery() {
+        return searchBox.getText();
     }
 
     @Override
@@ -162,5 +209,16 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
     @UiHandler("playButton")
     void onPlayButtonClicked(ClickEvent e) {
         presenter.playToggle();
+    }
+
+    @UiHandler("searchBox")
+    void onSearchBoxChanged(KeyUpEvent e) {
+        searchTimer.cancel();
+        searchTimer.schedule(300);
+    }
+    @UiHandler("searchButton")
+    void onSearchButtonClicked(ClickEvent e) {
+        searchTimer.cancel();
+        presenter.newSearchQuery();
     }
 }
