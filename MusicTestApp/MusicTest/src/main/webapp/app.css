@@ -47,6 +47,10 @@ body {
     text-align: right;
 }
 
+.clickable {
+    cursor: pointer;
+}
+
 .strut { /* vertical placeholder */
     display: block;
     height: 2.5em; /* 52 / 15 */
@@ -130,3 +134,9 @@ body {
     padding: 0;
     font-size: smaller;
 }
+
+.searchResultTitleLabel {
+    display: inline-block;
+    margin-left: 5px;
+}
+

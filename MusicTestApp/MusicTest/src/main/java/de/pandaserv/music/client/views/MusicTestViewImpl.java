@@ -1,7 +1,9 @@
 package de.pandaserv.music.client.views;
 
 import com.github.gwtbootstrap.client.ui.Button;
+import com.github.gwtbootstrap.client.ui.Icon;
 import com.github.gwtbootstrap.client.ui.TextBox;
+import com.github.gwtbootstrap.client.ui.constants.IconSize;
 import com.github.gwtbootstrap.client.ui.constants.IconType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.AudioElement;
@@ -66,7 +68,7 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
 
     @UiField
     TextBox searchBox;
-    @UiField Button searchButton;
+    @UiField Button clearSearchButton;
     @UiField
     FlexTable searchResults;
 
@@ -135,6 +137,7 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
     @Override
     public void setSearchResults(TrackDetail[] results) {
         searchResults.clear();
+        searchResults.removeAllRows();
         for (int i = 0; i < results.length; i++) {
             final int index = i;
             ClickHandler handler = new ClickHandler() {
@@ -143,15 +146,41 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
                     presenter.onSearchResultClicked(index);
                 }
             };
+            FlowPanel firstColumn = new FlowPanel();
             Label titleLabel = new Label(results[i].getTitle());
+            titleLabel.addStyleName("searchResultTitleLabel");
+            titleLabel.addStyleName("clickable");
             Label artistLabel = new Label(results[i].getArtist());
+            artistLabel.addStyleName("clickable");
             Label albumLabel = new Label(results[i].getAlbum());
+            albumLabel.addStyleName("clickable");
             titleLabel.addClickHandler(handler);
             artistLabel.addClickHandler(handler);
             albumLabel.addClickHandler(handler);
-            searchResults.setWidget(i, 0, titleLabel);
+            firstColumn.add(titleLabel);
+            searchResults.setWidget(i, 0, firstColumn);
             searchResults.setWidget(i, 1, artistLabel);
             searchResults.setWidget(i, 2, albumLabel);
+        }
+    }
+
+    @Override
+    public void showWaitOnResult(int index, boolean show) {
+        FlowPanel panel = (FlowPanel) searchResults.getWidget(index, 0);
+        if (show) {
+            Widget w = panel.getWidget(0);
+            if (w instanceof Icon) {
+                return; // spinner already added
+            }
+            Icon icon = new Icon(IconType.SPINNER);
+            icon.addStyleName("icon-spin");
+            icon.setIconSize(IconSize.DEFAULT);
+            panel.insert(icon, 0);
+        } else {
+            Widget w = panel.getWidget(0);
+            if (w instanceof Icon) {
+                panel.remove(w);
+            }
         }
     }
 
@@ -216,9 +245,10 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
         searchTimer.cancel();
         searchTimer.schedule(300);
     }
-    @UiHandler("searchButton")
+    @UiHandler("clearSearchButton")
     void onSearchButtonClicked(ClickEvent e) {
-        searchTimer.cancel();
+        searchBox.setText("");
+        searchBox.setFocus(true);
         presenter.newSearchQuery();
     }
 }
