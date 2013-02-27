@@ -14,13 +14,15 @@
                 </b:Row>
 
                 <b:Row addStyleNames="styled-row">
-                    <b:Form type="SEARCH">
-                        <b:InputAddOn prependIcon="SEARCH">
-                            <b:TextBox ui:field="searchBox" placeholder="Type here to find tracks..."/>
-                        </b:InputAddOn>
-                        <b:Button ui:field="searchButton">Search</b:Button>
-                        <g:FlexTable ui:field="searchResults" addStyleNames="fullWidth"/>
-                    </b:Form>
+                    <g:FlowPanel addStyleNames="form-search">
+                        <b:AppendButton>
+                            <b:InputAddOn prependIcon="SEARCH">
+                                <b:TextBox ui:field="searchBox" addStyleNames="input-large" placeholder="Type here to find tracks..."/>
+                            </b:InputAddOn>
+                            <b:Button ui:field="clearSearchButton" icon="REMOVE_CIRCLE"/>
+                        </b:AppendButton>
+                    </g:FlowPanel>
+                    <g:FlexTable ui:field="searchResults" addStyleNames="fullWidth"/>
                 </b:Row>
 
                 <b:Row addStyleNames="strut">

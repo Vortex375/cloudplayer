@@ -143,12 +143,15 @@ public class SqliteImportJob implements Job {
                 trackStmt.setString(8, cover);
                 trackStmt.setString(9, path);
                 trackStmt.setDate(10, lmod);
-                trackStmt.executeUpdate();
+                //trackStmt.executeUpdate();
+                trackStmt.addBatch();
 
                 synchronized (this) {
                     position++;
                 }
             }
+            logger.info("Committing to database...");
+            trackStmt.executeBatch();
             logger.info("Copy tracks complete.");
 
             rs = sqliteStmt.executeQuery("SELECT COUNT(*) FROM covers;");
@@ -171,13 +174,15 @@ public class SqliteImportJob implements Job {
                 coverStmt.setBytes(2, data);
                 coverStmt.setInt(3, length);
                 coverStmt.setString(4, mimetype);
-                coverStmt.executeUpdate();
+                //coverStmt.executeUpdate();
+                coverStmt.addBatch();
 
                 synchronized (this) {
                     position++;
                 }
             }
-
+            logger.info("Committing to database...");
+            coverStmt.executeBatch();
             logger.info("Sqlite import complete.");
 
         } catch (SQLException e) {

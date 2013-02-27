@@ -26,6 +26,7 @@ public interface MusicTestView {
     void setErrorMessage(String message);
 
     void setSearchResults(TrackDetail[] results);
+    void showWaitOnResult(int index, boolean show);
     void setCurrentTrackInfo(Track track);
 
     void setDuration(double seconds);
