@@ -146,7 +146,7 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
 
             @Override
             public void onSuccess(FileStatus fileStatus) {
-                if (fileStatus == FileStatus.PREPARED) {
+                if (fileStatus == FileStatus.PREPARED || fileStatus == FileStatus.TRANSCODING) {
                     if (waitIndex >= 0) {
                         view.showWaitOnResult(waitIndex, false);
                     }

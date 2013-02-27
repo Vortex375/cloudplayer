@@ -50,37 +50,5 @@ public class MusicTest implements EntryPoint {
       //presenter.setStreamId(Integer.parseInt(startupConfig.get("demoStreamId")));
 
       RootPanel.get().add(view);
-
-      new Timer() {
-          @Override
-          public void run() {
-              JSUtil.log("issuing remote command");
-              service.test(new AsyncCallback<String>() {
-                  @Override
-                  public void onFailure(Throwable throwable) {
-                      JSUtil.log("call failed: " + throwable.toString());
-                  }
-
-                  @Override
-                  public void onSuccess(String s) {
-                      JSUtil.log("call successful: " + s);
-                  }
-              });
-              long id = Long.parseLong(Dictionary.getDictionary("startupConfig").get("prepareId"));
-              JSUtil.log("preparing file " + id);
-              service.prepare(id, new AsyncCallback<Void>() {
-                  @Override
-                  public void onFailure(Throwable throwable) {
-                      JSUtil.log("prepare failed: " + throwable.toString());
-                  }
-
-                  @Override
-                  public void onSuccess(Void aVoid) {
-                      JSUtil.log("prepare successful:");
-                  }
-              });
-
-          }
-      }.schedule(500);
   }
 }

@@ -59,7 +59,7 @@ public class PrepareJob implements Job {
         final long jobId = JobManager.getInstance().addJob(this);
         try {
             try {
-                OutputStream outStream = new FileOutputStream(outputFile);
+                OutputStream outStream = new BufferedOutputStream(new FileOutputStream(outputFile));
                 InputStream inStream = device.getFile(path);
                 byte[] buf = new byte[COPY_BUFFER_SIZE];
                 int read;

@@ -1,6 +1,7 @@
 package de.pandaserv.music.server.service;
 
 import de.pandaserv.music.server.cache.CacheManager;
+import de.pandaserv.music.server.cache.TranscodeInputStream;
 import de.pandaserv.music.shared.FileStatus;
 import de.pandaserv.music.server.jobs.Job;
 import de.pandaserv.music.server.jobs.JobManager;
@@ -84,14 +85,13 @@ public class StreamService extends AbstractHandler {
             logger.info("streaming task started for stream " + streamId);
             long skip = inStream.skip(rangeStart);
             logger.info("skipped " + skip + " bytes from InputStream.");
-                do {
-                    read = inStream.read(buf, 0, (int) Math.min(buf.length, streamLength));
+                read = inStream.read(buf, 0, (int) Math.min(buf.length, streamLength));
+                while (read > 0) {
                     streamLength -= read;
-                    //rangeStart += read; // for debug output
-                    //logger.info("sending " +  read + " bytes (" + streamLength + " remaining)");
                     outStream.write(buf, 0, read);
                     bytesSent += read;
-                } while (read == buf.length);
+                    read = inStream.read(buf, 0, (int) Math.min(buf.length, streamLength));
+                }
                 outStream.flush();
             } catch (IOException e) {
                 logger.info("streaming task interrupted: " + e.toString());
@@ -136,36 +136,48 @@ public class StreamService extends AbstractHandler {
         }
 
         // get stream data
-        if (CacheManager.getInstance().getStatus(id) != FileStatus.PREPARED) {
+        if (!(CacheManager.getInstance().getStatus(id) == FileStatus.PREPARED || CacheManager.getInstance().getStatus(id) == FileStatus.TRANSCODING)) {
             // stream is not (yet) available
             HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "No data is available for this stream.",
                     baseRequest, response);
             return;
         }
 
-
         // parse requested range
-        long length = CacheManager.getInstance().getSize(id);
+        long length;
+        long available;
+        synchronized (CacheManager.getInstance()) {
+            length = CacheManager.getInstance().getSize(id);
+            if (length < 0) {
+                available = CacheManager.getInstance().getInputStream(id).available();
+            } else {
+                available = length;
+            }
+        }
+
         long rangeStart;
         long rangeEnd;
+        boolean isRangeRequest;
         String rangeHeader = request.getHeader("Range");
         if (rangeHeader == null) {
             // no range specified? -> send full file
             rangeStart = 0;
-            rangeEnd = length - 1;
+            rangeEnd = available - 1;
+            isRangeRequest = false;
         } else if (!rangeHeader.startsWith("bytes=")) {
             // range not specified in bytes
             HttpUtil.fail(HttpServletResponse.SC_BAD_REQUEST, "The only accepted Range is \"byte\"",
                     baseRequest, response);
             return;
         } else {
+            isRangeRequest = true;
             String[] rangeStrings = rangeHeader.substring(6).split("-");
             try {
                 rangeStart = Long.parseLong(rangeStrings[0]);
                 if (rangeStrings.length < 2 || rangeStrings[1].equals("*")) {
                     // range end not specified
                     // set to end of file
-                    rangeEnd = length - 1;
+                    rangeEnd = available - 1;
                 } else {
                     rangeEnd = Long.parseLong(rangeStrings[1]);
                 }
@@ -182,8 +194,8 @@ public class StreamService extends AbstractHandler {
                     baseRequest, response);
             return;
         }
-        if (rangeEnd > length) {
-            rangeEnd = length - 1;
+        if (rangeEnd > available) {
+            rangeEnd = available - 1;
         }
 
         InputStream inStream;
@@ -197,17 +209,30 @@ public class StreamService extends AbstractHandler {
         OutputStream outStream = response.getOutputStream();
 
         // setHeaders
-        if (rangeStart != 0 || rangeEnd != length - 1) {
-            // if the parsed range does not cover the entire file
+        if (isRangeRequest) {
             // set response code to PARTIAL CONTENT
             response.setStatus(HttpServletResponse.SC_PARTIAL_CONTENT);
+            response.setHeader("Content-Length", "" + (rangeEnd - rangeStart + 1));
+            if (length > 0) {
+                response.setHeader("Content-Range", "bytes " + rangeStart + "-" + rangeEnd + "/" + length);
+            } else {
+                response.setHeader("Content-Range", "bytes " + rangeStart + "-" + rangeEnd + "/*");
+            }
         } else {
             response.setStatus(HttpServletResponse.SC_OK);
+            if (length > 0) {
+                response.setHeader("Content-Length", "" + length);
+            } else {
+                // do not set Content-Length
+                //TODO: I don't think this is valid HTTP/1.1
+
+                // set rangeEnd to an unspecified large value
+                // so the streaming task will keep running
+                rangeEnd = Long.MAX_VALUE;
+            }
         }
         response.setHeader("Accept-Ranges", "bytes");
         response.setHeader("Content-Type", "audio/webm"); //TODO: always webm!!
-        response.setHeader("Content-Length", "" + (rangeEnd - rangeStart + 1));
-        response.setHeader("Content-Range", "bytes " + rangeStart + "-" + rangeEnd + "/" + length);
         baseRequest.setHandled(true);
 
         // begin streaming task
