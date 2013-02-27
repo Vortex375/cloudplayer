@@ -1,10 +1,6 @@
 package de.pandaserv.music.server.cache;
 
-import de.pandaserv.music.server.devices.Device;
 import de.pandaserv.music.shared.FileStatus;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  *
@@ -17,18 +13,15 @@ class CacheEntry {
     private float completion;
     private String message;
 
-    private Device directAccessDevice;
-    private String directAccessName;
+    private TranscodeInputStream transcodeInputStream;
 
     public CacheEntry(long id, FileStatus initialStatus) {
         this.id = id;
         this.status = initialStatus;
     }
 
-    public CacheEntry(long id, Device directAccessDevice, String directAccessFileName) {
+    public CacheEntry(long id) {
         this.id = id;
-        this.directAccessDevice = directAccessDevice;
-        this.directAccessName = directAccessFileName;
         this.status = FileStatus.PREPARED;
     }
 
@@ -68,9 +61,13 @@ class CacheEntry {
         this.message = message;
     }
 
-    public InputStream getDirectAccess() throws IOException {
-        if (directAccessDevice != null) {
-            return directAccessDevice.getFile(directAccessName);
+    public void setTranscodeInputStream(TranscodeInputStream stream) {
+        this.transcodeInputStream = stream;
+    }
+
+    public TranscodeInputStream getTranscodeInputStream() {
+        if (status == FileStatus.TRANSCODING) {
+            return transcodeInputStream;
         } else {
             return null;
         }

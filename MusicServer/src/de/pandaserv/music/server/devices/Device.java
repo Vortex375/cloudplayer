@@ -2,7 +2,6 @@ package de.pandaserv.music.server.devices;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Properties;
 
 /**
@@ -16,7 +15,7 @@ public interface Device {
         ERROR
     }
 
-    public boolean needsPrepare();
+    public boolean needsPrepare(); //TODO: this is currently unused (can be removed?)
 
     public String getName();
 

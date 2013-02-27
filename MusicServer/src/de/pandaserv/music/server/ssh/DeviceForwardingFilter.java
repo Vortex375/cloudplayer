@@ -5,12 +5,13 @@
 package de.pandaserv.music.server.ssh;
 
 import de.pandaserv.music.server.database.DeviceDatabase;
-import java.net.InetSocketAddress;
-import java.util.Properties;
 import org.apache.sshd.server.ForwardingFilter;
 import org.apache.sshd.server.session.ServerSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.net.InetSocketAddress;
+import java.util.Properties;
 
 /**
  *
@@ -45,7 +46,7 @@ class DeviceForwardingFilter implements ForwardingFilter {
             } else {
                 logger.info("Port forward request denied for {}: "
                         + "Requested port {} is not the port that was configured for this device ({})",
-                        new Object[]{ss.getUsername(), isa.getPort(), forwardPort});
+                        ss.getUsername(), isa.getPort(), forwardPort);
                 return false;
             }
         } else {

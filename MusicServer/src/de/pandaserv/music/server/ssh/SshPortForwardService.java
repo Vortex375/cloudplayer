@@ -4,16 +4,15 @@
  */
 package de.pandaserv.music.server.ssh;
 
-import java.io.IOException;
 import org.apache.sshd.SshServer;
 import org.apache.sshd.common.Factory;
 import org.apache.sshd.server.Command;
-import org.apache.sshd.server.PasswordAuthenticator;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.apache.sshd.server.session.DefaultForwardingAcceptorFactory;
-import org.apache.sshd.server.session.ServerSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 /**
  * Service to allow remote devices to forward ports to the local machine.
@@ -60,13 +59,6 @@ public class SshPortForwardService {
         });
         
         sshd.setPublickeyAuthenticator(new DeviceAuthenticator());
-        /*sshd.setPasswordAuthenticator(new PasswordAuthenticator() {
-
-            @Override
-            public boolean authenticate(String username, String password, ServerSession ss) {
-                return true;
-            }
-        });*/
         
         sshd.start();
         logger.info("Started SSH port forwarding service at port {}", port);

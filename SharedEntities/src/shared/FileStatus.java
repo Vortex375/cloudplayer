@@ -13,6 +13,7 @@ import java.io.Serializable;
 public enum FileStatus implements Serializable {
     NOT_PREPARED,
     PREPARING,
+    TRANSCODING,
     PREPARED,
     FAILED
 }

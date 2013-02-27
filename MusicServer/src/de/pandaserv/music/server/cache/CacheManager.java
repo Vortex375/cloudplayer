@@ -267,10 +267,11 @@ public class CacheManager {
                 downloadFile.delete();
                 return;
             }
-        }
-        // else
+            // else
+            cacheMap.get(id).setStatus(FileStatus.TRANSCODING);
 
-        // release object lock during transcode
+        } // release object lock during transcode
+
         File transcodeFile = new File(downloadDir.getPath()  + "/" + filename + "_transcode");
         logger.info("Starting transcode for {}", id);
         try {
