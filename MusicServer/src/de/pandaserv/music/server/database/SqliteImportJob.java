@@ -161,28 +161,29 @@ public class SqliteImportJob implements Job {
                 position = 0;
                 state = State.COVERS;
             }
+            if (totalRows > 0) {
+                rs = sqliteStmt.executeQuery("SELECT md5, data, length, mimetype FROM covers;");
+                logger.info("Copying {} covers...", totalRows);
+                while (rs.next()) {
+                    String md5 = rs.getString(1);
+                    byte[] data = rs.getBytes(2);
+                    int length = rs.getInt(3);
+                    String mimetype = rs.getString(4);
 
-            rs = sqliteStmt.executeQuery("SELECT md5, data, length, mimetype FROM covers;");
-            logger.info("Copying {} covers...", totalRows);
-            while (rs.next()) {
-                String md5 = rs.getString(1);
-                byte[] data = rs.getBytes(2);
-                int length = rs.getInt(3);
-                String mimetype = rs.getString(4);
+                    coverStmt.setString(1, md5);
+                    coverStmt.setBytes(2, data);
+                    coverStmt.setInt(3, length);
+                    coverStmt.setString(4, mimetype);
+                    //coverStmt.executeUpdate();
+                    coverStmt.addBatch();
 
-                coverStmt.setString(1, md5);
-                coverStmt.setBytes(2, data);
-                coverStmt.setInt(3, length);
-                coverStmt.setString(4, mimetype);
-                //coverStmt.executeUpdate();
-                coverStmt.addBatch();
-
-                synchronized (this) {
-                    position++;
+                    synchronized (this) {
+                        position++;
+                    }
                 }
+                logger.info("Committing to database...");
+                coverStmt.executeBatch();
             }
-            logger.info("Committing to database...");
-            coverStmt.executeBatch();
             logger.info("Sqlite import complete.");
 
         } catch (SQLException e) {
