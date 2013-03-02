@@ -18,7 +18,7 @@ import java.io.InputStream;
 public class TranscodeDataJob implements Job {
     static final Logger logger = LoggerFactory.getLogger(TranscodeDataJob.class);
 
-    private static final int COPY_BUFFER_SIZE = 8192;
+    private static final int COPY_BUFFER_SIZE = 256;
 
     private int byteCount;
     private final InputStream in;
@@ -27,6 +27,7 @@ public class TranscodeDataJob implements Job {
     public TranscodeDataJob(InputStream in, TranscodeInputStream out) {
         this.in = in;
         this.out = out;
+        byteCount = 0;
     }
 
 
@@ -53,6 +54,9 @@ public class TranscodeDataJob implements Job {
             byte[] buf = new byte[COPY_BUFFER_SIZE];
             int read = in.read(buf);
             while (read > 0) {
+                synchronized (this) {
+                    byteCount += read;
+                }
                 out.pushData(buf, 0, read);
                 read = in.read(buf);
             }
@@ -64,6 +68,7 @@ public class TranscodeDataJob implements Job {
             out.finishWrite();
         } finally {
             out.finishWrite();
+            logger.info("Bytes copied by TranscodeJob: {}", byteCount);
             JobManager.getInstance().removeJob(jobId);
         }
     }

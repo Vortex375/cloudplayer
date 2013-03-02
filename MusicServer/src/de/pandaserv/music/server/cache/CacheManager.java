@@ -246,7 +246,7 @@ public class CacheManager {
         }
     }
 
-    private void transcode(File in, TranscodeInputStream out) throws IOException, InterruptedException {
+    private void transcode(File in, File out) throws IOException, InterruptedException {
         //String cmd = transcodeCommand.replace("%i", "\"" + in.getAbsolutePath() + "\"")
         //        .replace("%o", "\"" + out.getAbsolutePath() + "\"");
         //String cmd = transcodeCommand.replace("%i", "\"" + in.getAbsolutePath() + "\"");
@@ -255,40 +255,35 @@ public class CacheManager {
             // find the input file argument
             if (args[i].equals("%i")) {
                 args[i] = in.getAbsolutePath();
+            } else if (args[i].equals("%o")) {
+                args[i] = out.getAbsolutePath();
             }
         }
 
         ProcessBuilder builder = new ProcessBuilder(Arrays.asList(args));
-        builder.redirectError(ProcessBuilder.Redirect.PIPE);
-        builder.redirectOutput(ProcessBuilder.Redirect.PIPE);
-        logger.info("Running {} {}", transcodeCommand, args);
+        //builder.redirectError(ProcessBuilder.Redirect.PIPE);
+        //builder.redirectOutput(ProcessBuilder.Redirect.PIPE);
+        logger.info("Running {}", args);
         Process proc = builder.start();
 
-        InputStream inStream = proc.getInputStream();
+        //InputStream inStream = proc.getInputStream();
         //Thread copyThread = new Thread(new TranscodeDataJob(inStream, out));
         //copyThread.start();
-        TranscodeDataJob copyJob = new TranscodeDataJob(inStream, out);
-        copyJob.run();
+        //TranscodeDataJob copyJob = new TranscodeDataJob(inStream, out);
+        //copyJob.run();
         logger.info("Waiting for transcode command to finish");
-<<<<<<< HEAD
-        proc.waitFor();
-        //logger.info("Waiting for copy job to finish");
-        //copyThread.join();
-=======
         int ret = proc.waitFor();
         if (ret != 0) {
+            //out.setErrored(true);
             logger.warn("Transcode command finished with status code {}", ret);
             logger.warn("This is the transcode command's stderr output:");
             BufferedReader errorReader = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
             String line;
-            while((line = errorReader.readLine()) != null){
+            while((line = errorReader.readLine()) != null) {
                 logger.warn(line);
             }
+            throw new IOException("The transcode command finished unsuccessfully");
         }
-
-        logger.info("Waiting for copy job to finish");
-        copyThread.join();
->>>>>>> 19ff4aa51e50dea225995296ca00ed5f2b36543c
     }
 
     /* package-private callback functions for PrepareJob */
@@ -297,7 +292,7 @@ public class CacheManager {
     void prepareComplete(long id) {
         String filename = "" + id;
         File downloadFile = new File(downloadDir.getPath() +"/" + filename);
-        TranscodeInputStream transcodeInputStream;
+        File transcodeFile = new File(downloadDir.getPath() +"/" + filename + "_transcode");
         synchronized (this) {
             if (!cacheMap.containsKey(id)) {
                 logger.info("Discarding downloaded file for {}: file dropped from cache index.", id);
@@ -308,16 +303,17 @@ public class CacheManager {
                 return;
             }
             // else
-            cacheMap.get(id).setStatus(FileStatus.TRANSCODING);
-            cacheMap.get(id).setSize(-1); // indicate unfinished file
-            transcodeInputStream = new TranscodeInputStream();
-            cacheMap.get(id).setTranscodeInputStream(transcodeInputStream);
+            //cacheMap.get(id).setStatus(FileStatus.TRANSCODING);
+            //cacheMap.get(id).setSize(-1); // indicate unfinished file
+            //transcodeInputStream = new TranscodeInputStream();
+            //cacheMap.get(id).setTranscodeInputStream(transcodeInputStream);
 
         } // release object lock during transcode
 
         logger.info("Starting transcode for {}", id);
         try {
-            transcode(downloadFile, transcodeInputStream);
+            transcodeFile.createNewFile();
+            transcode(downloadFile, transcodeFile);
         } catch (IOException | InterruptedException e) {
             // transcode failed -> call prepareFailed()
             logger.error("Error during transcoding of file {}", id);
@@ -325,19 +321,20 @@ public class CacheManager {
             prepareFailed(id, "Error during transcoding of file.");
             return;
         }
-        if (transcodeInputStream.isErrored()) {
+        /*if (transcodeInputStream.isErrored()) {
             logger.error("Error during transcoding of file {}", id);
-            logger.error("The copy job failed.");
             prepareFailed(id, "Error during transcoding of file.");
             return;
-        }
+        }*/
         logger.info("Transcode finished for {}", id);
 
         synchronized (this) {
             // transcode finished - copy the _transcoded data to the target file
             // and delete the downloaded file
             File targetFile = new File(cacheDir.getPath() + "/" + filename);
-            byte[] data = transcodeInputStream.getData();
+            transcodeFile.renameTo(targetFile);
+            downloadFile.delete();
+            /*byte[] data = transcodeInputStream.getData();
             try {
                 targetFile.createNewFile();
                 OutputStream out = new BufferedOutputStream(new FileOutputStream(targetFile));
@@ -351,12 +348,12 @@ public class CacheManager {
                 return;
             } finally {
                 downloadFile.delete();
-            }
+            }*/
 
             // all successful - update cache entry
             cacheMap.get(id).setStatus(FileStatus.PREPARED);
-            cacheMap.get(id).setSize(data.length);
-            cacheMap.get(id).setTranscodeInputStream(null); // clean up input stream and temporary cached data
+            cacheMap.get(id).setSize(targetFile.length());
+            //cacheMap.get(id).setTranscodeInputStream(null); // clean up input stream and temporary cached data
             // *HACK*: refresh size
             cacheMap.put(id, cacheMap.get(id));
             logger.info("Preparation of {} complete.", id);
