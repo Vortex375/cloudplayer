@@ -249,18 +249,46 @@ public class CacheManager {
     private void transcode(File in, TranscodeInputStream out) throws IOException, InterruptedException {
         //String cmd = transcodeCommand.replace("%i", "\"" + in.getAbsolutePath() + "\"")
         //        .replace("%o", "\"" + out.getAbsolutePath() + "\"");
-        String cmd = transcodeCommand.replace("%i", "\"" + in.getAbsolutePath() + "\"");
-        logger.info("Running {}", cmd);
-        Process proc = Runtime.getRuntime().exec(cmd);
+        //String cmd = transcodeCommand.replace("%i", "\"" + in.getAbsolutePath() + "\"");
+        String[] args = transcodeCommand.split(" ");
+        for (int i = 0; i < args.length; i++) {
+            // find the input file argument
+            if (args[i].equals("%i")) {
+                args[i] = in.getAbsolutePath();
+            }
+        }
+
+        ProcessBuilder builder = new ProcessBuilder(Arrays.asList(args));
+        builder.redirectError(ProcessBuilder.Redirect.PIPE);
+        builder.redirectOutput(ProcessBuilder.Redirect.PIPE);
+        logger.info("Running {} {}", transcodeCommand, args);
+        Process proc = builder.start();
+
         InputStream inStream = proc.getInputStream();
         //Thread copyThread = new Thread(new TranscodeDataJob(inStream, out));
         //copyThread.start();
         TranscodeDataJob copyJob = new TranscodeDataJob(inStream, out);
         copyJob.run();
         logger.info("Waiting for transcode command to finish");
+<<<<<<< HEAD
         proc.waitFor();
         //logger.info("Waiting for copy job to finish");
         //copyThread.join();
+=======
+        int ret = proc.waitFor();
+        if (ret != 0) {
+            logger.warn("Transcode command finished with status code {}", ret);
+            logger.warn("This is the transcode command's stderr output:");
+            BufferedReader errorReader = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+            String line;
+            while((line = errorReader.readLine()) != null){
+                logger.warn(line);
+            }
+        }
+
+        logger.info("Waiting for copy job to finish");
+        copyThread.join();
+>>>>>>> 19ff4aa51e50dea225995296ca00ed5f2b36543c
     }
 
     /* package-private callback functions for PrepareJob */

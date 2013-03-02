@@ -59,20 +59,20 @@ public class PrepareJob implements Job {
         final long jobId = JobManager.getInstance().addJob(this);
         try {
             try {
-                OutputStream outStream = new BufferedOutputStream(new FileOutputStream(outputFile));
+                OutputStream outStream = new FileOutputStream(outputFile);
                 InputStream inStream = device.getFile(path);
                 byte[] buf = new byte[COPY_BUFFER_SIZE];
-                int read;
-                do {
+                int read = inStream.read(buf);
+                while (read > 0) {
                     if (canceled) {
                         outStream.close();
                         inStream.close();
                         CacheManager.getInstance().prepareFailed(id, "Job canceled by user.");
                         return;
                     }
-                    read = inStream.read(buf);
                     outStream.write(buf, 0, read);
-                } while (read == buf.length);
+                    read = inStream.read(buf);
+                }
                 outStream.flush();
                 outStream.close();
             } catch (FileNotFoundException e) {
