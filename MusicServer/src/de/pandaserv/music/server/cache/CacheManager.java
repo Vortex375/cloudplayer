@@ -253,12 +253,14 @@ public class CacheManager {
         logger.info("Running {}", cmd);
         Process proc = Runtime.getRuntime().exec(cmd);
         InputStream inStream = proc.getInputStream();
-        Thread copyThread = new Thread(new TranscodeDataJob(inStream, out));
-        copyThread.start();
+        //Thread copyThread = new Thread(new TranscodeDataJob(inStream, out));
+        //copyThread.start();
+        TranscodeDataJob copyJob = new TranscodeDataJob(inStream, out);
+        copyJob.run();
         logger.info("Waiting for transcode command to finish");
         proc.waitFor();
-        logger.info("Waiting for copy job to finish");
-        copyThread.join();
+        //logger.info("Waiting for copy job to finish");
+        //copyThread.join();
     }
 
     /* package-private callback functions for PrepareJob */
