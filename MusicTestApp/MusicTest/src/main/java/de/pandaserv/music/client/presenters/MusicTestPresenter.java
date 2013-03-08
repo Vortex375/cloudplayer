@@ -2,14 +2,13 @@ package de.pandaserv.music.client.presenters;
 
 import com.google.gwt.dom.client.AudioElement;
 import com.google.gwt.dom.client.MediaElement;
+import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.media.client.Audio;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.sun.script.javascript.JSAdapter;
 import de.pandaserv.music.client.MusicTest;
 import de.pandaserv.music.client.audio.AudioSystem;
-import de.pandaserv.music.client.misc.JSUtil;
 import de.pandaserv.music.client.views.MusicTestView;
 import de.pandaserv.music.client.misc.NotSupportedException;
 import de.pandaserv.music.client.misc.PlaybackStatus;
@@ -25,7 +24,7 @@ import de.pandaserv.music.shared.TrackDetail;
  * To change this template use File | Settings | File Templates.
  */
 public class MusicTestPresenter implements MusicTestView.Presenter {
-    private static final boolean ENABLE_AUDIO_SYSTEM = true;
+    private boolean enableAudioSystem;
 
     private MusicTestView view;
     private AudioElement audioElement;
@@ -46,6 +45,8 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
     public MusicTestPresenter(final MusicTestView view) {
         this.view = view;
 
+        this.enableAudioSystem = Boolean.parseBoolean(Dictionary.getDictionary("startupConfig").get("enableVis"));
+
         watchTimer = new Timer() {
             @Override
             public void run() {
@@ -65,7 +66,7 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
             view.setErrorMessage("This browser does not support the Audio element.");
             view.showError(true);
         } else {
-            if (ENABLE_AUDIO_SYSTEM) {
+            if (enableAudioSystem) {
                 try {
                     audioSystem = new AudioSystem();
                     audioSystem.addVisDataHandler(new AudioSystem.VisDataHandler() {
