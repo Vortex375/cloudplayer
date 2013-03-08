@@ -1,5 +1,6 @@
 package de.pandaserv.music.server.database;
 
+import de.pandaserv.music.shared.Cover;
 import de.pandaserv.music.shared.Track;
 import de.pandaserv.music.shared.TrackDetail;
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ public class TrackDatabase {
     private final LocalPreparedStatement insertTrack;
     private final LocalPreparedStatement updateTrack;
     private final LocalPreparedStatement insertCover;
+    private final LocalPreparedStatement getCover;
     private final LocalPreparedStatement cleanupCovers;
 
     // Query statements
@@ -54,6 +56,10 @@ public class TrackDatabase {
                 " (md5, data, length, mimetype)" +
                 " VALUES" +
                 " (?, ?, ?, ?)");
+        getCover = new LocalPreparedStatement("" +
+                "SELECT md5, data, mimetype" +
+                " FROM Covers" +
+                " WHERE md5=?");
         cleanupCovers = new LocalPreparedStatement("" +
                 "DELETE FROM Covers" +
                 " WHERE md5 NOT IN (" +
@@ -277,6 +283,31 @@ public class TrackDatabase {
         } catch (SQLException e) {
             logger.warn("SQL Exception in insertCover():");
             e.printStackTrace();
+        }
+    }
+
+    public Cover getCover(String md5) {
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+            ps = getCover.get();
+            ps.setString(1, md5);
+            rs = ps.executeQuery();
+
+            if(rs.next()) {
+                Cover cover = new Cover();
+                cover.setMd5(md5);
+                cover.setData(rs.getBytes(2));
+                cover.setMimeType(rs.getString(3));
+                return cover;
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            logger.warn("SQL Exception in listDeviceNames():");
+            e.printStackTrace();
+            return null;
         }
     }
 }

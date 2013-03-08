@@ -26,6 +26,13 @@ public class MusicService extends ContextHandlerCollection {
         context.setHandler(new StreamService());
         addHandler(context);
 
+        // cover object
+        context = new ContextHandler();
+        context.setContextPath("/service/cover");
+        context.setClassLoader(Thread.currentThread().getContextClassLoader());
+        context.setHandler(new CoverService());
+        addHandler(context);
+
         // jobs object
         context = new ContextHandler();
         context.setContextPath("/service/jobs");

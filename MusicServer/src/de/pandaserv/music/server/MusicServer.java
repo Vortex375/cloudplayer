@@ -78,7 +78,7 @@ public class MusicServer extends Server {
         staticContent.addServlet(staticContentHolder, "/");
 
         // music service
-        MusicService service = new MusicService();
+        MusicService musicService = new MusicService();
         // gwt servlet
         ServletContextHandler gwtContext = new ServletContextHandler();
         // set resrouce base to web_dir, so the gwt servlet can access the serialization policy file
@@ -89,7 +89,7 @@ public class MusicServer extends Server {
 
         // register handlers and start server
         HandlerList handlers = new HandlerList();
-        handlers.setHandlers(new Handler[]{gwtContext, service, staticContent});
+        handlers.setHandlers(new Handler[]{gwtContext, musicService, staticContent});
 
         setHandler(handlers);
     }

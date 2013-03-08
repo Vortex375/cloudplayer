@@ -16,7 +16,7 @@ body {
 }
 
 .styled-row {
-    box-shadow: #888 0 1px 4px;
+    box-shadow: #888 0 1px 12px;
     padding: 10px;
     background: white;
 }

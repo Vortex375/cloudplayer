@@ -216,7 +216,11 @@ QByteArray Covers::extractImageFromDir(QString path, Database* db)
     // calculate a "score" for files based on their name
     // bonus points are received for the words "cover" and "front"
     for (int i = 0; i < files.size(); i++) {
+      score[i] = 0; // initialize score
         if (files.at(i).contains("cover", Qt::CaseInsensitive)) {
+            score[i]++;
+        }
+        if (files.at(i).contains("case", Qt::CaseInsensitive)) {
             score[i]++;
         }
         if (files.at(i).contains("front", Qt::CaseInsensitive)) {

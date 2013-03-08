@@ -199,7 +199,7 @@ public class AudioSystem {
     }-*/;
 
     private void calculateScale() {
-        // calculate logarithmic scale
+        // calculate logarithmic scale - 1
         scale = new double[VIS_BARS + 1];
         for (int i = 0; i < scale.length; i++) {
             scale[i] = Math.pow(FFT_SIZE / 2, i / (double) VIS_BARS) - 1;
@@ -217,8 +217,6 @@ public class AudioSystem {
             calculateScale();
         }
 
-        int bandsPerBar = fftData.length / VIS_BARS;
-        double[] bars = new double[VIS_BARS];
         for (int i = 0; i < bars.length; i++) {
             int a = (int) Math.ceil(scale[i]);
             int b = (int) Math.floor(scale[i+1]);
