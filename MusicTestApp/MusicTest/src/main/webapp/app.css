@@ -134,6 +134,7 @@ body {
     max-height: 80px;
     max-width: initial;
     cursor: pointer;
+    margin-right: 4px;
 }
 
 .debugPanel {

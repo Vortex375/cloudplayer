@@ -193,7 +193,7 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
         titleLabel.setText(track.getTitle());
         artistLabel.setText(track.getArtist());
         albumLabel.setText(track.getAlbum());
-        if (!track.getCover().equals("")) {
+        if (track.getCover() != null && !track.getCover().equals("")) {
             albumCover.setUrl("/service/cover/" + track.getCover());
             albumCover.getElement().setAttribute("data-glisse-big", "/service/cover/" + track.getCover());
             albumCover.setVisible(true);
