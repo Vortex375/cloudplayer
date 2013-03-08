@@ -65,6 +65,7 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
     Button playButton;
     @UiField
     FlowPanel visHolder;
+    @UiField Image albumCover;
 
     @UiField
     TextBox searchBox;
@@ -189,6 +190,12 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
         titleLabel.setText(track.getTitle());
         artistLabel.setText(track.getArtist());
         albumLabel.setText(track.getAlbum());
+        if (!track.getCover().equals("")) {
+            albumCover.setUrl("/service/cover/" + track.getCover());
+            albumCover.setVisible(true);
+        } else {
+            albumCover.setVisible(false);
+        }
     }
 
     @Override

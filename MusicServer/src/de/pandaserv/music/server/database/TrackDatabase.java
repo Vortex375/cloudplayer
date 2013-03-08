@@ -73,7 +73,7 @@ public class TrackDatabase {
                 + "SELECT id, title, artist, album"
                 + " FROM Tracks");
         getTrackInfo = new LocalPreparedStatement(""
-                + "SELECT id, device, title, artist, album, genre, track, year, device_path"
+                + "SELECT id, device, title, artist, album, genre, track, year, device_path, cover"
                 + " FROM Tracks"
                 + " WHERE id=?");
         trackQuerySimple = new LocalPreparedStatement("" +
@@ -206,6 +206,7 @@ public class TrackDatabase {
                 track.setTrack(rs.getInt(7));
                 track.setYear(rs.getInt(8));
                 track.setDevicePath(rs.getString(9));
+                track.setCover(rs.getString(10));
                 return track;
             } else {
                 return null;

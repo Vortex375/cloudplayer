@@ -18,6 +18,7 @@ public class Track implements Serializable {
     private int track;
     private int year;
     private String devicePath;
+    private String cover;
     private Date lastModified;
 
     public Track() {
@@ -115,5 +116,13 @@ public class Track implements Serializable {
 
     public void setLastModified(Date lastModified) {
         this.lastModified = lastModified;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 }

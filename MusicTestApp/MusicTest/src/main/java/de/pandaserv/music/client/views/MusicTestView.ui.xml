@@ -40,6 +40,9 @@
                         <g:HTMLPanel addStyleNames="nowPlayingWell">
                             <table class="fullWidth">
                                 <tr>
+                                    <td>
+                                        <g:Image ui:field="albumCover" addStyleNames="albumCover" visible="false"/>
+                                    </td>
                                     <td class="nowrap fullTableColumn">
                                         <g:FlowPanel>
                                             <g:Label ui:field="titleLabel" addStyleNames="titleLabel">Track Title
