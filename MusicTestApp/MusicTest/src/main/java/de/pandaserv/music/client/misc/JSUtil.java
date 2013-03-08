@@ -1,5 +1,7 @@
 package de.pandaserv.music.client.misc;
 
+import com.google.gwt.user.client.Element;
+
 /**
  * Created with IntelliJ IDEA.
  * User: ich
@@ -19,5 +21,9 @@ public class JSUtil {
                 break;
             }
         }
+    }-*/;
+
+    public static native void addGlisse(Element anchor) /*-{
+        $wnd.$(anchor).glisse({}); // use default options
     }-*/;
 }

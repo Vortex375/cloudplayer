@@ -21,6 +21,7 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
+import de.pandaserv.music.client.misc.JSUtil;
 import de.pandaserv.music.client.misc.TimeUtil;
 import de.pandaserv.music.client.widgets.Slider;
 import de.pandaserv.music.client.widgets.Visualization;
@@ -98,6 +99,8 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
             GWT.log("Canvas element not supported");
             vis = null;
         }
+
+        JSUtil.addGlisse(albumCover.getElement());
 
         Window.addResizeHandler(new ResizeHandler() {
             @Override
@@ -192,6 +195,7 @@ public class MusicTestViewImpl extends Composite implements MusicTestView {
         albumLabel.setText(track.getAlbum());
         if (!track.getCover().equals("")) {
             albumCover.setUrl("/service/cover/" + track.getCover());
+            albumCover.getElement().setAttribute("data-glisse-big", "/service/cover/" + track.getCover());
             albumCover.setVisible(true);
         } else {
             albumCover.setVisible(false);

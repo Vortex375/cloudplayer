@@ -8,10 +8,11 @@
   <component name="ChangeListManager">
     <list default="true" id="7bd93867-2de8-4e07-bcf9-3e56608483f4" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/database/TrackDatabase.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/database/TrackDatabase.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicTestApp/MusicTest/src/main/java/de/pandaserv/music/client/views/MusicTestView.ui.xml" afterPath="$PROJECT_DIR$/../MusicTestApp/MusicTest/src/main/java/de/pandaserv/music/client/views/MusicTestView.ui.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicTestApp/MusicTest/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../MusicTestApp/MusicTest/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicTestApp/MusicTest/src/main/java/de/pandaserv/music/client/misc/JSUtil.java" afterPath="$PROJECT_DIR$/../MusicTestApp/MusicTest/src/main/java/de/pandaserv/music/client/misc/JSUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicTestApp/MusicTest/src/main/java/de/pandaserv/music/client/views/MusicTestViewImpl.java" afterPath="$PROJECT_DIR$/../MusicTestApp/MusicTest/src/main/java/de/pandaserv/music/client/views/MusicTestViewImpl.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicTestApp/MusicTest/src/main/webapp/app.css" afterPath="$PROJECT_DIR$/../MusicTestApp/MusicTest/src/main/webapp/app.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicTestApp/MusicTest/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/../MusicTestApp/MusicTest/src/main/webapp/index.html" />
     </list>
     <ignored path="MusicServer.iws" />
     <ignored path=".idea/workspace.xml" />

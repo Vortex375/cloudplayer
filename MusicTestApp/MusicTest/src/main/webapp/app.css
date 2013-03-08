@@ -132,6 +132,8 @@ body {
 
 .albumCover {
     max-height: 80px;
+    max-width: initial;
+    cursor: pointer;
 }
 
 .debugPanel {
