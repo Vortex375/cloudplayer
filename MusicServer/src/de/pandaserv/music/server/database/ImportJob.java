@@ -42,6 +42,12 @@ public class ImportJob implements Job {
             "       track, year, cover, device_path, lastmodified)" +
             " VALUES (i.device, i.id, i.title, i.artist, i.album, i.genre, i.track, i.year, i.cover, i.path, i.lastmodified)";
 
+    private static final String REMOVE_DELETED_TRACKS = "" +
+            "DELETE FROM Tracks " +
+            " WHERE device=?" +
+            "  AND device_id NOT IN" +
+            "       (SELECT id FROM import_tracks_%s)";
+
     private static final String DROP_TRACKS_TABLE = "" +
             "DROP TABLE import_tracks_%s";
     private static final String DROP_COVERS_TABLE = "" +
@@ -79,6 +85,8 @@ public class ImportJob implements Job {
             //conn.setAutoCommit(false);
             PreparedStatement mergeTracksStmt = conn.prepareStatement(String.format(MERGE_TRACKS, importTableSuffix));
             mergeTracksStmt.setString(1, device);
+            PreparedStatement deleteTracksStmt = conn.prepareStatement(String.format(REMOVE_DELETED_TRACKS, importTableSuffix));
+            deleteTracksStmt.setString(1, device);
             //mergeTracksStmt.setString(2, device);
             PreparedStatement mergeCoversStmt = conn.prepareStatement(String.format(MERGE_COVERS, importTableSuffix));
 
@@ -86,6 +94,11 @@ public class ImportJob implements Job {
             int affectedRows = mergeTracksStmt.executeUpdate();
             logger.info("Warnings during merge: {}", mergeTracksStmt.getWarnings());
             logger.info("{} tracks merged.", affectedRows);
+
+            logger.info("Deleting old entries...");
+            affectedRows = deleteTracksStmt.executeUpdate();
+            logger.info("Warnings during deletion: {}", deleteTracksStmt.getWarnings());
+            logger.info("{} tracks deleted.", affectedRows);
 
             logger.info("Merging covers...");
             affectedRows = mergeCoversStmt.executeUpdate();

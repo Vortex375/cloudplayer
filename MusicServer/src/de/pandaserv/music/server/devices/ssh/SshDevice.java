@@ -5,6 +5,9 @@
 package de.pandaserv.music.server.devices.ssh;
 
 import de.pandaserv.music.server.devices.Device;
+import org.apache.sshd.ClientSession;
+import org.apache.sshd.SshClient;
+import org.apache.sshd.client.future.ConnectFuture;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -17,6 +20,23 @@ import java.util.Properties;
 public class SshDevice implements Device {
 
     private String name;
+    private Status status;
+    private String statusMessage;
+
+    private boolean connected;
+    private String host;
+    private int port;
+    private String username;
+    private String password;
+
+    private SshClient client;
+    private ClientSession session;
+
+    public SshDevice() {
+        connected = false;
+        status = Status.OFFLINE;
+        statusMessage = "";
+    }
 
     @Override
     public boolean needsPrepare() {
@@ -40,12 +60,12 @@ public class SshDevice implements Device {
 
     @Override
     public Status getStatus() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return status;
     }
     
     @Override
     public String getStatusMessage() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return statusMessage;
     }
 
     @Override
@@ -55,7 +75,18 @@ public class SshDevice implements Device {
 
     @Override
     public void setup(Properties config) {
-        //TODO: implement
+        host = config.getProperty("ssh-host");
+        port = Integer.parseInt(config.getProperty("ssh-port"));
+        username = config.getProperty("ssh-username");
+        password = config.getProperty("ssh-password");
+
+        client = SshClient.setUpDefaultClient();
     }
-    
+
+    private void connect() throws Exception {
+        ConnectFuture cf = client.connect(host, port);
+        cf.await();
+        ClientSession session = cf.getSession();
+    }
+
 }
