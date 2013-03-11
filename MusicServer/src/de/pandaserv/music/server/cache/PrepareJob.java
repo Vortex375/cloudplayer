@@ -61,6 +61,11 @@ public class PrepareJob implements Job {
             try {
                 OutputStream outStream = new FileOutputStream(outputFile);
                 InputStream inStream = device.getFile(path);
+                if (inStream == null) {
+                    logger.error("Unable to get input stream from device.");
+                    CacheManager.getInstance().prepareFailed(id, "Unable to get input stream from device.");
+                    return;
+                }
                 byte[] buf = new byte[COPY_BUFFER_SIZE];
                 int read = inStream.read(buf);
                 while (read > 0) {
@@ -75,6 +80,7 @@ public class PrepareJob implements Job {
                 }
                 outStream.flush();
                 outStream.close();
+                inStream.close();
             } catch (FileNotFoundException e) {
                 logger.error("Uh oh. Output file does not exist - it should have been created by CacheManager.");
                 CacheManager.getInstance().prepareFailed(id, "Cannot write output file: file not found");

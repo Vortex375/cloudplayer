@@ -5,12 +5,16 @@
 package de.pandaserv.music.server.devices.ssh;
 
 import de.pandaserv.music.server.devices.Device;
+import de.pandaserv.music.server.ssh.AuthenticationException;
 import org.apache.sshd.ClientSession;
 import org.apache.sshd.SshClient;
+import org.apache.sshd.client.channel.ChannelExec;
+import org.apache.sshd.client.future.AuthFuture;
 import org.apache.sshd.client.future.ConnectFuture;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Properties;
 
 /**
@@ -18,6 +22,8 @@ import java.util.Properties;
  * @author ich
  */
 public class SshDevice implements Device {
+
+    static final Logger logger = LoggerFactory.getLogger(SshDevice.class);
 
     private String name;
     private Status status;
@@ -44,12 +50,12 @@ public class SshDevice implements Device {
     }
 
     @Override
-    public String getName() {
+    public synchronized String getName() {
         return name;
     }
 
     @Override
-    public void setName(String name) {
+    public synchronized void setName(String name) {
         this.name = name;
     }
 
@@ -59,18 +65,38 @@ public class SshDevice implements Device {
     }
 
     @Override
-    public Status getStatus() {
+    public synchronized Status getStatus() {
         return status;
     }
     
     @Override
-    public String getStatusMessage() {
+    public synchronized String getStatusMessage() {
         return statusMessage;
     }
 
     @Override
     public InputStream getFile(String path) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if (!connected) {
+            try {
+                connect();
+                connected = true;
+            } catch (Exception e) {
+                logger.error("Failed to connect to ssh device.");
+                logger.error("Trace: ", e);
+                status = Status.ERROR;
+                statusMessage = e.getMessage();
+                return null;
+            }
+        }
+
+        try {
+            ChannelExec channel = session.createExecChannel("cat " + path);
+            return channel.getIn();
+        } catch (Exception e) {
+            logger.error("Failed to retrieve file from ssh device.");
+            logger.error("Trace: ", e);
+            return null;
+        }
     }
 
     @Override
@@ -87,6 +113,12 @@ public class SshDevice implements Device {
         ConnectFuture cf = client.connect(host, port);
         cf.await();
         ClientSession session = cf.getSession();
+
+        AuthFuture auth = session.authPassword(username, password);
+        auth.await();
+        if (!auth.isSuccess()) {
+            throw new AuthenticationException("Invalid username or password");
+        }
     }
 
 }
