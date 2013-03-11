@@ -7,9 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7bd93867-2de8-4e07-bcf9-3e56608483f4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/ssh/AuthenticationException.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/Device.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/Device.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/DeviceManager.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/DeviceManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/local/LocalDevice.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/local/LocalDevice.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/ssh/SshDevice.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/ssh/SshDevice.java" />
     </list>
     <ignored path="MusicServer.iws" />
@@ -72,19 +73,58 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SshDevice.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="SshDevice.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/devices/ssh/SshDevice.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="97" column="15" selection-start="2421" selection-end="2421" vertical-scroll-proportion="0.0">
+            <state line="117" column="64" selection-start="3084" selection-end="3084" vertical-scroll-proportion="0.6880734">
+              <folding>
+                <element signature="e#2492#2655#0" expanded="true" />
+                <element signature="e#2640#2641#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DatabaseManager.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/database/DatabaseManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="110" column="92" selection-start="4252" selection-end="4328" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CoverService.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="DeviceManager.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/devices/DeviceManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="57" column="47" selection-start="1661" selection-end="1661" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Device.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/devices/Device.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="33" column="27" selection-start="665" selection-end="665" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LocalDevice.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/devices/local/LocalDevice.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="55" column="24" selection-start="1115" selection-end="1115" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CoverService.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/CoverService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="17" selection-start="436" selection-end="436" vertical-scroll-proportion="0.42105263">
+            <state line="11" column="0" selection-start="476" selection-end="476" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -117,42 +157,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Track.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/shared/Track.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="120" column="30" selection-start="2433" selection-end="2433" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DatabaseManager.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/database/DatabaseManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="194" column="56" selection-start="8271" selection-end="8271" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MusicServer.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/MusicServer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="80" column="33" selection-start="3096" selection-end="3096" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GwtMusicService.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/shared/GwtMusicService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="31" selection-start="614" selection-end="614" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="GwtMusicServiceAsync.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/shared/GwtMusicServiceAsync.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -175,9 +179,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/database/SqliteImportJob.java" />
-        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/TranscodeDataJob.java" />
-        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheManager.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/database/DatabaseManager.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/database/PlaylistDatabase.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/MusicServer.java" />
@@ -189,8 +190,11 @@
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/database/TrackDatabase.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/database/ImportJob.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/ssh/AuthenticationException.java" />
-        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/ssh/SshDevice.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java" />
+        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/Device.java" />
+        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/local/LocalDevice.java" />
+        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/DeviceManager.java" />
+        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/ssh/SshDevice.java" />
       </list>
     </option>
   </component>
@@ -416,6 +420,32 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="ssh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MusicServer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="music" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="server" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="devices" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="local" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -680,7 +710,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32874015" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31879196" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31879196" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Metrics" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
@@ -791,11 +821,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/database/PlaylistDatabase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="7" selection-start="2017" selection-end="2017" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/StreamService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="118" column="8" selection-start="4664" selection-end="5345" vertical-scroll-proportion="0.0" />
@@ -811,24 +836,9 @@
         <state line="100" column="60" selection-start="4237" selection-end="4237" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/devices/Device.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="17" selection-start="173" selection-end="173" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/devices/DeviceManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="13" selection-start="427" selection-end="427" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/shared/Track.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="120" column="30" selection-start="2433" selection-end="2433" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/database/DatabaseManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="194" column="56" selection-start="8271" selection-end="8271" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/MusicServer.java">
@@ -867,17 +877,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/devices/ssh/SshDevice.java">
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/CoverService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="97" column="15" selection-start="2421" selection-end="2421" vertical-scroll-proportion="0.0">
+        <state line="11" column="0" selection-start="476" selection-end="476" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/CoverService.java">
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/devices/Device.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="17" selection-start="436" selection-end="436" vertical-scroll-proportion="0.42105263">
+        <state line="33" column="27" selection-start="665" selection-end="665" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/devices/local/LocalDevice.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="24" selection-start="1115" selection-end="1115" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/database/DatabaseManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="110" column="92" selection-start="4252" selection-end="4328" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/devices/DeviceManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="47" selection-start="1661" selection-end="1661" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/devices/ssh/SshDevice.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="117" column="64" selection-start="3084" selection-end="3084" vertical-scroll-proportion="0.6880734">
+          <folding>
+            <element signature="e#2492#2655#0" expanded="true" />
+            <element signature="e#2640#2641#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

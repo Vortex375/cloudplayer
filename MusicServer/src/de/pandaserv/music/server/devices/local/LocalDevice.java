@@ -53,6 +53,11 @@ public class LocalDevice implements Device {
 
     @Override
     public void setup(Properties config) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        // nothing to do
+    }
+
+    @Override
+    public void shutdown() {
+        // nothing to do
     }
 }

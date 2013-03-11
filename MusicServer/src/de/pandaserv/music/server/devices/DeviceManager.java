@@ -5,13 +5,10 @@
 package de.pandaserv.music.server.devices;
 
 import de.pandaserv.music.server.database.DeviceDatabase;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 /**
  *
@@ -53,6 +50,16 @@ public class DeviceManager {
 
         loadDevices();
         logger.info("Loaded {} devices from database.", devices.size());
+
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                logger.info("Running shutdown hook: shutting down devices.");
+                for (Device d: devices.values()) {
+                    d.shutdown();
+                }
+            }
+        });
     }
 
     /**

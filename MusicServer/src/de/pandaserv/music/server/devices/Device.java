@@ -30,4 +30,6 @@ public interface Device {
     public InputStream getFile(String path) throws IOException;
     
     public void setup(Properties config);
+
+    public void shutdown();
 }
