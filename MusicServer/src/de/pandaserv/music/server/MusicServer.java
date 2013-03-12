@@ -55,7 +55,7 @@ public class MusicServer extends Server {
         // set up ssh forwarding service
         int sshPort = Integer.parseInt(startupConfig.getProperty("ssh_port"));
         if (sshPort > 0) {
-            SshPortForwardService serv = SshPortForwardService.setup(sshPort);
+            SshPortForwardService.setup(sshPort);
         }
         
         // set up http server
@@ -68,7 +68,7 @@ public class MusicServer extends Server {
         staticContent.addFilter(new FilterHolder(new CacheFilter()), "/*", EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
         staticContent.addServlet(staticContentHolder, "/");
 
-        // music service
+        // web service
         MusicService musicService = new MusicService();
         musicService.setResourceBase(startupConfig.getProperty("web_dir"));
         musicService.setContextPath("/");

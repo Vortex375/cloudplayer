@@ -36,6 +36,7 @@
     <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-security.jar"/>
     <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/hsqldb.jar"/>
     <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/sqlite-jdbc-3.7.2.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jsch-0.1.49.jar"/>
   </path>
   
   <path id="musicserver.runtime.production.module.classpath">
@@ -59,6 +60,7 @@
     <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-security.jar"/>
     <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/hsqldb.jar"/>
     <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/sqlite-jdbc-3.7.2.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jsch-0.1.49.jar"/>
   </path>
   
   <path id="musicserver.module.classpath">
@@ -83,6 +85,7 @@
     <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-security.jar"/>
     <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/hsqldb.jar"/>
     <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/sqlite-jdbc-3.7.2.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jsch-0.1.49.jar"/>
   </path>
   
   <path id="musicserver.runtime.module.classpath">
@@ -106,6 +109,7 @@
     <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-security.jar"/>
     <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/hsqldb.jar"/>
     <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/sqlite-jdbc-3.7.2.jar"/>
+    <pathelement location="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jsch-0.1.49.jar"/>
   </path>
   
   

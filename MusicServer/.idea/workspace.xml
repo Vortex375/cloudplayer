@@ -7,8 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7bd93867-2de8-4e07-bcf9-3e56608483f4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheManager.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.xml" afterPath="$PROJECT_DIR$/build.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/module_musicserver.xml" afterPath="$PROJECT_DIR$/module_musicserver.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/MusicServer.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/MusicServer.java" />
     </list>
     <ignored path="MusicServer.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -81,10 +82,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PrepareJob.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="PrepareJob.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="58" column="13" selection-start="1452" selection-end="1452" vertical-scroll-proportion="-0.04347826">
+            <state line="58" column="13" selection-start="1452" selection-end="1452" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MusicServer.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/MusicServer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="70" column="22" selection-start="2539" selection-end="2539" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MusicService.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/MusicService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="20" column="18" selection-start="681" selection-end="681" vertical-scroll-proportion="0.44347826">
               <folding />
             </state>
           </provider>
@@ -118,7 +137,6 @@
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/JobService.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/JobServlet.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/StreamService.java" />
-        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/MusicServer.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/shared/GwtMusicService.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/GwtMusicServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/CoverServlet.java" />
@@ -128,6 +146,7 @@
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/ssh/SshDevice.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheManager.java" />
+        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/MusicServer.java" />
       </list>
     </option>
   </component>
@@ -470,7 +489,7 @@
     <property name="GenerateAntBuildDialog.inclineRuntiemClasspath" value="false" />
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="musicserver" />
+    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="build" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GenerateAntBuildDialog.enableUiFormCompile" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
@@ -679,7 +698,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="44" y="21" width="1324" height="751" extended-state="7" />
+    <frame x="44" y="21" width="1324" height="751" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -827,18 +846,6 @@
         <state line="53" column="57" selection-start="3566" selection-end="3566" vertical-scroll-proportion="0.34911242" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/MusicServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="38" selection-start="2741" selection-end="2741" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/MusicService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="33" selection-start="405" selection-end="405" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/shared/GwtMusicService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="25" selection-start="323" selection-end="323" vertical-scroll-proportion="0.31304348">
@@ -899,7 +906,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="13" selection-start="1452" selection-end="1452" vertical-scroll-proportion="-0.04347826">
+        <state line="58" column="13" selection-start="1452" selection-end="1452" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/MusicServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="70" column="22" selection-start="2539" selection-end="2539" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/MusicService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="18" selection-start="681" selection-end="681" vertical-scroll-proportion="0.44347826">
           <folding />
         </state>
       </provider>
