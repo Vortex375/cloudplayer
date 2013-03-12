@@ -4,20 +4,13 @@
  */
 package de.pandaserv.music.server.devices.ssh;
 
+import com.jcraft.jsch.*;
 import de.pandaserv.music.server.devices.Device;
-import de.pandaserv.music.server.ssh.AuthenticationException;
-import org.apache.sshd.ClientSession;
-import org.apache.sshd.SshClient;
-import org.apache.sshd.client.channel.ChannelExec;
-import org.apache.sshd.client.future.AuthFuture;
-import org.apache.sshd.client.future.ConnectFuture;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 import java.util.Properties;
 
 /**
@@ -38,8 +31,8 @@ public class SshDevice implements Device {
     private String username;
     private String password;
 
-    private SshClient client;
-    private ClientSession session;
+    private JSch jsch;
+    private Session session;
 
     public SshDevice() {
         connected = false;
@@ -79,11 +72,10 @@ public class SshDevice implements Device {
 
     @Override
     public InputStream getFile(String path) {
-        if (!connected) {
+        if (!connected || !session.isConnected()) {
             try {
                 connect();
-                connected = true;
-            } catch (Exception e) {
+            } catch (JSchException e) {
                 logger.error("Failed to connect to ssh device.");
                 logger.error("Trace: ", e);
                 status = Status.ERROR;
@@ -91,23 +83,16 @@ public class SshDevice implements Device {
                 return null;
             }
         }
-
         try {
-            ChannelExec channel = session.createExecChannel("cat \"" + path + "\"");
-            PipedOutputStream out = new PipedOutputStream();
-            channel.setOut(out);
-            channel.setErr(System.err);
-            channel.setIn(new InputStream() {
-                @Override
-                public int read() throws IOException {
-                    return -1;
-                }
-            });
-            channel.open();
-            return new PipedInputStream(out);
-        } catch (Exception e) {
-            logger.error("Failed to retrieve file from ssh device.");
-            logger.error("Trace: ", e);
+            String command="cat \"" + path + "\"";
+            ChannelExec channel = (ChannelExec) session.openChannel("exec");
+            channel.setCommand(command);
+            channel.connect();
+
+            return channel.getInputStream();
+        } catch (JSchException | IOException e) {
+            logger.error("Failed to download file from ssh device.");
+            logger.error("Trace:", e);
             return null;
         }
     }
@@ -119,29 +104,29 @@ public class SshDevice implements Device {
         username = config.getProperty("ssh-username");
         password = config.getProperty("ssh-password");
 
-        client = SshClient.setUpDefaultClient();
-        client.start();
+        jsch = new JSch();
     }
 
     @Override
     public void shutdown() {
-        if (session != null) {
-            session.close(true);
+        if (session != null && session.isConnected()) {
+            session.disconnect();
+            session = null;
         }
-
-        client.stop();
     }
 
-    private void connect() throws Exception {
-        ConnectFuture cf = client.connect(host, port);
-        cf.await();
-        session = cf.getSession();
+    private void connect() throws JSchException {
+        session = jsch.getSession(username, host, port);
 
-        AuthFuture auth = session.authPassword(username, password);
-        auth.await();
-        if (!auth.isSuccess()) {
-            throw new AuthenticationException("Invalid username or password");
-        }
+        // disable host key checking
+        //TODO: maybe not the best thing to do?
+        java.util.Properties config = new java.util.Properties();
+        config.put("StrictHostKeyChecking", "no");
+        session.setConfig(config);
+
+        session.setPassword(password);
+        session.connect();
+        connected = true;
     }
 
 }

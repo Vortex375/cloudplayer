@@ -28,6 +28,7 @@
         <element id="file-copy" path="$PROJECT_DIR$/lib/jetty-security.jar" />
         <element id="file-copy" path="$PROJECT_DIR$/lib/hsqldb.jar" />
         <element id="file-copy" path="$PROJECT_DIR$/lib/sqlite-jdbc-3.7.2.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/lib/jsch-0.1.49.jar" />
       </element>
     </root>
   </artifact>

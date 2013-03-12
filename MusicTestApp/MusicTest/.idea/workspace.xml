@@ -2,17 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="52b2b0b8-67dd-45d8-9f4d-7df17230357f" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../MusicServer/src/de/pandaserv/music/server/service/CoverService.java" afterPath="$PROJECT_DIR$/../../MusicServer/src/de/pandaserv/music/server/service/CoverServlet.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../MusicServer/src/de/pandaserv/music/server/service/DatabaseService.java" afterPath="$PROJECT_DIR$/../../MusicServer/src/de/pandaserv/music/server/service/DatabaseServlet.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../MusicServer/src/de/pandaserv/music/server/service/JobService.java" afterPath="$PROJECT_DIR$/../../MusicServer/src/de/pandaserv/music/server/service/JobServlet.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../MusicServer/src/de/pandaserv/music/server/service/StreamService.java" afterPath="$PROJECT_DIR$/../../MusicServer/src/de/pandaserv/music/server/service/StreamServlet.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../MusicServer/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../../MusicServer/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../MusicServer/src/de/pandaserv/music/server/MusicServer.java" afterPath="$PROJECT_DIR$/../../MusicServer/src/de/pandaserv/music/server/MusicServer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../MusicServer/src/de/pandaserv/music/server/misc/HttpUtil.java" afterPath="$PROJECT_DIR$/../../MusicServer/src/de/pandaserv/music/server/misc/HttpUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../MusicServer/src/de/pandaserv/music/server/service/GwtMusicServiceImpl.java" afterPath="$PROJECT_DIR$/../../MusicServer/src/de/pandaserv/music/server/service/GwtMusicServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../MusicServer/src/de/pandaserv/music/server/service/MusicService.java" afterPath="$PROJECT_DIR$/../../MusicServer/src/de/pandaserv/music/server/service/MusicService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/MusicTest.java" afterPath="$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/MusicTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SharedEntities/src/shared/GwtMusicService.java" afterPath="$PROJECT_DIR$/../../SharedEntities/src/shared/GwtMusicService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="MusicTest.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -109,7 +100,7 @@
       <file leaf-file-name="MusicTest.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/MusicTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="36" selection-start="957" selection-end="957" vertical-scroll-proportion="0.07608695">
+            <state line="27" column="36" selection-start="957" selection-end="957" vertical-scroll-proportion="0.027173912">
               <folding />
             </state>
           </provider>
@@ -233,6 +224,30 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MusicTest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MusicTest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -565,30 +580,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MusicTest" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MusicTest" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -606,9 +597,9 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.searchVisible" value="true" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="GwtCreateUiBinderDialog.RecentRootElementType">
@@ -636,24 +627,6 @@
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
@@ -690,6 +663,24 @@
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" />
@@ -707,6 +698,26 @@
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
         <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="GWT.ConfigurationType" factoryName="GWT Configuration">
+      <module name="" />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JavascriptDebugSession" factoryName="Local">
+      <JSDebuggerConfigurationSettings>
+        <option name="engineId" value="embedded" />
+        <option name="fileUrl" />
+      </JSDebuggerConfigurationSettings>
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
@@ -729,26 +740,6 @@
       </option>
       <envs />
       <patterns />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
-    <configuration default="true" type="JavascriptDebugSession" factoryName="Local">
-      <JSDebuggerConfigurationSettings>
-        <option name="engineId" value="embedded" />
-        <option name="fileUrl" />
-      </JSDebuggerConfigurationSettings>
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
-    <configuration default="true" type="GWT.ConfigurationType" factoryName="GWT Configuration">
-      <module name="" />
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
@@ -809,7 +800,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="44" y="21" width="1324" height="751" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
@@ -825,7 +816,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24056605" sideWeight="0.77006936" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24056605" sideWeight="0.77006936" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22993062" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -975,6 +966,28 @@
         <state line="43" column="69" selection-start="1982" selection-end="1982" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/app.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="136" column="22" selection-start="1870" selection-end="1870" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/MusicTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="36" selection-start="957" selection-end="957" vertical-scroll-proportion="0.027173912">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/shared/GwtMusicService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="22" selection-start="320" selection-end="320" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/shared/GwtMusicServiceAsync.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="39" selection-start="280" selection-end="280" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/shared/Track.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="37" column="41" selection-start="995" selection-end="995" vertical-scroll-proportion="0.0" />
@@ -988,34 +1001,6 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/audio/AudioSystem.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="246" column="47" selection-start="8836" selection-end="8836" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/app.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="136" column="22" selection-start="1870" selection-end="1870" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/shared/GwtMusicServiceAsync.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="39" selection-start="280" selection-end="280" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/shared/GwtMusicService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="22" selection-start="320" selection-end="320" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/MusicTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="36" selection-start="957" selection-end="957" vertical-scroll-proportion="0.07608695">
-          <folding />
-        </state>
       </provider>
     </entry>
   </component>

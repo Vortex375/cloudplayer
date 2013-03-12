@@ -18,7 +18,7 @@ import java.io.*;
  */
 public class PrepareJob implements Job {
 
-    private static final int COPY_BUFFER_SIZE = 8192;
+    private static final int COPY_BUFFER_SIZE = 1048576; // 1MB
 
     static final Logger logger = LoggerFactory.getLogger(PrepareJob.class);
 
