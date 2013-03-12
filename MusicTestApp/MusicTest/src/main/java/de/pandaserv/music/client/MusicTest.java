@@ -3,8 +3,6 @@ package de.pandaserv.music.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Dictionary;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -48,6 +46,18 @@ public class MusicTest implements EntryPoint {
       view.setPresenter(presenter);
       Dictionary startupConfig = Dictionary.getDictionary("startupConfig");
       //presenter.setStreamId(Integer.parseInt(startupConfig.get("demoStreamId")));
+
+      service.testLogin(new AsyncCallback<Void>() {
+          @Override
+          public void onFailure(Throwable throwable) {
+              //To change body of implemented methods use File | Settings | File Templates.
+          }
+
+          @Override
+          public void onSuccess(Void aVoid) {
+              //To change body of implemented methods use File | Settings | File Templates.
+          }
+      });
 
       RootPanel.get().add(view);
   }

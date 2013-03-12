@@ -2,34 +2,25 @@ package de.pandaserv.music.server.service;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
-import de.pandaserv.music.shared.Track;
-import de.pandaserv.music.shared.TrackDetail;
 import de.pandaserv.music.server.database.TrackDatabase;
 import de.pandaserv.music.server.misc.HttpUtil;
-import org.eclipse.jetty.http.HttpMethods;
-import org.eclipse.jetty.server.Request;
-import org.eclipse.jetty.server.handler.AbstractHandler;
+import de.pandaserv.music.shared.Track;
+import de.pandaserv.music.shared.TrackDetail;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class DatabaseService extends AbstractHandler{
+public class DatabaseServlet extends HttpServlet {
     @Override
-    public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if (!request.getMethod().equals(HttpMethods.GET)) {
-            HttpUtil.fail(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Invalid method for stream. The only supported method is GET.",
-                    baseRequest, response);
-            return;
-        }
-
-        StringTokenizer tk = new StringTokenizer(target, "/");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        StringTokenizer tk = new StringTokenizer(request.getPathInfo(), "/");
         if (!tk.hasMoreTokens()) {
-            HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "The database object cannot be called directly.",
-                    baseRequest, response);
+            HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "The database object cannot be called directly.", response);
             return;
         }
 
@@ -39,23 +30,18 @@ public class DatabaseService extends AbstractHandler{
             case "tracks": {
                 if (!tk.hasMoreTokens()) {
                     listTracks(response);
-                    baseRequest.setHandled(true);
                 } else {
                     try {
                         long id = Long.parseLong(tk.nextToken());
                         getTrackInfo(id, response);
-                        baseRequest.setHandled(true);
                     } catch (NumberFormatException e) {
-                        HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "Invalid track id",
-                                baseRequest, response);
+                        HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "Invalid track id", response);
                     }
                 }
                 break;
             }
             default: {
-                HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "Unknown object: " + type,
-                        baseRequest, response);
-                return;
+                HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "Unknown object: " + type, response);
             }
         }
     }

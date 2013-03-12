@@ -1,8 +1,6 @@
 package de.pandaserv.music.shared;
 
 import com.google.gwt.user.client.rpc.RemoteService;
-import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import com.google.gwt.core.client.GWT;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,7 +10,7 @@ import com.google.gwt.core.client.GWT;
  * To change this template use File | Settings | File Templates.
  */
 public interface GwtMusicService extends RemoteService {
-    public String test();
+    public void testLogin();
 
     public void prepare(long id);
 

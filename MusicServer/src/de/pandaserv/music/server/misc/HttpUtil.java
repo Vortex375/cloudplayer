@@ -1,7 +1,5 @@
 package de.pandaserv.music.server.misc;
 
-import org.eclipse.jetty.server.Request;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,11 +12,11 @@ import java.io.PrintWriter;
  * To change this template use File | Settings | File Templates.
  */
 public class HttpUtil {
-    public static void fail(int statusCode, String message, Request baseRequest, HttpServletResponse response) throws IOException {
+    public static void fail(int statusCode, String message, HttpServletResponse response) throws IOException {
         response.setStatus(statusCode);
         PrintWriter out = new PrintWriter(response.getOutputStream());
         out.println(message);
         out.close();
-        baseRequest.setHandled(true);
+        //baseRequest.setHandled(true);
     }
 }

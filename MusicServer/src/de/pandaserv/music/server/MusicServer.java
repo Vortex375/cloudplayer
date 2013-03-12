@@ -8,7 +8,6 @@ import de.pandaserv.music.server.cache.CacheManager;
 import de.pandaserv.music.server.database.DatabaseManager;
 import de.pandaserv.music.server.devices.DeviceManager;
 import de.pandaserv.music.server.jobs.JobManager;
-import de.pandaserv.music.server.service.GwtMusicServiceImpl;
 import de.pandaserv.music.server.service.MusicService;
 import de.pandaserv.music.server.ssh.SshPortForwardService;
 import org.eclipse.jetty.server.Handler;
@@ -60,36 +59,23 @@ public class MusicServer extends Server {
         }
         
         // set up http server
-        
-        // static web app content
-        /*ResourceHandler resource = new ResourceHandler();
-        logger.info("Using web content path {}", startupConfig.getProperty("web_dir"));
-        resource.setResourceBase(startupConfig.getProperty("web_dir"));
-        //resource.setWelcomeFiles(new String[]{"MusicWebApp.html"});
-        //TODO: for testing only - disable later
-        resource.setDirectoriesListed(true);
-        resource.setAliases(true);*/
 
+        // static web app content
         ServletContextHandler staticContent = new ServletContextHandler();
-        staticContent.setContextPath("/");
         staticContent.setResourceBase(startupConfig.getProperty("web_dir"));
+        staticContent.setContextPath("/");
         ServletHolder staticContentHolder = new ServletHolder(new DefaultServlet());
         staticContent.addFilter(new FilterHolder(new CacheFilter()), "/*", EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
         staticContent.addServlet(staticContentHolder, "/");
 
         // music service
         MusicService musicService = new MusicService();
-        // gwt servlet
-        ServletContextHandler gwtContext = new ServletContextHandler();
-        // set resrouce base to web_dir, so the gwt servlet can access the serialization policy file
-        gwtContext.setResourceBase(startupConfig.getProperty("web_dir"));
-        gwtContext.setContextPath("/");
-        ServletHolder gwtServletHolder = new ServletHolder(new GwtMusicServiceImpl());
-        gwtContext.addServlet(gwtServletHolder, "/service/gwt");
+        musicService.setResourceBase(startupConfig.getProperty("web_dir"));
+        musicService.setContextPath("/");
 
         // register handlers and start server
         HandlerList handlers = new HandlerList();
-        handlers.setHandlers(new Handler[]{gwtContext, musicService, staticContent});
+        handlers.setHandlers(new Handler[]{musicService, staticContent});
 
         setHandler(handlers);
     }

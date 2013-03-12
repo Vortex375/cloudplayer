@@ -1,49 +1,31 @@
 package de.pandaserv.music.server.service;
 
-import org.eclipse.jetty.server.Request;
-import org.eclipse.jetty.server.handler.ContextHandler;
-import org.eclipse.jetty.server.handler.ContextHandlerCollection;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Enumeration;
-
-public class MusicService extends ContextHandlerCollection {
+public class MusicService extends ServletContextHandler {
 
     static final Logger logger = LoggerFactory.getLogger(MusicService.class);
 
     public MusicService() {
-        ContextHandler context;
+        // enable session support
+        super(SESSIONS);
 
         // stream object
-        context = new ContextHandler();
-        context.setContextPath("/service/stream");
-        context.setClassLoader(Thread.currentThread().getContextClassLoader());
-        context.setHandler(new StreamService());
-        addHandler(context);
-
+        addServlet(new ServletHolder(new StreamServlet()), "/service/stream/*");
         // cover object
-        context = new ContextHandler();
-        context.setContextPath("/service/cover");
-        context.setClassLoader(Thread.currentThread().getContextClassLoader());
-        context.setHandler(new CoverService());
-        addHandler(context);
-
-        // jobs object
-        context = new ContextHandler();
-        context.setContextPath("/service/jobs");
-        context.setClassLoader(Thread.currentThread().getContextClassLoader());
-        context.setHandler(new JobService());
-        addHandler(context);
+        addServlet(new ServletHolder(new CoverServlet()), "/service/cover/*");
+        // job object
+        addServlet(new ServletHolder(new JobServlet()), "/service/jobs");
+        // GWT interface
+        addServlet(new ServletHolder(new GwtMusicServiceImpl()), "/service/gwt");
     }
 
     /**
      * For debug output only
-     */
+
     @Override
     public void handle(String target, Request baseRequest, HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
@@ -70,5 +52,5 @@ public class MusicService extends ContextHandlerCollection {
         logger.debug(debug.toString());
 
         super.handle(target, baseRequest, request, response);
-    }
+    }*/
 }

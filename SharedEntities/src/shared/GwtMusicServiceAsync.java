@@ -10,8 +10,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * To change this template use File | Settings | File Templates.
  */
 public interface GwtMusicServiceAsync {
-    void test(AsyncCallback<String> cb);
-
     void prepare(long id, AsyncCallback<Void> async);
 
     // query methods
@@ -20,4 +18,6 @@ public interface GwtMusicServiceAsync {
     void getTrackInfo(long id, AsyncCallback<Track> async);
 
     void getStatus(long id, AsyncCallback<FileStatus> async);
+
+    void testLogin(AsyncCallback<Void> async);
 }

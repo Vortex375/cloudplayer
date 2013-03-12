@@ -1,32 +1,33 @@
 package de.pandaserv.music.server.service;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonGenerator;
 import de.pandaserv.music.server.database.TrackDatabase;
-import de.pandaserv.music.server.jobs.Job;
-import de.pandaserv.music.server.jobs.JobManager;
 import de.pandaserv.music.server.misc.HttpUtil;
 import de.pandaserv.music.shared.Cover;
-import org.eclipse.jetty.server.Request;
-import org.eclipse.jetty.server.handler.AbstractHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.util.Map;
 import java.util.StringTokenizer;
 
-class CoverService extends AbstractHandler {
+class CoverServlet extends HttpServlet {
+
+    static final Logger logger = LoggerFactory.getLogger(CoverServlet.class);
+
     @Override
-    public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //TODO: testing only
+        Object userId = request.getSession().getAttribute("test-userid");
+        logger.info("Test user id from session: {}", userId);
+
         // check if cover was specified
-        StringTokenizer tk = new StringTokenizer(target, "/");
+        StringTokenizer tk = new StringTokenizer(request.getPathInfo(), "/");
         if (!tk.hasMoreTokens()) {
-            HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "Please specify the cover's md5 sum.",
-                    baseRequest, response);
+            HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "Please specify the cover's md5 sum.", response);
             return;
         }
 
@@ -34,12 +35,10 @@ class CoverService extends AbstractHandler {
         String md5 = tk.nextToken();
         Cover cover = TrackDatabase.getInstance().getCover(md5);
         if (cover == null) {
-            HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "Unknown cover id.",
-                    baseRequest, response);
+            HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "Unknown cover id.", response);
             return;
         }
 
-        baseRequest.setHandled(true);
         response.setContentType(cover.getMimeType());
         response.setContentLength(cover.getData().length);
         OutputStream out = response.getOutputStream();

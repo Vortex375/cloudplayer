@@ -1,18 +1,15 @@
 package de.pandaserv.music.server.service;
 
 import de.pandaserv.music.server.cache.CacheManager;
-import de.pandaserv.music.server.cache.TranscodeInputStream;
-import de.pandaserv.music.shared.FileStatus;
 import de.pandaserv.music.server.jobs.Job;
 import de.pandaserv.music.server.jobs.JobManager;
 import de.pandaserv.music.server.misc.HttpUtil;
-import org.eclipse.jetty.http.HttpMethods;
-import org.eclipse.jetty.server.Request;
-import org.eclipse.jetty.server.handler.AbstractHandler;
+import de.pandaserv.music.shared.FileStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -20,11 +17,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.StringTokenizer;
 
-public class StreamService extends AbstractHandler {
+public class StreamServlet extends HttpServlet {
 
     private static final int STREAM_BUFFER_SIZE = 5120; // 5kB
 
-    static final Logger logger = LoggerFactory.getLogger(StreamService.class);
+    static final Logger logger = LoggerFactory.getLogger(StreamServlet.class);
 
     private static class StreamJob implements Job {
 
@@ -109,18 +106,15 @@ public class StreamService extends AbstractHandler {
     }
 
     @Override
-    public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if (!request.getMethod().equals(HttpMethods.GET)) {
-            HttpUtil.fail(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Invalid method for stream. The only supported method is GET.",
-                    baseRequest, response);
-            return;
-        }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Object userId = request.getSession().getAttribute("test-userid"); //TODO: use actual user id attribute here
+        logger.info("Processing stream request for user {}...", userId);
 
         // check if stream id was specified
-        StringTokenizer tk = new StringTokenizer(target, "/");
+        StringTokenizer tk = new StringTokenizer(request.getPathInfo(), "/");
         if (!tk.hasMoreTokens()) {
             HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "Please specify a stream id, such as \"/stream/12345\".",
-                    baseRequest, response);
+                    response);
             return;
         }
 
@@ -130,16 +124,14 @@ public class StreamService extends AbstractHandler {
         try {
             id = Long.parseLong(idString);
         } catch (NumberFormatException e) {
-            HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "Invalid stream id: " + idString,
-                    baseRequest, response);
+            HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "Invalid stream id: " + idString, response);
             return;
         }
 
         // get stream data
         if (!(CacheManager.getInstance().getStatus(id) == FileStatus.PREPARED || CacheManager.getInstance().getStatus(id) == FileStatus.TRANSCODING)) {
             // stream is not (yet) available
-            HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "No data is available for this stream.",
-                    baseRequest, response);
+            HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "No data is available for this stream.", response);
             return;
         }
 
@@ -166,8 +158,7 @@ public class StreamService extends AbstractHandler {
             isRangeRequest = false;
         } else if (!rangeHeader.startsWith("bytes=")) {
             // range not specified in bytes
-            HttpUtil.fail(HttpServletResponse.SC_BAD_REQUEST, "The only accepted Range is \"byte\"",
-                    baseRequest, response);
+            HttpUtil.fail(HttpServletResponse.SC_BAD_REQUEST, "The only accepted Range is \"byte\"", response);
             return;
         } else {
             isRangeRequest = true;
@@ -182,16 +173,14 @@ public class StreamService extends AbstractHandler {
                     rangeEnd = Long.parseLong(rangeStrings[1]);
                 }
             } catch (NumberFormatException e) {
-                HttpUtil.fail(HttpServletResponse.SC_BAD_REQUEST, "Unable to parse Range header.",
-                        baseRequest, response);
+                HttpUtil.fail(HttpServletResponse.SC_BAD_REQUEST, "Unable to parse Range header.", response);
                 return;
             }
         }
 
         // check for valid ranges
         if (rangeEnd < rangeStart) {
-            HttpUtil.fail(HttpServletResponse.SC_BAD_REQUEST, "Invalid ranges specified in request.",
-                    baseRequest, response);
+            HttpUtil.fail(HttpServletResponse.SC_BAD_REQUEST, "Invalid ranges specified in request.", response);
             return;
         }
         if (rangeEnd > available) {
@@ -203,7 +192,7 @@ public class StreamService extends AbstractHandler {
             inStream = CacheManager.getInstance().getInputStream(id);
         } catch (IOException e) {
             logger.error("Unable to get input stream for {}", id);
-            HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "Unable to open input stream", baseRequest, response);
+            HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "Unable to open input stream", response);
             return;
         }
         OutputStream outStream = response.getOutputStream();
@@ -233,7 +222,6 @@ public class StreamService extends AbstractHandler {
         }
         response.setHeader("Accept-Ranges", "bytes");
         response.setHeader("Content-Type", "audio/webm"); //TODO: always webm!!
-        baseRequest.setHandled(true);
 
         // begin streaming task
 
@@ -244,8 +232,8 @@ public class StreamService extends AbstractHandler {
             client = request.getRemoteAddr();
         }
         StreamJob streamJob = new StreamJob(id, client,
-                                            outStream, inStream,
-                                            rangeStart, rangeEnd);
+                outStream, inStream,
+                rangeStart, rangeEnd);
         streamJob.run();
     }
 }

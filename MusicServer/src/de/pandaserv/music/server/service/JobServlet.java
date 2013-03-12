@@ -4,20 +4,19 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import de.pandaserv.music.server.jobs.Job;
 import de.pandaserv.music.server.jobs.JobManager;
-import org.eclipse.jetty.server.Request;
-import org.eclipse.jetty.server.handler.AbstractHandler;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
 
-class JobService extends AbstractHandler {
+class JobServlet extends HttpServlet {
     @Override
-    public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if (!target.equals("/")) {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!request.getPathInfo().equals("/")) {
             // for now
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             PrintWriter out = response.getWriter();
@@ -46,4 +45,5 @@ class JobService extends AbstractHandler {
         jg.flush();
         jg.close();
     }
+
 }

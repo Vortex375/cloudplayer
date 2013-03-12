@@ -24,9 +24,10 @@ public class GwtMusicServiceImpl extends RemoteServiceServlet implements GwtMusi
     static final Logger logger = LoggerFactory.getLogger(GwtMusicServiceImpl.class);
 
     @Override
-    public String test() {
-        logger.info("Hello World!");
-        return "Hello World!";
+    public void testLogin() {
+        long testId = System.currentTimeMillis();
+        getThreadLocalRequest().getSession().setAttribute("test-userid", testId);
+        logger.info("testLogin(): set random test user id={}", testId);
     }
 
     @Override
