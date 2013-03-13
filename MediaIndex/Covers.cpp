@@ -171,8 +171,9 @@ QByteArray Covers::extractImageOgg(Ogg::XiphComment *tag, Database *db)
 //         qDebug() << "No picture block found in tag" << endl;
         String base64 = pictureBlock.front();
         QByteArray frameData = QByteArray::fromBase64(QByteArray(base64.toCString()));
-        ID3v2::AttachedPictureFrame picture(ByteVector(frameData.data(), frameData.size()));
-        return storeID3PictureFrame(&picture, db);
+        //ID3v2::AttachedPictureFrame picture(ByteVector(frameData.data(), frameData.size()));
+	FLAC::Picture picture(ByteVector(frameData.data(), frameData.size()));
+        return storeFLACPicture(&picture, db);
     }
 
     return QByteArray();
@@ -181,7 +182,7 @@ QByteArray Covers::extractImageOgg(Ogg::XiphComment *tag, Database *db)
 QByteArray Covers::storeID3PictureFrame(ID3v2::AttachedPictureFrame* picture, Database* db)
 {
 //     qDebug() << "Store id3 picture frame." << endl;
-    String mimetype = picture->mimeType();
+    String mimeType = picture->mimeType();
     ByteVector pictureData = picture->picture();
     int length = pictureData.size();
     QByteArray md5Data = md5(pictureData.data(), length);
@@ -191,8 +192,22 @@ QByteArray Covers::storeID3PictureFrame(ID3v2::AttachedPictureFrame* picture, Da
 
     if (!db->hasCover(md5Data.data())) {
 //         qDebug() << "Added new cover: " << md5Data << endl;
-        db->addCover(md5Data.data(), pictureData.data(), length, mimetype.toCString());
+        db->addCover(md5Data.data(), pictureData.data(), length, mimeType.toCString());
         //out << endl << "Added new cover image: " << md5Data << endl;
+    }
+    return md5Data;
+}
+
+QByteArray Covers::storeFLACPicture(FLAC::Picture* picture, Database* db)
+{
+    String mimeType = picture->mimeType();
+    ByteVector pictureData = picture->data();
+    int length = pictureData.size();
+    QByteArray md5Data = md5(pictureData.data(), length);
+    md5Data = md5Data.toHex(); // convert to hex representation
+
+    if (!db->hasCover(md5Data.data())) {
+        db->addCover(md5Data.data(), pictureData.data(), length, mimeType.toCString());
     }
     return md5Data;
 }

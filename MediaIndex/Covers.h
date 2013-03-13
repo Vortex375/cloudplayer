@@ -25,6 +25,7 @@
 #include <taglib/id3v2tag.h>
 #include <taglib/xiphcomment.h>
 #include <taglib/attachedpictureframe.h>
+#include <flacpicture.h>
 
 using namespace TagLib;
 
@@ -46,6 +47,7 @@ private:
     QByteArray extractImageFromDir(QString path, Database *db);
     QByteArray md5(char *input, int length);
     QByteArray storeID3PictureFrame(ID3v2::AttachedPictureFrame* picture, Database* db);
+    QByteArray storeFLACPicture(FLAC::Picture* picture, Database* db);
 };
 
 #endif // COVERS_H
