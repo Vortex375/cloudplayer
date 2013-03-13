@@ -41,6 +41,8 @@ class CoverServlet extends HttpServlet {
 
         response.setContentType(cover.getMimeType());
         response.setContentLength(cover.getData().length);
+        // covers are identified by their md5 sum, so they can be cached forever
+        response.setHeader("Cache-Control", "max-age=31556926");
         OutputStream out = response.getOutputStream();
         out.write(cover.getData());
         out.flush();
