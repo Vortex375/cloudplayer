@@ -244,7 +244,7 @@ QByteArray Covers::extractImageFromDir(QString path, Database* db)
     // load and store file
     QFile imageFile(dir.absoluteFilePath(files.at(pos)));
 //     qDebug() << "Picked cover file: " << imageFile.fileName() << endl;
-    QString mimeType;
+    QString mimeType("");
     if (imageFile.fileName().endsWith("jpg", Qt::CaseInsensitive) || imageFile.fileName().endsWith("jpeg", Qt::CaseInsensitive)) {
         mimeType = QString("image/jpeg");
     } else if (imageFile.fileName().endsWith("png", Qt::CaseInsensitive)) {
