@@ -83,9 +83,19 @@ public class PrepareJob implements Job {
                 InputStream inStream = device.getFile(path);
                 if (inStream == null) {
                     logger.error("Unable to get input stream from device.");
+                    // close communication with the transcode process
+                    outStream.write(0);
+                    outStream.flush();
+                    outStream.close();
+                    try {
+                        proc.waitFor();
+                    } catch (InterruptedException e) {
+                        // ignore
+                    }
                     CacheManager.getInstance().prepareFailed(id, "Unable to get input stream from device.");
                     return;
                 }
+
                 // start copy process
                 byte[] buf = new byte[COPY_BUFFER_SIZE];
                 int read = inStream.read(buf);
@@ -93,6 +103,7 @@ public class PrepareJob implements Job {
                     outStream.write(buf, 0, read);
                     read = inStream.read(buf);
                 }
+
                 // finish copy
                 outStream.flush();
                 outStream.close();
