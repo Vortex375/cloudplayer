@@ -10,13 +10,14 @@ import com.google.gwt.user.client.rpc.RemoteService;
  * To change this template use File | Settings | File Templates.
  */
 public interface GwtMusicService extends RemoteService {
-    public void testLogin();
+    public long login(String username, String password);
+    public void logout();
 
-    public void prepare(long id);
+    public void prepare(long id) throws AccessDeniedException;
 
     // query methods
-    public TrackDetail[] trackQuerySimple(String query);
+    public TrackDetail[] trackQuerySimple(String query) throws AccessDeniedException;
+    public Track getTrackInfo(long id) throws AccessDeniedException;
 
-    public Track getTrackInfo(long id);
-    public FileStatus getStatus(long id);
+    public FileStatus getStatus(long id) throws AccessDeniedException;
 }

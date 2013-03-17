@@ -2,6 +2,7 @@ package de.pandaserv.music.server.service;
 
 import de.pandaserv.music.server.database.TrackDatabase;
 import de.pandaserv.music.server.misc.HttpUtil;
+import de.pandaserv.music.server.misc.SessionUtil;
 import de.pandaserv.music.shared.Cover;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +21,10 @@ class CoverServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //TODO: testing only
-        Object userId = request.getSession().getAttribute("test-userid");
-        logger.info("Test user id from session: {}", userId);
+        if (SessionUtil.getUserId(request) < 0) {
+            HttpUtil.fail(HttpServletResponse.SC_FORBIDDEN, "You must log in to access this interface.", response);
+            return;
+        }
 
         // check if cover was specified
         StringTokenizer tk = new StringTokenizer(request.getPathInfo(), "/");

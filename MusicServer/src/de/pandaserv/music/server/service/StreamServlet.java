@@ -4,6 +4,7 @@ import de.pandaserv.music.server.cache.CacheManager;
 import de.pandaserv.music.server.jobs.Job;
 import de.pandaserv.music.server.jobs.JobManager;
 import de.pandaserv.music.server.misc.HttpUtil;
+import de.pandaserv.music.server.misc.SessionUtil;
 import de.pandaserv.music.shared.FileStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,8 +108,10 @@ public class StreamServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Object userId = request.getSession().getAttribute("test-userid"); //TODO: use actual user id attribute here
-        logger.info("Processing stream request for user {}...", userId);
+        if (SessionUtil.getUserId(request) < 0) {
+            HttpUtil.fail(HttpServletResponse.SC_FORBIDDEN, "You must log in to access this interface.", response);
+            return;
+        }
 
         // check if stream id was specified
         StringTokenizer tk = new StringTokenizer(request.getPathInfo(), "/");

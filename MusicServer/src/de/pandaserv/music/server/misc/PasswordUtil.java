@@ -6,12 +6,12 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 
 /**
- * PasswordTools
+ * PasswordUtil
  *
  * Tools for dealing with passwords.
  *
  */
-public class PasswordTools {
+public class PasswordUtil {
     /**
      * Encode the given plain-text password using SHA-1
      * with the current timestamp as salt.

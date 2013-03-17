@@ -1,13 +1,5 @@
 package de.pandaserv.music.server.database;
 
-import de.pandaserv.music.server.misc.PasswordTools;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 public class PlaylistDatabase {
 /*
     static final Logger logger = LoggerFactory.getLogger(PlaylistDatabase.class);
@@ -40,7 +32,7 @@ public class PlaylistDatabase {
         ResultSet rs;
 
         // encode password
-        String passwordEnc = PasswordTools.encodePassword(password);
+        String passwordEnc = PasswordUtil.encodePassword(password);
         if (passwordEnc == null) {
             logger.warn("not adding user \"{}\": unable to encode password!", username);
             return false;

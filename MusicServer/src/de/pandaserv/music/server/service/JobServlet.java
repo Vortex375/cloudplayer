@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import de.pandaserv.music.server.jobs.Job;
 import de.pandaserv.music.server.jobs.JobManager;
+import de.pandaserv.music.server.misc.HttpUtil;
+import de.pandaserv.music.server.misc.SessionUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,6 +18,11 @@ import java.util.Map;
 class JobServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (SessionUtil.getUserId(request) < 0) {
+            HttpUtil.fail(HttpServletResponse.SC_FORBIDDEN, "You must log in to access this interface.", response);
+            return;
+        }
+
         if (!request.getPathInfo().equals("/")) {
             // for now
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
