@@ -1,0 +1,88 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:b='urn:import:com.github.gwtbootstrap.client.ui'
+             xmlns:my='urn:import:de.pandaserv.music.client.widgets'>
+    <g:HTMLPanel>
+        <b:Navbar addStyleNames="pageHeader" ui:field="header" position="STATIC_TOP">
+            <b:Brand>PandaServ Music (Test App)</b:Brand>
+        </b:Navbar>
+        <g:HTMLPanel ui:field="mainContent" addStyleNames="mainContent">
+        <b:Container>
+            <b:Column offset="1" size="10">
+                <b:Row addStyleNames="strut">
+                    <!-- spacing -->
+                </b:Row>
+
+                <b:Row addStyleNames="styled-row">
+                    <g:FlowPanel addStyleNames="form-search">
+                        <b:AppendButton>
+                            <b:InputAddOn prependIcon="SEARCH">
+                                <b:TextBox ui:field="searchBox" addStyleNames="input-large" placeholder="Type here to find tracks..."/>
+                            </b:InputAddOn>
+                            <b:Button ui:field="clearSearchButton" icon="REMOVE_CIRCLE"/>
+                        </b:AppendButton>
+                    </g:FlowPanel>
+                    <g:FlexTable ui:field="searchResults" addStyleNames="fullWidth"/>
+                </b:Row>
+
+                <b:Row addStyleNames="strut">
+                    <!-- spacing -->
+                </b:Row>
+
+            </b:Column>
+        </b:Container>
+        </g:HTMLPanel>
+
+        <g:HTMLPanel ui:field="footer" addStyleNames="styled-row fullWidth">
+            <b:Container>
+                <b:Column size="12">
+                    <b:Row>
+                        <g:HTMLPanel addStyleNames="nowPlayingWell">
+                            <table class="fullWidth">
+                                <tr>
+                                    <td>
+                                        <g:Image ui:field="albumCover" addStyleNames="albumCover" visible="false"/>
+                                    </td>
+                                    <td class="nowrap fullTableColumn">
+                                        <g:FlowPanel>
+                                            <g:Label ui:field="titleLabel" addStyleNames="titleLabel">Track Title
+                                            </g:Label>
+                                            <g:Label ui:field="artistLabel" addStyleNames="artistLabel">Artist Name
+                                            </g:Label>
+                                            <g:Label ui:field="albumLabel" addStyleNames="albumLabel">Album</g:Label>
+                                        </g:FlowPanel>
+                                    </td>
+                                    <td class="rightText">
+                                        <g:FlowPanel ui:field="visHolder"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </g:HTMLPanel>
+                    </b:Row>
+                </b:Column>
+            </b:Container>
+            <g:HTMLPanel addStyleNames="playbackControls">
+                <table>
+                    <tr>
+                        <td>
+                            <b:ButtonGroup addStyleNames="inline">
+                                <b:Button ui:field="prevButton" icon="BACKWARD" addStyleNames="playbackButton"/>
+                                <b:Button ui:field="playButton" icon="PLAY" addStyleNames="playbackButton"/>
+                                <b:Button ui:field="nextButton" icon="FORWARD" addStyleNames="playbackButton"/>
+                            </b:ButtonGroup>
+                        </td>
+                        <td>
+                            <g:Label ui:field="timeLabel" addStyleNames="timeLabel"/>
+                        </td>
+                        <td class="fullTableColumn">
+                            <my:Slider ui:field="timeSlider" addStyleNames="timeSlider"/>
+                        </td>
+                        <td>
+                            <g:Label ui:field="durationLabel" addStyleNames="durationLabel"/>
+                        </td>
+                    </tr>
+                </table>
+            </g:HTMLPanel>
+        </g:HTMLPanel>
+    </g:HTMLPanel>
+</ui:UiBinder>
