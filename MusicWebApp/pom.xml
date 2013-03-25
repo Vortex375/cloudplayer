@@ -88,13 +88,15 @@
             </goals>
           </execution>
         </executions>
-        <!-- Plugin configuration. There are many available options, see 
+        <!-- Plugin configuration. There are many available options, see
           gwt-maven-plugin documentation at codehaus.org -->
         <configuration>
           <runTarget>index.html</runTarget>
           <hostedWebapp>${webappDirectory}</hostedWebapp>
           <!-- <i18nMessagesBundle>de.pandaserv.music.client.Messages</i18nMessagesBundle> -->
-          <module>de.pandaserv.music.MusicTest</module>
+          <module>de.pandaserv.music.MusicApp</module>
+          <!-- <enableClosureCompiler>true</enableClosureCompiler> -->
+          <extra>extras</extra>
         </configuration>
       </plugin>
 

@@ -7,8 +7,9 @@ import com.google.gwt.media.client.Audio;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import de.pandaserv.music.client.MusicTest;
+import de.pandaserv.music.client.MusicApp;
 import de.pandaserv.music.client.audio.AudioSystem;
+import de.pandaserv.music.client.remote.RemoteService;
 import de.pandaserv.music.client.views.MusicTestView;
 import de.pandaserv.music.client.misc.NotSupportedException;
 import de.pandaserv.music.client.misc.PlaybackStatus;
@@ -124,7 +125,7 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
             audioSystem.connect();
         }
 
-        MusicTest.getService().getTrackInfo(id, new AsyncCallback<Track>() {
+        RemoteService.getInstance().getTrackInfo(id, new AsyncCallback<Track>() {
             @Override
             public void onFailure(Throwable throwable) {
 
@@ -139,7 +140,7 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
 
     private void checkFileStatus() {
         watchTimer.cancel();
-        MusicTest.getService().getStatus(watchId, new AsyncCallback<FileStatus>() {
+        RemoteService.getInstance().getStatus(watchId, new AsyncCallback<FileStatus>() {
             @Override
             public void onFailure(Throwable throwable) {
 
@@ -220,7 +221,7 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
             view.showWaitOnResult(waitIndex, false);
             waitIndex = -1;
         }
-        MusicTest.getService().trackQuerySimple(view.getSearchQuery(), new AsyncCallback<TrackDetail[]>() {
+        RemoteService.getInstance().trackQuerySimple(view.getSearchQuery(), new AsyncCallback<TrackDetail[]>() {
             @Override
             public void onFailure(Throwable throwable) {
                 view.showError(true);
@@ -245,7 +246,7 @@ public class MusicTestPresenter implements MusicTestView.Presenter {
         }
         watchId = queryResultIds[index];
         waitIndex = index;
-        MusicTest.getService().prepare(watchId, new AsyncCallback<Void>() {
+        RemoteService.getInstance().prepare(watchId, new AsyncCallback<Void>() {
             @Override
             public void onFailure(Throwable throwable) {
             }

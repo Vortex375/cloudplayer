@@ -12,6 +12,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
 public interface GwtMusicService extends RemoteService {
     public long login(String username, String password);
     public void logout();
+    public long getCurrentUserId();
 
     public void prepare(long id) throws AccessDeniedException;
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module rename-to='MusicTest'>
+<module rename-to='MusicApp'>
     <!-- Inherit the core Web Toolkit stuff.                        -->
     <inherits name='com.google.gwt.user.User'/>
     <inherits name="com.google.gwt.resources.Resources"/>
@@ -26,7 +26,7 @@
     <set-property name="bootstrap.responsiveDesign" value="true"/>
 
     <!-- Specify the app entry point class.                         -->
-    <entry-point class='de.pandaserv.music.client.MusicTest'/>
+    <entry-point class='de.pandaserv.music.client.Startup'/>
 
    <!-- <set-property name="user.agent" value="safari" /> -->
 

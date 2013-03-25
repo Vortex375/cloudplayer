@@ -42,6 +42,11 @@ public class GwtMusicServiceImpl extends RemoteServiceServlet implements GwtMusi
     }
 
     @Override
+    public long getCurrentUserId() {
+        return SessionUtil.getUserId(getThreadLocalRequest());
+    }
+
+    @Override
     public void prepare(long id) throws AccessDeniedException {
         if (SessionUtil.getUserId(getThreadLocalRequest()) < 0) {
             // not logged in

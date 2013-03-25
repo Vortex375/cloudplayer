@@ -7,119 +7,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7bd93867-2de8-4e07-bcf9-3e56608483f4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/shared" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/css/ui-lightness/images/animated-overlay.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/css/ui-lightness/images/ui-bg_diagonals-thick_18_b81900_40x40.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/css/ui-lightness/images/ui-bg_diagonals-thick_20_666666_40x40.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/css/ui-lightness/images/ui-bg_flat_10_000000_40x100.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/css/ui-lightness/images/ui-bg_glass_100_f6f6f6_1x400.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/css/ui-lightness/images/ui-bg_glass_100_fdf5ce_1x400.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/css/ui-lightness/images/ui-bg_glass_65_ffffff_1x400.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/css/ui-lightness/images/ui-bg_gloss-wave_35_f6a828_500x100.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/css/ui-lightness/images/ui-bg_highlight-soft_100_eeeeee_1x100.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/css/ui-lightness/images/ui-bg_highlight-soft_75_ffe45c_1x100.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/css/ui-lightness/images/ui-icons_222222_256x240.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/css/ui-lightness/images/ui-icons_228ef1_256x240.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/css/ui-lightness/images/ui-icons_ef8c08_256x240.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/css/ui-lightness/images/ui-icons_ffd27a_256x240.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/css/ui-lightness/images/ui-icons_ffffff_256x240.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/favicon.ico" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/img/logo.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/img/noize.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/pom.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/MusicTest.gwt.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/MusicTest.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/audio/AudioSystem.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/math/Complex.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/math/FFT.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/misc/JSUtil.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/misc/NotSupportedException.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/misc/PlaybackStatus.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/misc/TimeUtil.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/presenters/MusicTestPresenter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/MusicTestView.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/MusicTestView.ui.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/MusicTestViewImpl.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/widgets/Slider.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/widgets/Visualization.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/app.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/css/glisse.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/css/ui-lightness/jquery-ui-1.10.0.custom.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/js/glisse.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/js/jquery-1.9.0.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/js/jquery-ui-1.10.0.custom.min.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/.classpath" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/.project" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/.settings/com.google.gdt.eclipse.core.prefs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/.settings/org.eclipse.jdt.core.prefs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/pom.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/src/main/java/de/pandaserv/music/mobile/MusicMobileApp.gwt.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/src/main/java/de/pandaserv/music/mobile/client/AppPlaceHistoryMapper.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/src/main/java/de/pandaserv/music/mobile/client/ClientFactory.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/src/main/java/de/pandaserv/music/mobile/client/ClientFactoryImpl.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/src/main/java/de/pandaserv/music/mobile/client/MgwtAppEntryPoint.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/src/main/java/de/pandaserv/music/mobile/client/PhoneActivityMapper.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/src/main/java/de/pandaserv/music/mobile/client/PhoneAnimationMapper.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/src/main/java/de/pandaserv/music/mobile/client/TabletMainActivityMapper.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/src/main/java/de/pandaserv/music/mobile/client/TabletMainAnimationMapper.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/src/main/java/de/pandaserv/music/mobile/client/TabletNavActivityMapper.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/src/main/java/de/pandaserv/music/mobile/client/TabletNavAnimationMapper.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/src/main/java/de/pandaserv/music/mobile/client/activities/HomePlace.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/src/main/java/de/pandaserv/music/mobile/client/css/AppBundle.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/src/main/java/de/pandaserv/music/mobile/client/css/app.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/src/main/webapp/WEB-INF/web.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/src/main/webapp/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/MusicMobileApp/MusicMobileApp.nocache.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/MusicMobileApp/clear.cache.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/MusicMobileApp/hosted.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/classes/de/pandaserv/music/mobile/MusicMobileApp.gwt.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/classes/de/pandaserv/music/mobile/client/AppPlaceHistoryMapper.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/classes/de/pandaserv/music/mobile/client/ClientFactory.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/classes/de/pandaserv/music/mobile/client/ClientFactoryImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/classes/de/pandaserv/music/mobile/client/MgwtAppEntryPoint$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/classes/de/pandaserv/music/mobile/client/MgwtAppEntryPoint$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/classes/de/pandaserv/music/mobile/client/MgwtAppEntryPoint.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/classes/de/pandaserv/music/mobile/client/PhoneActivityMapper.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/classes/de/pandaserv/music/mobile/client/PhoneAnimationMapper.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/classes/de/pandaserv/music/mobile/client/TabletMainActivityMapper.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/classes/de/pandaserv/music/mobile/client/TabletMainAnimationMapper.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/classes/de/pandaserv/music/mobile/client/TabletNavActivityMapper.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/classes/de/pandaserv/music/mobile/client/TabletNavAnimationMapper.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/classes/de/pandaserv/music/mobile/client/activities/HomePlace$HomePlaceTokenizer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/classes/de/pandaserv/music/mobile/client/activities/HomePlace.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/classes/de/pandaserv/music/mobile/client/css/AppBundle.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/classes/de/pandaserv/music/mobile/client/css/app.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/deploy/MusicMobileApp/rpcPolicyManifest/manifest.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/lib/commons-io-2.0.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/lib/gwt-user-2.4.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/lib/gwtphonegap-1.8.1.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/lib/mgwt-1.1.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/lib/validation-api-1.0.0.GA-sources.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/lib/validation-api-1.0.0.GA.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/WEB-INF/web.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/MusicMobileApp-1.0-SNAPSHOT/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicMobileApp/target/gwt-unitCache/gwt-unitCache-0000013A17A5A38C" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/.classpath" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/.project" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/art/bg.xcf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/art/logo.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/src/de/pandaserv/music/MusicWebApp.gwt.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/src/de/pandaserv/music/client/MusicWebApp.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/src/de/pandaserv/music/client/activities/MyActivityMapper.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/src/de/pandaserv/music/client/places/MyPlace.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/src/de/pandaserv/music/client/places/MyPlaceHistoryMapper.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/war/MusicWebApp.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/war/MusicWebApp.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/war/images/bg.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/war/images/bg2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/war/images/folders.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/war/images/gears.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/war/images/glyphish.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/war/images/logo.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/war/images/note.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/war/images/playlist.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/war/images/search.png" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/MusicApp.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/i18n/GuiConstants.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/remote/MyAsyncCallback.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/remote/RemoteService.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/LoginView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/LoginView.ui.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/LoginViewImpl.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/MusicTest.gwt.xml" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/MusicApp.gwt.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/MusicTest.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/Startup.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/service/GwtMusicServiceImpl.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/service/GwtMusicServiceImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/MusicWebApp.iml" afterPath="$PROJECT_DIR$/../MusicWebApp/MusicWebApp.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/pom.xml" afterPath="$PROJECT_DIR$/../MusicWebApp/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/presenters/MusicTestPresenter.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/presenters/MusicTestPresenter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/app.css" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/app.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SharedEntities/src/shared/GwtMusicService.java" afterPath="$PROJECT_DIR$/../SharedEntities/src/shared/GwtMusicService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SharedEntities/src/shared/GwtMusicServiceAsync.java" afterPath="$PROJECT_DIR$/../SharedEntities/src/shared/GwtMusicServiceAsync.java" />
     </list>
     <ignored path="MusicServer.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -184,7 +88,7 @@
       <file leaf-file-name="GwtMusicService.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/shared/GwtMusicService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="0" selection-start="622" selection-end="622" vertical-scroll-proportion="0.0">
+            <state line="21" column="0" selection-start="658" selection-end="658" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -193,7 +97,7 @@
       <file leaf-file-name="GwtMusicServiceImpl.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/GwtMusicServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="45" column="15" selection-start="1365" selection-end="1365" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -208,10 +112,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JobServlet.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="JobServlet.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/JobServlet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="9" selection-start="953" selection-end="953" vertical-scroll-proportion="0.15447992">
+            <state line="23" column="9" selection-start="953" selection-end="953" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -262,10 +166,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SessionUtil.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="SessionUtil.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/misc/SessionUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="18" selection-start="421" selection-end="421" vertical-scroll-proportion="0.0">
+            <state line="16" column="23" selection-start="426" selection-end="426" vertical-scroll-proportion="0.24896266">
               <folding />
             </state>
           </provider>
@@ -296,18 +200,16 @@
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/shared/SecurityException.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/shared/AccessDeniedException.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/shared/GwtMusicService.java" />
-        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/GwtMusicServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/StreamServlet.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/CoverServlet.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/JobServlet.java" />
+        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/GwtMusicServiceImpl.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-2" />
-    <option name="y" value="-3" />
-    <option name="width" value="1924" />
-    <option name="height" value="1161" />
+    <option name="width" value="1918" />
+    <option name="height" value="1154" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -368,6 +270,16 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="MusicServer" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -638,16 +550,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -662,19 +564,19 @@
     <property name="options.lastSelected" value="preferences.keymap" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="GenerateAntBuildDialog.inclineRuntiemClasspath" value="false" />
-    <property name="project.structure.side.proportion" value="0.2" />
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
-    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="build" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GenerateAntBuildDialog.enableUiFormCompile" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
-    <property name="GoToClass.includeLibraries" value="false" />
     <property name="GenerateAntBuildDialog.backupFiles" value="false" />
-    <property name="options.searchVisible" value="true" />
-    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="GoToClass.includeLibraries" value="false" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -712,24 +614,6 @@
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -756,6 +640,24 @@
       <envs />
       <properties />
       <listeners />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
@@ -873,7 +775,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-2" y="-3" width="1924" height="1161" extended-state="6" />
+    <frame x="0" y="0" width="1918" height="1154" extended-state="4" />
     <editor active="false" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -890,16 +792,16 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20971185" sideWeight="0.67330015" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20931478" sideWeight="0.67330015" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32507434" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="100" y="123" width="1720" height="924" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32669982" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31879196" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Metrics" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -1028,17 +930,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/shared/GwtMusicService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="0" selection-start="622" selection-end="622" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/GwtMusicServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="21" column="0" selection-start="658" selection-end="658" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/MusicService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="20" column="48" selection-start="711" selection-end="711" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/JobServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="9" selection-start="953" selection-end="953" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/CoverServlet.java">
@@ -1053,9 +959,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/shared/AccessDeniedException.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="34" selection-start="222" selection-end="222" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="9" column="34" selection-start="222" selection-end="222" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/misc/PasswordUtil.java">
@@ -1068,14 +972,16 @@
         <state line="20" column="5" selection-start="638" selection-end="638" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/misc/SessionUtil.java">
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/GwtMusicServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="18" selection-start="421" selection-end="421" vertical-scroll-proportion="0.0" />
+        <state line="45" column="15" selection-start="1365" selection-end="1365" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/JobServlet.java">
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/misc/SessionUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="9" selection-start="953" selection-end="953" vertical-scroll-proportion="0.15447992">
+        <state line="16" column="23" selection-start="426" selection-end="426" vertical-scroll-proportion="0.24896266">
           <folding />
         </state>
       </provider>

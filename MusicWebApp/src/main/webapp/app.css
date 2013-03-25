@@ -51,6 +51,11 @@ body {
     cursor: pointer;
 }
 
+/* LOGIN VIEW */
+.loginAlert {
+    margin: 1em 0 1em 0;
+}
+
 .strut { /* vertical placeholder */
     display: block;
     height: 2.5em; /* 52 / 15 */

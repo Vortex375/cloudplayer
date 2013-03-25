@@ -10,16 +10,18 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * To change this template use File | Settings | File Templates.
  */
 public interface GwtMusicServiceAsync {
-    void prepare(long id, AsyncCallback<Void> async);
+    void prepare(long id, AsyncCallback<Void> callback);
 
     // query methods
-    void trackQuerySimple(String query, AsyncCallback<TrackDetail[]> async);
+    void trackQuerySimple(String query, AsyncCallback<TrackDetail[]> callback);
 
-    void getTrackInfo(long id, AsyncCallback<Track> async);
+    void getTrackInfo(long id, AsyncCallback<Track> callback);
 
-    void getStatus(long id, AsyncCallback<FileStatus> async);
+    void getStatus(long id, AsyncCallback<FileStatus> callback);
 
-    void login(String username, String password, AsyncCallback<Long> async);
+    void login(String username, String password, AsyncCallback<Long> callback);
 
-    void logout(AsyncCallback<Void> async);
+    void logout(AsyncCallback<Void> callback);
+
+    void getCurrentUserId(AsyncCallback<Long> callback);
 }

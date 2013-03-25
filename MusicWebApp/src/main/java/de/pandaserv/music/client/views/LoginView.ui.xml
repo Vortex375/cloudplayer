@@ -1,0 +1,88 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:b="urn:import:com.github.gwtbootstrap.client.ui"
+             xmlns:my="urn:import:de.wilken.epa.mobile.client.widgets"
+             ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+             ui:generateKeys="com.google.gwt.i18n.server.keygen.MD5KeyGenerator"
+             ui:generateFilename="Messages"
+        >
+    <g:HTMLPanel>
+        <b:Container>
+
+            <b:Row>
+                <b:Column size="6" offset="3" addStyleNames="centerText">
+                    <b:Form>
+
+                        <b:Alert type="ERROR" visible="false" close="false" addStyleNames="loginAlert" ui:field="loginError">
+                            <ui:msg description="loginFailed">Login failed: Unknown username or wrong password</ui:msg>
+                        </b:Alert>
+
+                        <b:ControlGroup ui:field="usernameControl">
+                            <b:Controls>
+                                <b:HelpInline addStyleNames="phantom help-inline-top" ui:field="usernameHelp">
+                                    Bitte geben Sie einen Benutzernamen ein.
+                                </b:HelpInline>
+                                <b:InputAddOn prependIcon="USER">
+                                    <b:TextBox ui:field="usernameBox" placeholder="Benutzername">
+                                    </b:TextBox>
+                                </b:InputAddOn>
+                            </b:Controls>
+                        </b:ControlGroup>
+
+                        <b:ControlGroup ui:field="passwordControl">
+                            <b:Controls>
+                                <b:InputAddOn prependIcon="KEY">
+                                    <b:PasswordTextBox ui:field="passwordBox" placeholder="Passwort">
+                                    </b:PasswordTextBox>
+                                </b:InputAddOn>
+                                <b:HelpInline addStyleNames="phantom" ui:field="passwordHelp">
+                                    Bitte geben Sie ein Passwort ein.
+                                </b:HelpInline>
+                            </b:Controls>
+                        </b:ControlGroup>
+
+                    </b:Form>
+                </b:Column>
+            </b:Row>
+
+            <b:Row>
+                <b:Column size="6" offset="3" addStyleNames="centerText">
+                    <my:FastButton addStyleNames="myButton rightIconButton"
+                                   type="PRIMARY"
+                                   block="true"
+                                   icon="CHEVRON_RIGHT"
+                                   loadingText="Bitte warten..."
+                                   ui:field="loginButton">
+                        Anmelden
+                    </my:FastButton>
+                </b:Column>
+            </b:Row>
+
+            <b:Row>
+                <b:Column size="6" offset="3" addStyleNames="centerText">
+                    <my:FastButton addStyleNames="myButton rightIconButton"
+                                   type="DANGER"
+                                   block="true"
+                                   icon="CHEVRON_RIGHT"
+                                   loadingText="Bitte warten..."
+                                   visible="false"
+                                   ui:field="demoButton">
+                        Demo-Login
+                    </my:FastButton>
+                </b:Column>
+            </b:Row>
+
+            <b:Row>
+                <b:Column size="6" offset="3" addStyleNames="centerText">
+                    <b:Button addStyleNames="myButton"
+                                   type="LINK"
+                                   block="true"
+                                   href="LICENSE">
+                        Copyright-Hinweise
+                                   </b:Button>
+                </b:Column>
+            </b:Row>
+
+        </b:Container>
+    </g:HTMLPanel>
+</ui:UiBinder>
