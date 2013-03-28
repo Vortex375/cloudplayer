@@ -1,36 +1,48 @@
 package de.pandaserv.music.client;
 
-import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.i18n.client.Dictionary;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
-import com.google.gwt.user.client.ui.RootPanel;
-import de.pandaserv.music.client.misc.JSUtil;
-import de.pandaserv.music.client.presenters.MusicTestPresenter;
-import de.pandaserv.music.client.views.MusicTestViewImpl;
-import de.pandaserv.music.shared.GwtMusicService;
-import de.pandaserv.music.shared.GwtMusicServiceAsync;
+import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.SimpleEventBus;
+import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class MusicApp {
+    public static final String STREAM_SERVICE_URL = GWT.getHostPageBaseURL() + "/service/stream/";
 
     private final long userId;
+    private final SimpleEventBus eventBus;
 
-    public MusicApp(long userId) {
+    //SINGLETON
+    private static MusicApp INSTANCE;
+
+    public static MusicApp create(long userId) {
+        if (INSTANCE == null) {
+            INSTANCE = new MusicApp(userId);
+        } else {
+            throw new IllegalStateException("You can only create one instance of MusicApp!");
+        }
+
+        return INSTANCE;
+    }
+
+    public static MusicApp getInstance() {
+        return INSTANCE;
+    }
+
+    private MusicApp(long userId) {
         this.userId = userId;
+
+        /* initialize application infrastructure */
+        eventBus = new SimpleEventBus();
+    }
+
+    public EventBus getEventBus() {
+        return eventBus;
     }
 
     public void start() {
 
-        MusicTestViewImpl view = new MusicTestViewImpl();
-        MusicTestPresenter presenter = new MusicTestPresenter(view);
-
-        view.setPresenter(presenter);
-        Dictionary startupConfig = Dictionary.getDictionary("startupConfig");
-
-        RootPanel.get().add(view);
     }
 }

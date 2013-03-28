@@ -56,7 +56,7 @@ public class Startup implements EntryPoint {
 
             @Override
             public void onSuccess() {
-                final MusicApp app = new MusicApp(userId);
+                final MusicApp app = MusicApp.create(userId);
                 new Timer() {
                     @Override
                     public void run() {
