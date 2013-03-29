@@ -13,6 +13,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import de.pandaserv.music.client.i18n.GuiConstants;
 
 public class LoginViewImpl extends Composite implements LoginView {
 
@@ -22,14 +23,14 @@ public class LoginViewImpl extends Composite implements LoginView {
 
     private Presenter presenter;
 
+    @UiField Row loadingIcon;
+    @UiField Row loginPanel;
     @UiField
     TextBox usernameBox;
     @UiField
     PasswordTextBox passwordBox;
     @UiField
     Button loginButton;
-    @UiField
-    Button demoButton;
     @UiField
     Alert loginError;
     @UiField
@@ -41,8 +42,13 @@ public class LoginViewImpl extends Composite implements LoginView {
     @UiField
     HelpInline passwordHelp;
 
+    private final GuiConstants msg = GWT.create(GuiConstants.class);
+
     public LoginViewImpl() {
         initWidget(ourUiBinder.createAndBindUi(this));
+        usernameBox.setPlaceholder(msg.username());
+        passwordBox.setPlaceholder(msg.password());
+        loginButton.setLoadingText(msg.pleaseWait());
     }
 
     @Override
@@ -51,12 +57,13 @@ public class LoginViewImpl extends Composite implements LoginView {
     }
 
     @Override
-    public void showDemoLogin(boolean show) {
-        demoButton.setVisible(show);
+    public void showWait(boolean show) {
+        loadingIcon.setVisible(show);
+        loginPanel.setVisible(!show);
     }
 
     @Override
-    public void showWait(boolean show) {
+    public void showLoginWait(boolean show) {
         if (show) {
             /*
              * Remove focus from input fields on submit. This closes the on-screen keyboard on mobile devices.
@@ -64,10 +71,8 @@ public class LoginViewImpl extends Composite implements LoginView {
             usernameBox.setFocus(false);
             passwordBox.setFocus(false);
             loginButton.state().loading();
-            demoButton.setEnabled(false);
         } else {
             loginButton.state().reset();
-            demoButton.setEnabled(true);
         }
     }
 
@@ -158,12 +163,5 @@ public class LoginViewImpl extends Composite implements LoginView {
     @UiHandler("loginButton")
     void handleLoginClick(ClickEvent event) {
         presenter.onLoginButtonClicked();
-    }
-
-    @UiHandler("demoButton")
-    void handleDebugClick(ClickEvent event) {
-        usernameBox.setFocus(false);
-        passwordBox.setFocus(false);
-        presenter.onDemoLoginButtonClicked();
     }
 }

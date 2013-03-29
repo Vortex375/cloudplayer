@@ -13,7 +13,15 @@ import com.google.gwt.i18n.client.LocalizableResource;
 @LocalizableResource.GenerateKeys("com.google.gwt.i18n.server.keygen.MD5KeyGenerator")
 @LocalizableResource.Generate(format = "com.google.gwt.i18n.rebind.format.PropertiesFormat", fileName = "Messages")
 public interface GuiConstants extends Constants {
-    @Description("test")
-    @DefaultStringValue("i18n test")
-    public String i18nTest();
+    @Description("username")
+    @DefaultStringValue("Username")
+    public String username();
+
+    @Description("password")
+    @DefaultStringValue("Password")
+    public String password();
+
+    @Description("pleaseWait")
+    @DefaultStringValue("Please wait...")
+    public String pleaseWait();
 }

@@ -15,7 +15,7 @@ body {
     overflow: auto;
 }
 
-.styled-row {
+.styledRow {
     box-shadow: #888 0 1px 12px;
     padding: 10px;
     background: white;
@@ -51,14 +51,26 @@ body {
     cursor: pointer;
 }
 
-/* LOGIN VIEW */
-.loginAlert {
-    margin: 1em 0 1em 0;
+.phantom {
+    color: rgba(0,0,0,0); /* fully transparent text */
 }
 
-.strut { /* vertical placeholder */
-    display: block;
-    height: 2.5em; /* 52 / 15 */
+.loadingIconLarge {
+    font-size: 42px;
+}
+
+.versionLabel {
+    color: GrayText;
+    font-size: small;
+}
+
+/* LOGIN VIEW */
+.loginPanel {
+    margin-top: 2.5em;
+}
+
+.loginAlert {
+    margin: 1em 0 1em 0;
 }
 
 .pageHeader {

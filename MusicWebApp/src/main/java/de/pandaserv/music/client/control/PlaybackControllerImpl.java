@@ -31,8 +31,8 @@ public class PlaybackControllerImpl implements PlaybackController {
     private long[] queue;
     private int queuePosition;
 
-    public PlaybackControllerImpl() throws NotSupportedException {
-        eventBus = MusicApp.getInstance().getEventBus();
+    public PlaybackControllerImpl(final EventBus eventBus) throws NotSupportedException {
+        this.eventBus = eventBus;
 
         boolean enableAudioSystem = Boolean.parseBoolean(Dictionary.getDictionary("startupConfig").get("enableVis"));
 

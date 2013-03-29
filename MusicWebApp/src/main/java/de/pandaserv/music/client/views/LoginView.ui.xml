@@ -1,16 +1,25 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
              xmlns:b="urn:import:com.github.gwtbootstrap.client.ui"
-             xmlns:my="urn:import:de.wilken.epa.mobile.client.widgets"
+             xmlns:my="urn:import:de.pandaserv.music.client.widgets"
              ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
              ui:generateKeys="com.google.gwt.i18n.server.keygen.MD5KeyGenerator"
              ui:generateFilename="Messages"
         >
     <g:HTMLPanel>
-        <b:Container>
 
-            <b:Row>
-                <b:Column size="6" offset="3" addStyleNames="centerText">
+        <b:Container addStyleNames="loginPanel">
+
+            <b:Row ui:field="loadingIcon" visible="false">
+                <b:Column size="6" offset="3" addStyleNames="styledRow centerText">
+                    <b:Icon type="SPINNER" addStyleNames="loadingIconLarge icon-spin"/>
+                </b:Column>
+            </b:Row>
+
+            <b:Row ui:field="loginPanel">
+                <b:Column size="6" offset="3" addStyleNames="styledRow centerText">
+                    <b:Heading size="2"><ui:msg description="welcome">Welcome to PandaServ Music!</ui:msg></b:Heading>
+                    <g:Label addStyleNames="versionLabel">v. 0.1</g:Label>
                     <b:Form>
 
                         <b:Alert type="ERROR" visible="false" close="false" addStyleNames="loginAlert" ui:field="loginError">
@@ -20,10 +29,10 @@
                         <b:ControlGroup ui:field="usernameControl">
                             <b:Controls>
                                 <b:HelpInline addStyleNames="phantom help-inline-top" ui:field="usernameHelp">
-                                    Bitte geben Sie einen Benutzernamen ein.
+                                    <ui:msg description="enter username">Please enter a username</ui:msg>
                                 </b:HelpInline>
                                 <b:InputAddOn prependIcon="USER">
-                                    <b:TextBox ui:field="usernameBox" placeholder="Benutzername">
+                                    <b:TextBox ui:field="usernameBox">
                                     </b:TextBox>
                                 </b:InputAddOn>
                             </b:Controls>
@@ -32,54 +41,21 @@
                         <b:ControlGroup ui:field="passwordControl">
                             <b:Controls>
                                 <b:InputAddOn prependIcon="KEY">
-                                    <b:PasswordTextBox ui:field="passwordBox" placeholder="Passwort">
+                                    <b:PasswordTextBox ui:field="passwordBox">
                                     </b:PasswordTextBox>
                                 </b:InputAddOn>
                                 <b:HelpInline addStyleNames="phantom" ui:field="passwordHelp">
-                                    Bitte geben Sie ein Passwort ein.
+                                    <ui:msg description="enter password">Please enter a password</ui:msg>
                                 </b:HelpInline>
                             </b:Controls>
                         </b:ControlGroup>
 
+                        <b:Button      type="PRIMARY"
+                                       ui:field="loginButton">
+                            <ui:msg description="login">Login</ui:msg>
+                        </b:Button>
+
                     </b:Form>
-                </b:Column>
-            </b:Row>
-
-            <b:Row>
-                <b:Column size="6" offset="3" addStyleNames="centerText">
-                    <my:FastButton addStyleNames="myButton rightIconButton"
-                                   type="PRIMARY"
-                                   block="true"
-                                   icon="CHEVRON_RIGHT"
-                                   loadingText="Bitte warten..."
-                                   ui:field="loginButton">
-                        Anmelden
-                    </my:FastButton>
-                </b:Column>
-            </b:Row>
-
-            <b:Row>
-                <b:Column size="6" offset="3" addStyleNames="centerText">
-                    <my:FastButton addStyleNames="myButton rightIconButton"
-                                   type="DANGER"
-                                   block="true"
-                                   icon="CHEVRON_RIGHT"
-                                   loadingText="Bitte warten..."
-                                   visible="false"
-                                   ui:field="demoButton">
-                        Demo-Login
-                    </my:FastButton>
-                </b:Column>
-            </b:Row>
-
-            <b:Row>
-                <b:Column size="6" offset="3" addStyleNames="centerText">
-                    <b:Button addStyleNames="myButton"
-                                   type="LINK"
-                                   block="true"
-                                   href="LICENSE">
-                        Copyright-Hinweise
-                                   </b:Button>
                 </b:Column>
             </b:Row>
 
