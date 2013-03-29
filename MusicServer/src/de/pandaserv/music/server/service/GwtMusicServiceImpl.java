@@ -30,7 +30,7 @@ public class GwtMusicServiceImpl extends RemoteServiceServlet implements GwtMusi
             logout();
         }
         long ret = UserDatabase.getInstance().checkLogin(username, password);
-        if (ret > 0) {
+        if (ret >= 0) {
             SessionUtil.setUserId(getThreadLocalRequest(), ret);
         }
         return ret;
