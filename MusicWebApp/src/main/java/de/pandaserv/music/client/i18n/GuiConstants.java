@@ -21,6 +21,10 @@ public interface GuiConstants extends Constants {
     @DefaultStringValue("Password")
     public String password();
 
+    @Description("login")
+    @DefaultStringValue("Login")
+    public String login();
+
     @Description("pleaseWait")
     @DefaultStringValue("Please wait...")
     public String pleaseWait();

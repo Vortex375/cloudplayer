@@ -12,7 +12,7 @@
 
             <b:Row ui:field="loadingIcon" visible="false">
                 <b:Column size="6" offset="3" addStyleNames="styledRow centerText">
-                    <b:Icon type="SPINNER" addStyleNames="loadingIconLarge icon-spin"/>
+                    <b:ProgressBar type="ANIMATED" percent="100" addStyleNames="progressLoading loginProgress"/>
                 </b:Column>
             </b:Row>
 

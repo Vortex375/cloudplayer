@@ -5,6 +5,7 @@ import com.github.gwtbootstrap.client.ui.constants.ControlGroupType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -136,21 +137,21 @@ public class LoginViewImpl extends Composite implements LoginView {
     }
 
     @UiHandler("usernameBox")
-    void handleUsernameReturn(KeyPressEvent event) {
+    void handleUsernameReturn(KeyDownEvent event) {
         /*
          * on "Return" key in username box move focus to password box
          */
-        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+        if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
             setPasswordFocus();
         }
     }
 
     @UiHandler("passwordBox")
-    void handlePasswordReturn(KeyPressEvent event) {
+    void handlePasswordReturn(KeyDownEvent event) {
         /*
          * on "Return" key in password box submit form
          */
-        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+        if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
             presenter.onLoginButtonClicked();
         }
     }

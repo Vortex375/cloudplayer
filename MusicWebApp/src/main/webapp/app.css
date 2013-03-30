@@ -59,12 +59,21 @@ body {
     font-size: 42px;
 }
 
+.progressLoading .bar {
+    background-color: #AAAAAA;
+}
+
 .versionLabel {
     color: GrayText;
     font-size: small;
 }
 
 /* LOGIN VIEW */
+
+.loginProgress {
+    margin-top: 1em;
+}
+
 .loginPanel {
     margin-top: 2.5em;
 }
