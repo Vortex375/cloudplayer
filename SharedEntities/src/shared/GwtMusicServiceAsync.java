@@ -19,9 +19,9 @@ public interface GwtMusicServiceAsync {
 
     void getStatus(long id, AsyncCallback<FileStatus> callback);
 
-    void login(String username, String password, AsyncCallback<Long> callback);
+    void login(String username, String password, AsyncCallback<UserInfo> async);
 
     void logout(AsyncCallback<Void> callback);
 
-    void getCurrentUserId(AsyncCallback<Long> callback);
+    void getCurrentUserInfo(AsyncCallback<UserInfo> callback);
 }

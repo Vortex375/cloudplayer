@@ -9,6 +9,6 @@ import com.google.gwt.event.shared.EventHandler;
  * Time: 11:50 PM
  * To change this template use File | Settings | File Templates.
  */
-public interface PlaybackTimeEventHandler extends EventHandler {
-    public void onTime(double time);
+public interface LogoutEventHandler extends EventHandler {
+    public void onLogout();
 }

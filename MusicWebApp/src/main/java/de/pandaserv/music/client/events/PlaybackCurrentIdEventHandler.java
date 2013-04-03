@@ -10,5 +10,5 @@ import com.google.gwt.event.shared.EventHandler;
  * To change this template use File | Settings | File Templates.
  */
 public interface PlaybackCurrentIdEventHandler extends EventHandler {
-    public void onDuration(long id);
+    public void onCurrentId(long id);
 }

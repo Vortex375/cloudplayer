@@ -49,7 +49,7 @@ public class RemoteService implements GwtMusicServiceAsync {
     }
 
     @Override
-    public void login(String username, String password, AsyncCallback<Long> callback) {
+    public void login(String username, String password, AsyncCallback<UserInfo> callback) {
         service.login(username, password, callback);
     }
 
@@ -59,7 +59,7 @@ public class RemoteService implements GwtMusicServiceAsync {
     }
 
     @Override
-    public void getCurrentUserId(AsyncCallback<Long> callback) {
-        service.getCurrentUserId(callback);
+    public void getCurrentUserInfo(AsyncCallback<UserInfo> callback) {
+        service.getCurrentUserInfo(callback);
     }
 }

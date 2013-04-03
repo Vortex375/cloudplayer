@@ -14,6 +14,7 @@ public class UserDatabase {
 
     private final LocalPreparedStatement addUser;
     private final LocalPreparedStatement getPassword;
+    private final LocalPreparedStatement getUsername;
 
     // Singleton
     private static final UserDatabase ourInstance = new UserDatabase();
@@ -32,6 +33,10 @@ public class UserDatabase {
                 "SELECT id, password" +
                 " FROM Users" +
                 " WHERE username=?");
+        getUsername = new LocalPreparedStatement("" +
+                "SELECT username" +
+                " FROM Users" +
+                " WHERE id=?");
     }
 
     public boolean addUser(String username, String password, boolean isAdmin) {
@@ -86,6 +91,28 @@ public class UserDatabase {
             logger.warn("SQLException while checking login for user \"{}\"!", username);
             logger.warn("Trace: ", e);
             return -1;
+        }
+    }
+
+    public String getUsername(long id) {
+        PreparedStatement ps;
+        ResultSet rs;
+
+        ps = getUsername.get();
+        try {
+            ps.setLong(1, id);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString(1);
+            } else {
+                // user not found
+                return null;
+            }
+        } catch (SQLException e) {
+            logger.warn("SQLException while getting username for user \"{}\"!", id);
+            logger.warn("Trace: ", e);
+            return null;
         }
     }
 }

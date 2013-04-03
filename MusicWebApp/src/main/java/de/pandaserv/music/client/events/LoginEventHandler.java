@@ -1,6 +1,7 @@
 package de.pandaserv.music.client.events;
 
 import com.google.gwt.event.shared.EventHandler;
+import de.pandaserv.music.shared.UserInfo;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,6 +10,6 @@ import com.google.gwt.event.shared.EventHandler;
  * Time: 11:50 PM
  * To change this template use File | Settings | File Templates.
  */
-public interface PlaybackTimeEventHandler extends EventHandler {
-    public void onTime(double time);
+public interface LoginEventHandler extends EventHandler {
+    public void onLogin(UserInfo user);
 }

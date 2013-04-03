@@ -24,16 +24,32 @@ public class GwtMusicServiceImpl extends RemoteServiceServlet implements GwtMusi
 
 
     @Override
-    public long login(String username, String password) {
+    public UserInfo login(String username, String password) {
         if (SessionUtil.getUserId(getThreadLocalRequest()) >= 0) {
-            // there is already a user logged in
+            /*
+             * there is already a user logged in in this session
+             * log out the old user before proceeding
+             */
             logout();
         }
-        long ret = UserDatabase.getInstance().checkLogin(username, password);
-        if (ret >= 0) {
-            SessionUtil.setUserId(getThreadLocalRequest(), ret);
+        /*
+         * check username and password
+         */
+        long id = UserDatabase.getInstance().checkLogin(username, password);
+        if (id < 0) {
+            /*
+             * incorrect username or password
+             */
+            return null;
+        } else {
+            /*
+             * login successful
+             *
+             * store user id in current session and return a UserInfo object
+             */
+            SessionUtil.setUserId(getThreadLocalRequest(), id);
+            return new UserInfo(id, username);
         }
-        return ret;
     }
 
     @Override
@@ -42,8 +58,25 @@ public class GwtMusicServiceImpl extends RemoteServiceServlet implements GwtMusi
     }
 
     @Override
-    public long getCurrentUserId() {
-        return SessionUtil.getUserId(getThreadLocalRequest());
+    public UserInfo getCurrentUserInfo() {
+        long id = SessionUtil.getUserId(getThreadLocalRequest());
+        if (id < 0) {
+            /*
+             * no user logged in
+             */
+            return null;
+        } else {
+            String username = UserDatabase.getInstance().getUsername(id);
+            if (username == null) {
+                /*
+                 * current user is not in database !?
+                 */
+                logger.warn("getCurrentUserInfo(): the active user ({}) was not found in the database!", id);
+                return null;
+            } else {
+                return new UserInfo(id, username);
+            }
+        }
     }
 
     @Override

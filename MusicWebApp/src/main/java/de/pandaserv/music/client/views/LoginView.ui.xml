@@ -51,6 +51,7 @@
                         </b:ControlGroup>
 
                         <b:Button      type="PRIMARY"
+                                       icon="SIGNIN"
                                        ui:field="loginButton">
                             <ui:msg description="login">Login</ui:msg>
                         </b:Button>

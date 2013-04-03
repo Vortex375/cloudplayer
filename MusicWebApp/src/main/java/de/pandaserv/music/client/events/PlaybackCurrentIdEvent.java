@@ -21,7 +21,7 @@ public class PlaybackCurrentIdEvent extends GwtEvent<PlaybackCurrentIdEventHandl
 
     @Override
     protected void dispatch(PlaybackCurrentIdEventHandler handler) {
-        handler.onDuration(id);
+        handler.onCurrentId(id);
     }
 
     @Override

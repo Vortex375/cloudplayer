@@ -21,7 +21,7 @@ public class PlaybackTimeEvent extends GwtEvent<PlaybackTimeEventHandler> {
 
     @Override
     protected void dispatch(PlaybackTimeEventHandler handler) {
-        handler.onDuration(duration);
+        handler.onTime(duration);
     }
 
     @Override

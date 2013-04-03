@@ -12,6 +12,7 @@ import de.pandaserv.music.client.remote.MyAsyncCallback;
 import de.pandaserv.music.client.remote.RemoteService;
 import de.pandaserv.music.client.views.LoginView;
 import de.pandaserv.music.client.views.LoginViewImpl;
+import de.pandaserv.music.shared.UserInfo;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -37,22 +38,22 @@ public class Startup implements EntryPoint, LoginView.Presenter {
         view.setPresenter(this);
         view.showWait(true);
 
-        RootPanel.get().add(view);
+        RootPanel.get("content").add(view);
 
         //check if user is already logged in
-        RemoteService.getInstance().getCurrentUserId(new MyAsyncCallback<Long>() {
+        RemoteService.getInstance().getCurrentUserInfo(new MyAsyncCallback<UserInfo>() {
             @Override
-            protected void onResult(Long result) {
+            protected void onResult(UserInfo result) {
                 checkLogin(result);
             }
         });
     }
 
-    private void checkLogin(long userId) {
-        if (userId < 0) {
+    private void checkLogin(UserInfo user) {
+        if (user == null) {
             showLogin();
         } else {
-            startApplication(userId);
+            startApplication(user);
         }
     }
 
@@ -61,18 +62,40 @@ public class Startup implements EntryPoint, LoginView.Presenter {
         view.setUsernameFocus();
     }
 
-    private void startApplication(final long userId) {
+    private void startApplication(final UserInfo user) {
+        /*
+         * use runAsync() to load many application after successful login
+         */
         GWT.runAsync(new RunAsyncCallback() {
             @Override
             public void onFailure(Throwable reason) {
+                /*
+                 * code download failed !!
+                 */
                 startupFailed(reason.getMessage());
             }
 
             @Override
             public void onSuccess() {
+                /*
+                 * inject external scripts
+                 */
+                //TODO: error handling here
+                //ScriptInjector.fromUrl("../js/jquery-1.9.0.js").inject();
+                //ScriptInjector.fromUrl("../js/jquery-ui-1.10.0.custom.min.js").inject();
+                //ScriptInjector.fromUrl("../js/glisse.js").inject();
+
+                /*
+                 * initalize and start main application
+                 */
                 final MusicApp app;
                 try {
-                    app = MusicApp.create(userId);
+                    /*
+                     * initialize main application
+                     * and delay the actual startup via a Timer
+                     * this prevents certain DOM initialization bugs
+                     */
+                    app = MusicApp.create(user);
                     new Timer() {
                         @Override
                         public void run() {
@@ -131,10 +154,10 @@ public class Startup implements EntryPoint, LoginView.Presenter {
          */
         view.showLoginWait(true);
         RemoteService.getInstance().login(username, password,
-                new MyAsyncCallback<Long>() {
+                new MyAsyncCallback<UserInfo>() {
                     @Override
-                    protected void onResult(Long result) {
-                        if (result >= 0) {
+                    protected void onResult(UserInfo result) {
+                        if (result != null) {
                             /*
                              * Successfully logged in. Start main application.
                              */

@@ -21,6 +21,11 @@ public class SessionUtil {
         request.getSession().setAttribute("userId", id);
     }
 
+    /**
+     * Get the active user id for the given request.
+     * @param request the request to check
+     * @return the active user's id or -1 when no user is logged in
+     */
     public static long getUserId(HttpServletRequest request) {
         Long ret = (Long) request.getSession().getAttribute("userId");
         if (ret == null) {
