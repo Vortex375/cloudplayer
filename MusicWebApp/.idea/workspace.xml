@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f1c0cd2-992b-43ee-9133-b53096797987" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicServer/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../MusicServer/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/i18n/GuiConstants.java" afterPath="$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/i18n/GuiConstants.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/views/LoginView.ui.xml" afterPath="$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/views/LoginView.ui.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/views/LoginViewImpl.java" afterPath="$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/views/LoginViewImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/app.css" afterPath="$PROJECT_DIR$/src/main/webapp/app.css" />
     </list>
     <ignored path="MusicWebApp.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -171,7 +166,7 @@
       <file leaf-file-name="LoginViewImpl.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/views/LoginViewImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="153" column="36" selection-start="4470" selection-end="4470" vertical-scroll-proportion="0.66101694">
+            <state line="153" column="36" selection-start="4470" selection-end="4470" vertical-scroll-proportion="1.8097826">
               <folding />
             </state>
           </provider>
@@ -956,7 +951,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="44" y="21" width="1324" height="751" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -974,7 +969,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24646781" sideWeight="0.67164177" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3283582" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3283582" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1162,7 +1157,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/views/LoginViewImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="153" column="36" selection-start="4470" selection-end="4470" vertical-scroll-proportion="0.66101694">
+        <state line="153" column="36" selection-start="4470" selection-end="4470" vertical-scroll-proportion="1.8097826">
           <folding />
         </state>
       </provider>
