@@ -6,17 +6,15 @@
              ui:generateKeys="com.google.gwt.i18n.server.keygen.MD5KeyGenerator"
              ui:generateFilename="Messages"
         >
-    <g:HTMLPanel>
+    <g:HTMLPanel addStyleNames="loginPanel">
 
-        <b:Container addStyleNames="loginPanel">
-
-            <b:Row ui:field="loadingIcon" visible="false">
+            <b:FluidRow ui:field="loadingIcon" visible="false">
                 <b:Column size="6" offset="3" addStyleNames="styledRow centerText">
                     <b:ProgressBar type="ANIMATED" percent="100" addStyleNames="progressLoading loginProgress"/>
                 </b:Column>
-            </b:Row>
+            </b:FluidRow>
 
-            <b:Row ui:field="loginPanel">
+            <b:FluidRow ui:field="loginPanel">
                 <b:Column size="6" offset="3" addStyleNames="styledRow centerText">
                     <b:Heading size="2"><ui:msg description="welcome">Welcome to PandaServ Music!</ui:msg></b:Heading>
                     <g:Label addStyleNames="versionLabel">v. 0.1</g:Label>
@@ -58,8 +56,7 @@
 
                     </b:Form>
                 </b:Column>
-            </b:Row>
+            </b:FluidRow>
 
-        </b:Container>
     </g:HTMLPanel>
 </ui:UiBinder>

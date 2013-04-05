@@ -35,6 +35,7 @@ public class MainViewImpl extends Composite implements MainView {
 
     public MainViewImpl() {
         initWidget(ourUiBinder.createAndBindUi(this));
+        addStyleName("mainView");
     }
 
     @Override

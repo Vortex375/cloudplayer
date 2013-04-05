@@ -2,13 +2,12 @@
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
              xmlns:b="urn:import:com.github.gwtbootstrap.client.ui"
              xmlns:my="urn:import:de.pandaserv.music.client.widgets"
-             xmlns:base="urn:import:com.github.gwtbootstrap.client.ui.base"
              ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
              ui:generateKeys="com.google.gwt.i18n.server.keygen.MD5KeyGenerator"
              ui:generateFilename="Messages"
         >
     <g:HTMLPanel>
-        <b:Navbar addStyleNames="pageHeader" ui:field="header" position="TOP">
+        <b:Navbar addStyleNames="pageHeader" ui:field="header" position="STATIC_TOP">
             <b:Brand>PandaServ Music</b:Brand>
             <b:Nav addStyleNames="pull-right">
                 <b:NavLink ui:field="userNameLabel" icon="USER" disabled="true"/>
@@ -17,6 +16,50 @@
             </b:Nav>
         </b:Navbar>
 
-
+    <g:HTMLPanel>
+        <b:Row>
+            <b:Column ui:field="menuColumn" size="2">
+                <b:NavList>
+                    <b:NavLink icon="HOME" active="true"><ui:msg>Home</ui:msg></b:NavLink>
+                    <b:NavHeader>
+                        <ui:msg>Music</ui:msg>
+                    </b:NavHeader>
+                    <b:NavLink icon="SEARCH">
+                        <ui:msg>Search</ui:msg>
+                    </b:NavLink>
+                    <b:NavLink icon="BOOK">
+                        <ui:msg>Browse</ui:msg>
+                    </b:NavLink>
+                    <b:NavLink icon="FOLDER_CLOSE">
+                        <ui:msg>Folders</ui:msg>
+                    </b:NavLink>
+                    <b:NavLink icon="LIST_ALT">
+                        <ui:msg>Playlists</ui:msg>
+                    </b:NavLink>
+                    <b:NavHeader>
+                        <ui:msg>Heart List</ui:msg>
+                    </b:NavHeader>
+                    <b:NavHeader>
+                        <ui:msg>Settings</ui:msg>
+                    </b:NavHeader>
+                    <b:NavLink icon="USER">
+                        <ui:msg>Profile</ui:msg>
+                    </b:NavLink>
+                    <b:NavLink icon="COG">
+                        <ui:msg>Settings</ui:msg>
+                    </b:NavLink>
+                    <b:NavLink icon="COGS">
+                        <ui:msg>Admin</ui:msg>
+                    </b:NavLink>
+                </b:NavList>
+            </b:Column>
+            <b:Column size="8">
+                <b:Heading size="1">Main Area</b:Heading>
+            </b:Column>
+            <b:Column size="3">
+                <b:Heading size="3">Playlist</b:Heading>
+            </b:Column>
+        </b:Row>
+    </g:HTMLPanel>
     </g:HTMLPanel>
 </ui:UiBinder>

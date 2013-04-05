@@ -7,9 +7,8 @@
              ui:generateFilename="Messages"
         >
     <g:HTMLPanel addStyleNames="styledRow fullWidth">
-        <b:Container>
+        <b:FluidRow>
             <b:Column size="12">
-                <b:Row>
                     <g:HTMLPanel addStyleNames="nowPlayingWell">
                         <table class="fullWidth">
                             <tr>
@@ -31,17 +30,16 @@
                             </tr>
                         </table>
                     </g:HTMLPanel>
-                </b:Row>
             </b:Column>
-        </b:Container>
+        </b:FluidRow>
         <g:HTMLPanel addStyleNames="playbackControls">
             <table>
                 <tr>
                     <td>
                         <b:ButtonGroup addStyleNames="inline">
-                            <b:Button ui:field="prevButton" icon="BACKWARD" addStyleNames="playbackButton"/>
+                            <b:Button ui:field="prevButton" icon="STEP_BACKWARD" addStyleNames="playbackButton"/>
                             <b:Button ui:field="playButton" icon="PLAY" addStyleNames="playbackButton"/>
-                            <b:Button ui:field="nextButton" icon="FORWARD" addStyleNames="playbackButton"/>
+                            <b:Button ui:field="nextButton" icon="STEP_FORWARD" addStyleNames="playbackButton"/>
                         </b:ButtonGroup>
                     </td>
                     <td>

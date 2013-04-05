@@ -7,12 +7,21 @@ body {
 }
 
 .pageHeader {
-    width: auto !important; /* fix problem with small widths */
+    margin-bottom: 4px;
 }
 
-.mainContent {
+@media (max-width: 767px) {
+    .pageHeader {
+        /* fix page header on small displays */
+        padding-left: 20px;
+        width: 100%;
+    }
+}
+
+.mainView {
     max-width: 100%;
     overflow: auto;
+    background-color: #ffffff;
 }
 
 .styledRow {
@@ -80,12 +89,6 @@ body {
 
 .loginAlert {
     margin: 1em 0 1em 0;
-}
-
-.pageHeader {
-    width: 100%;
-    padding-left: 0;
-    padding-right: 0;
 }
 
 .pageHeading {
