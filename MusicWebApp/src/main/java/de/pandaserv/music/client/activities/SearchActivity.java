@@ -2,6 +2,9 @@ package de.pandaserv.music.client.activities;
 
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import de.pandaserv.music.client.presenters.SearchPresenter;
+import de.pandaserv.music.client.views.SearchView;
+import de.pandaserv.music.client.views.SearchViewImpl;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,8 +14,17 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
  * To change this template use File | Settings | File Templates.
  */
 public class SearchActivity extends MyActivity {
+
+    private SearchView view;
+    private SearchPresenter presenter;
+
+    public SearchActivity() {
+        view = new SearchViewImpl();
+        presenter = new SearchPresenter(view);
+    }
+
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
-        panel.setWidget(null);
+        panel.setWidget(view);
     }
 }

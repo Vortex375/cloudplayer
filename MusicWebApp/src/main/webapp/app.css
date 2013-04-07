@@ -19,9 +19,14 @@ body {
 }
 
 .mainView {
+    position: relative; /* anchor for position: absolute */
     max-width: 100%;
     overflow: auto;
     background-color: #eeeeee;
+}
+
+.menuColumn {
+    position: absolute;
 }
 
 .styledRow {
@@ -176,3 +181,12 @@ body {
     margin-left: 5px;
 }
 
+/* Search View */
+
+.searchView {
+    margin-top: 0.5em;
+}
+
+.searchBox {
+    width: 85%;
+}

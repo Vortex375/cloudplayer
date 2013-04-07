@@ -81,6 +81,10 @@ public class MusicApp {
         return playbackController;
     }
 
+    public PlaceController getPlaceController() {
+        return placeController;
+    }
+
     public void start() {
         /*
          * set up the GUI

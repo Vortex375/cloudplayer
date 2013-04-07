@@ -6,7 +6,7 @@
              ui:generateKeys="com.google.gwt.i18n.server.keygen.MD5KeyGenerator"
              ui:generateFilename="Messages"
         >
-    <g:HTMLPanel>
+    <g:HTMLPanel addStyleNames="mainView">
         <b:Navbar addStyleNames="pageHeader" ui:field="header" position="STATIC_TOP">
             <b:Brand>PandaServ Music</b:Brand>
             <b:Nav addStyleNames="pull-right">
@@ -17,19 +17,19 @@
         </b:Navbar>
 
     <g:HTMLPanel>
-        <b:Row>
+        <b:FluidRow>
             <b:Column size="2">
                 <g:SimplePanel ui:field="menuColumn">
 
                 </g:SimplePanel>
             </b:Column>
-            <b:Column size="8">
+            <b:Column size="8"> <!-- need offset 2 here, because menuColumn has position: absolute-->
                 <g:SimplePanel ui:field="mainColumn"></g:SimplePanel>
             </b:Column>
-            <b:Column size="3">
+            <b:Column size="2">
                 <b:Heading size="3">Playlist</b:Heading>
             </b:Column>
-        </b:Row>
+        </b:FluidRow>
     </g:HTMLPanel>
     </g:HTMLPanel>
 </ui:UiBinder>

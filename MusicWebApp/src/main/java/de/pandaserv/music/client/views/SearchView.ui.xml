@@ -1,0 +1,32 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:b="urn:import:com.github.gwtbootstrap.client.ui"
+             ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+             ui:generateKeys="com.google.gwt.i18n.server.keygen.MD5KeyGenerator"
+             ui:generateFilename="Messages"
+        >
+    <g:HTMLPanel addStyleNames="searchView">
+        <b:Row >
+            <b:Column addStyleNames="styledRow" size="10" offset="1">
+                <g:HTMLPanel>
+                    <table style="width: 100%">
+                        <tr>
+                            <td style="width: 99%">
+                                <b:AppendButton>
+                                    <b:TextBox ui:field="searchBox"
+                                               placeholder="Type here to find tracks"
+                                               addStyleNames="searchBox"/>
+                                    <b:Button ui:field="clearButton" icon="REMOVE"/>
+                                </b:AppendButton>
+                            </td>
+                            <td>
+                                <b:Button ui:field="searchButton" type="PRIMARY"><ui:msg>Search</ui:msg></b:Button>
+                            </td>
+                        </tr>
+                    </table>
+                </g:HTMLPanel>
+            </b:Column>
+        </b:Row>
+        <hr/>
+    </g:HTMLPanel>
+</ui:UiBinder>

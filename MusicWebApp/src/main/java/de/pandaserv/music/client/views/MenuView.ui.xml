@@ -8,20 +8,20 @@
     <!-- Menu Area is 2 columns wide, so we can use 2 columns in this view -->
     <g:HTMLPanel>
         <b:NavList>
-            <b:NavLink icon="HOME" active="true"><ui:msg>Home</ui:msg></b:NavLink>
+            <b:NavLink ui:field="homeButton" icon="HOME" active="true"><ui:msg>Home</ui:msg></b:NavLink>
             <b:NavHeader>
                 <ui:msg>Music</ui:msg>
             </b:NavHeader>
-            <b:NavLink icon="SEARCH">
+            <b:NavLink ui:field="searchButton" icon="SEARCH">
                 <ui:msg>Search</ui:msg>
             </b:NavLink>
-            <b:NavLink icon="BOOK">
+            <b:NavLink ui:field="browseButton" icon="BOOK">
                 <ui:msg>Browse</ui:msg>
             </b:NavLink>
-            <b:NavLink icon="FOLDER_CLOSE">
+            <b:NavLink ui:field="foldersButton" icon="FOLDER_CLOSE">
                 <ui:msg>Folders</ui:msg>
             </b:NavLink>
-            <b:NavLink icon="LIST_ALT">
+            <b:NavLink ui:field="playlistsButton" icon="LIST_ALT">
                 <ui:msg>Playlists</ui:msg>
             </b:NavLink>
             <b:NavHeader>
@@ -30,13 +30,13 @@
             <b:NavHeader>
                 <ui:msg>Settings</ui:msg>
             </b:NavHeader>
-            <b:NavLink icon="USER">
+            <b:NavLink ui:field="profileButton" icon="USER">
                 <ui:msg>Profile</ui:msg>
             </b:NavLink>
-            <b:NavLink icon="COG">
+            <b:NavLink ui:field="settingsButton" icon="COG">
                 <ui:msg>Settings</ui:msg>
             </b:NavLink>
-            <b:NavLink icon="COGS">
+            <b:NavLink ui:field="adminButton" icon="COGS">
                 <ui:msg>Admin</ui:msg>
             </b:NavLink>
         </b:NavList>
