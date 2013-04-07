@@ -7,8 +7,10 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
+import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,10 +34,24 @@ public class MainViewImpl extends Composite implements MainView {
     NavLink logoutButton;
     @UiField
     NavLink messagesButton;
+    @UiField
+    SimplePanel menuColumn;
+    @UiField
+    SimplePanel mainColumn;
 
     public MainViewImpl() {
         initWidget(ourUiBinder.createAndBindUi(this));
         addStyleName("mainView");
+    }
+
+    @Override
+    public AcceptsOneWidget getMenuColumn() {
+        return menuColumn;
+    }
+
+    @Override
+    public AcceptsOneWidget getMainColumn() {
+        return mainColumn;
     }
 
     @Override

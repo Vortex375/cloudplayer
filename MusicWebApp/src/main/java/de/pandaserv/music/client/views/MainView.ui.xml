@@ -18,43 +18,13 @@
 
     <g:HTMLPanel>
         <b:Row>
-            <b:Column ui:field="menuColumn" size="2">
-                <b:NavList>
-                    <b:NavLink icon="HOME" active="true"><ui:msg>Home</ui:msg></b:NavLink>
-                    <b:NavHeader>
-                        <ui:msg>Music</ui:msg>
-                    </b:NavHeader>
-                    <b:NavLink icon="SEARCH">
-                        <ui:msg>Search</ui:msg>
-                    </b:NavLink>
-                    <b:NavLink icon="BOOK">
-                        <ui:msg>Browse</ui:msg>
-                    </b:NavLink>
-                    <b:NavLink icon="FOLDER_CLOSE">
-                        <ui:msg>Folders</ui:msg>
-                    </b:NavLink>
-                    <b:NavLink icon="LIST_ALT">
-                        <ui:msg>Playlists</ui:msg>
-                    </b:NavLink>
-                    <b:NavHeader>
-                        <ui:msg>Heart List</ui:msg>
-                    </b:NavHeader>
-                    <b:NavHeader>
-                        <ui:msg>Settings</ui:msg>
-                    </b:NavHeader>
-                    <b:NavLink icon="USER">
-                        <ui:msg>Profile</ui:msg>
-                    </b:NavLink>
-                    <b:NavLink icon="COG">
-                        <ui:msg>Settings</ui:msg>
-                    </b:NavLink>
-                    <b:NavLink icon="COGS">
-                        <ui:msg>Admin</ui:msg>
-                    </b:NavLink>
-                </b:NavList>
+            <b:Column size="2">
+                <g:SimplePanel ui:field="menuColumn">
+
+                </g:SimplePanel>
             </b:Column>
             <b:Column size="8">
-                <b:Heading size="1">Main Area</b:Heading>
+                <g:SimplePanel ui:field="mainColumn"></g:SimplePanel>
             </b:Column>
             <b:Column size="3">
                 <b:Heading size="3">Playlist</b:Heading>

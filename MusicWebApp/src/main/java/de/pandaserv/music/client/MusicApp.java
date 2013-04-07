@@ -1,23 +1,27 @@
 package de.pandaserv.music.client;
 
+import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.place.shared.PlaceController;
+import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
+import de.pandaserv.music.client.activities.MyActivityMapper;
 import de.pandaserv.music.client.control.PlaybackController;
 import de.pandaserv.music.client.control.PlaybackControllerImpl;
 import de.pandaserv.music.client.events.LoginEvent;
 import de.pandaserv.music.client.misc.NotSupportedException;
+import de.pandaserv.music.client.places.AppPlaceHistoryMapper;
+import de.pandaserv.music.client.places.WelcomePlace;
 import de.pandaserv.music.client.presenters.MainPresenter;
+import de.pandaserv.music.client.presenters.MenuPresenter;
 import de.pandaserv.music.client.presenters.PlaybackPresenter;
-import de.pandaserv.music.client.views.MainView;
-import de.pandaserv.music.client.views.MainViewImpl;
-import de.pandaserv.music.client.views.PlaybackView;
-import de.pandaserv.music.client.views.PlaybackViewImpl;
+import de.pandaserv.music.client.views.*;
 import de.pandaserv.music.shared.UserInfo;
 
 /**
@@ -28,6 +32,8 @@ public class MusicApp {
 
     private final UserInfo user;
     private final SimpleEventBus eventBus;
+    private PlaceController placeController;
+    private PlaceHistoryHandler historyHandler;
     private final PlaybackControllerImpl playbackController;
 
     private MainView mainView;
@@ -57,6 +63,10 @@ public class MusicApp {
         this.user = user;
         eventBus = new SimpleEventBus();
         playbackController = new PlaybackControllerImpl(eventBus);
+
+        placeController = new PlaceController(eventBus);
+        historyHandler = new PlaceHistoryHandler(new AppPlaceHistoryMapper());
+        historyHandler.register(placeController, eventBus, new WelcomePlace());
     }
 
     public UserInfo getUser() {
@@ -98,13 +108,27 @@ public class MusicApp {
         mainPanel.add(playbackView);
 
         /*
+         * MenuView and Presenter
+         */
+        MenuView menuView = new MenuViewImpl();
+        MenuPresenter menuPresenter = new MenuPresenter(menuView);
+        menuView.setPresenter(menuPresenter);
+        mainView.getMenuColumn().setWidget(menuView);
+
+        /*
+         * Main Area ActivityManager
+         */
+        ActivityManager activityManager = new ActivityManager(new MyActivityMapper(), eventBus);
+        activityManager.setDisplay(mainView.getMainColumn());
+
+        /*
          * remove the login view and add main panel
          */
         RootPanel.get("content").clear();
         RootPanel.get("content").add(mainPanel);
 
         /*
-         * add resize handler for main content
+         * add resize handler for main content and do initial resize
          */
         Window.addResizeHandler(new ResizeHandler() {
             @Override
@@ -114,17 +138,12 @@ public class MusicApp {
         });
         resizeMainContent();
 
-        /*new Timer() {
-            @Override
-            public void run() {
-                resizeMainContent();
-            }
-        }.schedule(1);*/
-
         /*
          * after everything is set up, fire a login event
+         * and go to the current place
          */
         eventBus.fireEvent(new LoginEvent(getUser()));
+        historyHandler.handleCurrentHistory();
     }
 
     /*
