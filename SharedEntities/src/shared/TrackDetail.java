@@ -7,7 +7,7 @@ import java.io.Serializable;
  *
  * Contains compact information on a track
  */
-public class TrackDetail implements Serializable {
+public class TrackDetail implements Serializable, DataType {
     private long id;
     private String title;
     private String artist;

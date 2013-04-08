@@ -3,6 +3,7 @@ package de.pandaserv.music.client.remote;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
+import com.google.gwt.view.client.Range;
 import de.pandaserv.music.shared.*;
 
 /**
@@ -34,7 +35,7 @@ public class RemoteService implements GwtMusicServiceAsync {
     }
 
     @Override
-    public void trackQuerySimple(String query, AsyncCallback<TrackDetail[]> callback) {
+    public void trackQuerySimple(String query, AsyncCallback<RangeResponse<TrackDetail>> callback) {
         service.trackQuerySimple(query, callback);
     }
 
@@ -61,5 +62,10 @@ public class RemoteService implements GwtMusicServiceAsync {
     @Override
     public void getCurrentUserInfo(AsyncCallback<UserInfo> callback) {
         service.getCurrentUserInfo(callback);
+    }
+
+    @Override
+    public void getTrackDetailRange(long queryId, Range range, AsyncCallback<RangeResponse<TrackDetail>> callback) {
+        service.getTrackDetailRange(queryId, range, callback);
     }
 }

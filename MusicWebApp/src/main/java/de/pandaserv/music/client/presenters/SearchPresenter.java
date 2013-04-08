@@ -1,6 +1,10 @@
 package de.pandaserv.music.client.presenters;
 
+import de.pandaserv.music.client.remote.MyAsyncCallback;
+import de.pandaserv.music.client.remote.RemoteService;
 import de.pandaserv.music.client.views.SearchView;
+import de.pandaserv.music.shared.RangeResponse;
+import de.pandaserv.music.shared.TrackDetail;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,5 +18,19 @@ public class SearchPresenter implements SearchView.Presenter {
 
     public SearchPresenter(SearchView view) {
         this.view = view;
+    }
+
+    @Override
+    public void newSearchQuery(String query) {
+        if (query.trim().equals("")) {
+            view.clearResults();
+        } else {
+            RemoteService.getInstance().trackQuerySimple(query, new MyAsyncCallback<RangeResponse<TrackDetail>>() {
+                @Override
+                protected void onResult(RangeResponse<TrackDetail> result) {
+                    view.setResults(result);
+                }
+            });
+        }
     }
 }

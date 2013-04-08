@@ -1,10 +1,29 @@
 package de.pandaserv.music.client.views;
 
+import com.github.gwtbootstrap.client.ui.Button;
+import com.github.gwtbootstrap.client.ui.TextBox;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.web.bindery.event.shared.HandlerRegistration;
+import de.pandaserv.music.client.widgets.SearchResultsTable;
+import de.pandaserv.music.shared.RangeResponse;
+import de.pandaserv.music.shared.TrackDetail;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,14 +40,114 @@ public class SearchViewImpl extends Composite implements SearchView {
     private static SearchViewUiBinder ourUiBinder = GWT.create(SearchViewUiBinder.class);
 
     private Presenter presenter;
+    private Timer autoSearchTimer;
+
+
+    @UiField
+    Button searchButton;
+    @UiField
+    Button clearButton;
+    @UiField
+    TextBox searchBox;
+    @UiField
+    Label noResultsLabel;
+    @UiField
+    SearchResultsTable resultsTable;
+
+    private List<HandlerRegistration> privateHandlers;
 
     public SearchViewImpl() {
         initWidget(ourUiBinder.createAndBindUi(this));
 
+        autoSearchTimer = new Timer() {
+            @Override
+            public void run() {
+                presenter.newSearchQuery(searchBox.getText());
+            }
+        };
+
+        privateHandlers = new ArrayList<HandlerRegistration>();
+
+
+    }
+
+    @Override
+    protected void onAttach() {
+        super.onAttach();
+        // fetch more rows when the user scrolls to the bottom of the page
+        GWT.log("add window scroll handler");
+        privateHandlers.add(Window.addWindowScrollHandler(new Window.ScrollHandler() {
+            @Override
+            public void onWindowScroll(Window.ScrollEvent scrollEvent) {
+                GWT.log("window scroll");
+            }
+        }));
+    }
+
+    @Override
+    protected void onDetach() {
+        super.onDetach();
+        for (HandlerRegistration reg : privateHandlers) {
+            reg.removeHandler();
+        }
+        privateHandlers.clear();
+    }
+
+    @Override
+    public String getQueryString() {
+        return searchBox.getText();
+    }
+
+    @Override
+    public void clearResults() {
+        resultsTable.clear();
+        resultsTable.setVisible(false);
+        noResultsLabel.setVisible(false);
+    }
+
+    @Override
+    public void setResults(RangeResponse<TrackDetail> results) {
+        if (results.getTotalCount() > 0) {
+            noResultsLabel.setVisible(false);
+            resultsTable.setVisible(true);
+            resultsTable.setData(results);
+        } else {
+            noResultsLabel.setVisible(true);
+            resultsTable.setVisible(false);
+            resultsTable.clear();
+        }
     }
 
     @Override
     public void setPresenter(Presenter presenter) {
         this.presenter = presenter;
+    }
+
+    @UiHandler("clearButton")
+    void onClearButtonClicked(ClickEvent e) {
+        autoSearchTimer.cancel();
+        searchBox.setText("");
+        searchBox.setFocus(true);
+        presenter.newSearchQuery(searchBox.getText());
+    }
+
+    @UiHandler("searchButton")
+    void onSearchButtonClicked(ClickEvent e) {
+        autoSearchTimer.cancel();
+        presenter.newSearchQuery(searchBox.getText());
+    }
+
+    @UiHandler("searchBox")
+    void onSearchBoxReturn(KeyDownEvent event) {
+        /*
+        * on "Return" key start query
+        */
+        if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+            autoSearchTimer.cancel();
+            presenter.newSearchQuery(searchBox.getText());
+        } else {
+            autoSearchTimer.cancel();
+            autoSearchTimer.schedule(300);
+        }
     }
 }

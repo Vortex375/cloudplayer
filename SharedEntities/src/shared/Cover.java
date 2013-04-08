@@ -7,7 +7,7 @@ package de.pandaserv.music.shared;
  * Time: 6:43 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Cover {
+public class Cover implements DataType {
     private String md5;
     private byte[] data;
     private String mimeType;

@@ -1,5 +1,7 @@
 package de.pandaserv.music.shared;
 
+import java.io.Serializable;
+
 /**
  * Created with IntelliJ IDEA.
  * User: ich
@@ -7,7 +9,7 @@ package de.pandaserv.music.shared;
  * Time: 11:18 PM
  * To change this template use File | Settings | File Templates.
  */
-public class QueueMode {
+public class QueueMode implements Serializable, DataType {
     public static class Other {
 
     }

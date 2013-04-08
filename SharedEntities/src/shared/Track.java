@@ -8,7 +8,7 @@ import java.util.Date;
  *
  * Contains all information on a track in the database
  */
-public class Track implements Serializable {
+public class Track implements Serializable, DataType {
     private long id;
     private String device;
     private String title;

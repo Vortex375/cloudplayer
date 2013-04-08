@@ -10,7 +10,7 @@ import java.io.Serializable;
  *
  * @author ich
  */
-public enum FileStatus implements Serializable {
+public enum FileStatus implements Serializable, DataType {
     NOT_PREPARED,
     PREPARING,
     TRANSCODING,

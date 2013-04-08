@@ -18,7 +18,7 @@ import java.util.Map;
 class JobServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (SessionUtil.getUserId(request) < 0) {
+        if (SessionUtil.getUserId(request.getSession()) < 0) {
             HttpUtil.fail(HttpServletResponse.SC_FORBIDDEN, "You must log in to access this interface.", response);
             return;
         }

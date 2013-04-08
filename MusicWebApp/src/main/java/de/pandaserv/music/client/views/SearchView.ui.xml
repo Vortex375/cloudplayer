@@ -1,6 +1,7 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
              xmlns:b="urn:import:com.github.gwtbootstrap.client.ui"
+             xmlns:widgets="urn:import:de.pandaserv.music.client.widgets"
              ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
              ui:generateKeys="com.google.gwt.i18n.server.keygen.MD5KeyGenerator"
              ui:generateFilename="Messages"
@@ -28,5 +29,7 @@
             </b:Column>
         </b:Row>
         <hr/>
+        <g:Label ui:field="noResultsLabel" visible="false"><ui:msg>No tracks found.</ui:msg></g:Label>
+        <widgets:SearchResultsTable ui:field="resultsTable" visible="false"/>
     </g:HTMLPanel>
 </ui:UiBinder>

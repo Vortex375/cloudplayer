@@ -28,4 +28,17 @@ public interface GuiConstants extends Constants {
     @Description("pleaseWait")
     @DefaultStringValue("Please wait...")
     public String pleaseWait();
+
+
+    @Description("title")
+    @DefaultStringValue("Title")
+    public String title();
+
+    @Description("artist")
+    @DefaultStringValue("Artist")
+    public String artist();
+
+    @Description("album")
+    @DefaultStringValue("Album")
+    public String album();
 }

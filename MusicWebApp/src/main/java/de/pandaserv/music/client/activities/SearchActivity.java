@@ -21,6 +21,7 @@ public class SearchActivity extends MyActivity {
     public SearchActivity() {
         view = new SearchViewImpl();
         presenter = new SearchPresenter(view);
+        view.setPresenter(presenter);
     }
 
     @Override

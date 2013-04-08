@@ -1,9 +1,14 @@
 package de.pandaserv.music.server.service;
 
+import de.pandaserv.music.server.misc.SessionUtil;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
 
 public class MusicService extends ServletContextHandler {
 
@@ -12,7 +17,6 @@ public class MusicService extends ServletContextHandler {
     public MusicService() {
         // enable session support
         super(SESSIONS);
-
         // stream object
         addServlet(new ServletHolder(new StreamServlet()), "/service/stream/*");
         // cover object
@@ -21,6 +25,28 @@ public class MusicService extends ServletContextHandler {
         addServlet(new ServletHolder(new JobServlet()), "/service/jobs");
         // GWT interface
         addServlet(new ServletHolder(new GwtMusicServiceImpl()), "/service/gwt");
+
+        /*
+         * handle session-related events
+         */
+        getSessionHandler().getSessionManager().addEventListener(new HttpSessionListener() {
+            @Override
+            public void sessionCreated(HttpSessionEvent event) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public void sessionDestroyed(HttpSessionEvent event) {
+                /*
+                 * drop saved queries from cache when a user session is destroyed
+                 */
+                HttpSession session = event.getSession();
+                long lastQuery = SessionUtil.getLastTrackQueryId(session);
+                if (lastQuery > 0) {
+                    RequestCache.getInstance().drop(lastQuery);
+                }
+            }
+        });
     }
 
     /**

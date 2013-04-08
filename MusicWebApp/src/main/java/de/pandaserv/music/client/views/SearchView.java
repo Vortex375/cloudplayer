@@ -1,6 +1,8 @@
 package de.pandaserv.music.client.views;
 
 import com.google.gwt.user.client.ui.IsWidget;
+import de.pandaserv.music.shared.RangeResponse;
+import de.pandaserv.music.shared.TrackDetail;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,8 +13,13 @@ import com.google.gwt.user.client.ui.IsWidget;
  */
 public interface SearchView extends IsWidget {
     public interface Presenter {
-
+        void newSearchQuery(String query);
     }
+
+    String getQueryString();
+
+    void clearResults();
+    void setResults(RangeResponse<TrackDetail> results);
 
     void setPresenter(Presenter presenter);
 }
