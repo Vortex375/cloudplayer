@@ -77,7 +77,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
-        <version>2.5.0</version>
+        <version>${gwtVersion}</version>
         <executions>
           <execution>
             <goals>

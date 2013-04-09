@@ -7,13 +7,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7bd93867-2de8-4e07-bcf9-3e56608483f4" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/events/VisDataEvent.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/events/VisDataEventHandler.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/../MusicWebApp/.idea/libraries/Maven__com_google_gwt_gwt_user_2_5_0.xml" afterPath="$PROJECT_DIR$/../MusicWebApp/.idea/libraries/Maven__com_google_gwt_gwt_user_2_5_1.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MusicServer.iml" afterPath="$PROJECT_DIR$/MusicServer.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../MusicWebApp/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/control/PlaybackController.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/control/PlaybackController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/control/PlaybackControllerImpl.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/control/PlaybackControllerImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/presenters/PlaybackPresenter.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/presenters/PlaybackPresenter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/MusicWebApp.iml" afterPath="$PROJECT_DIR$/../MusicWebApp/MusicWebApp.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/pom.xml" afterPath="$PROJECT_DIR$/../MusicWebApp/pom.xml" />
     </list>
     <ignored path="MusicServer.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -134,7 +133,7 @@
       <file leaf-file-name="PrepareJob.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="78" column="19" selection-start="2136" selection-end="2136" vertical-scroll-proportion="0.40164778">
+            <state line="96" column="71" selection-start="3017" selection-end="3017" vertical-scroll-proportion="0.67971164">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -551,7 +550,7 @@
   <component name="PropertiesComponent">
     <property name="GenerateAntBuildDialog.generateIdeaHomeProperty" value="false" />
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
@@ -997,7 +996,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="19" selection-start="2136" selection-end="2136" vertical-scroll-proportion="0.40164778">
+        <state line="96" column="71" selection-start="3017" selection-end="3017" vertical-scroll-proportion="0.67971164">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
