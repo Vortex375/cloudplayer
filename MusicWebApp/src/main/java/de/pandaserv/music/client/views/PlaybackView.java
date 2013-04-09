@@ -10,6 +10,7 @@ public interface PlaybackView extends IsWidget {
         void seekTo(double seconds);
     }
 
+    void showPlaybackWaiting(boolean show);
     void setCurrentTrackInfo(Track track);
     void setDuration(double seconds);
     void setTime(double seconds);

@@ -11,7 +11,9 @@ import de.pandaserv.music.client.remote.RemoteService;
 import de.pandaserv.music.shared.RangeResponse;
 import de.pandaserv.music.shared.TrackDetail;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,6 +23,10 @@ import java.util.Arrays;
  * To change this template use File | Settings | File Templates.
  */
 public class SearchResultsTable extends CellTable<TrackDetail> {
+    public static interface TrackClickHandler {
+        public void onTrackClicked(long trackId);
+    }
+
     /*
      * Key provider for TrackDetail
      */
@@ -91,9 +97,15 @@ public class SearchResultsTable extends CellTable<TrackDetail> {
                  * make request
                  */
                 final int requestStart = start;
-                RemoteService.getInstance().getTrackDetailRange(queryId, new Range(start, end-start), new MyAsyncCallback<RangeResponse<TrackDetail>>() {
+                RemoteService.getInstance().getTrackDetailRange(queryId, new Range(start, end - start), new MyAsyncCallback<RangeResponse<TrackDetail>>() {
                     @Override
                     protected void onResult(RangeResponse<TrackDetail> result) {
+                        if (result == null) {
+                            // call failed
+                            // we just silently discard this error here
+                            // probably bad
+                            return;
+                        }
                         updateRowData(requestStart, Arrays.asList(result.getData()));
                     }
                 });
@@ -113,12 +125,19 @@ public class SearchResultsTable extends CellTable<TrackDetail> {
     private final Column<TrackDetail, String> albumColumn;
 
     private final TrackDataProvider dataProvider;
-
+    private final MultiSelectionModel<TrackDetail> selectionModel;
+    private final List<TrackClickHandler> trackClickHandlers;
 
     private int visibleRows;
 
     public SearchResultsTable() {
         visibleRows = PAGE_INCREMENT;
+
+        trackClickHandlers = new ArrayList<TrackClickHandler>();
+
+        selectionModel = new MultiSelectionModel<TrackDetail>(KEY_PROVIDER);
+        setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+        setSelectionModel(selectionModel);
 
         titleColumn = new TextColumn<TrackDetail>() {
             @Override
@@ -156,6 +175,20 @@ public class SearchResultsTable extends CellTable<TrackDetail> {
         dataProvider = new TrackDataProvider();
         dataProvider.addDataDisplay(this);
 
+
+        /*
+         * Handler for row double clicks
+         */
+        addCellPreviewHandler(new CellPreviewEvent.Handler<TrackDetail>() {
+            @Override
+            public void onCellPreview(CellPreviewEvent<TrackDetail> event) {
+                GWT.log("onCellPreview: " + event.getNativeEvent().getType());
+                if (event.getNativeEvent().getType().equals("click")) {
+                    onTrackClicked(event.getValue().getId());
+                }
+            }
+        });
+
         addRowCountChangeHandler(new RowCountChangeEvent.Handler() {
             @Override
             public void onRowCountChange(RowCountChangeEvent event) {
@@ -185,5 +218,15 @@ public class SearchResultsTable extends CellTable<TrackDetail> {
     private void updateVisibleRange() {
         GWT.log("TrackTable: updateVisibleRange(): 0, " + Math.min(getRowCount(), visibleRows));
         setVisibleRange(0, Math.min(getRowCount(), visibleRows));
+    }
+
+    public void addTrackClickHandler(TrackClickHandler handler) {
+        trackClickHandlers.add(handler);
+    }
+
+    private void onTrackClicked(long id) {
+        for (TrackClickHandler handler : trackClickHandlers) {
+            handler.onTrackClicked(id);
+        }
     }
 }

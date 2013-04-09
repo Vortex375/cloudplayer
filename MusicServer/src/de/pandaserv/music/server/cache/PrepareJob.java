@@ -7,6 +7,8 @@ package de.pandaserv.music.server.cache;
 import de.pandaserv.music.server.devices.Device;
 import de.pandaserv.music.server.jobs.Job;
 import de.pandaserv.music.server.jobs.JobManager;
+import de.pandaserv.music.shared.FileStatus;
+import de.pandaserv.music.shared.Priority;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,15 +31,19 @@ public class PrepareJob implements Job {
     private final File outputFile;
     private long startTime;
     private String transcodeCommand;
+    private Priority priority;
+    private long creationTime;
 
     //private boolean canceled = false;
 
-    public PrepareJob(long id, Device device, String path, File outputFile, String transcodeCommand) {
+    public PrepareJob(Priority priority, long id, Device device, String path, File outputFile, String transcodeCommand) {
         this.id = id;
         this.device = device;
         this.path = path;
         this.outputFile = outputFile;
         this.transcodeCommand = transcodeCommand;
+        this.priority = priority;
+        creationTime = System.currentTimeMillis();
     }
 
     @Override
@@ -56,8 +62,22 @@ public class PrepareJob implements Job {
         //canceled = true;
     }
 
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public long getCreationTime() {
+        return creationTime;
+    }
+
     @Override
     public void run() {
+        // check if it is still necessary to run this job
+        if (CacheManager.getInstance().getStatus(id) == FileStatus.PREPARED) {
+            // already prepared by another PrepareJob while this one was queued
+            // nothing to do
+            return;
+        }
         startTime = System.currentTimeMillis();
         logger.info("Downloading and transcoding {} from {} to {}", path, device, outputFile.getAbsolutePath());
         final long jobId = JobManager.getInstance().addJob(this);

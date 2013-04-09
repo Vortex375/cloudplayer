@@ -30,8 +30,8 @@ public class RemoteService implements GwtMusicServiceAsync {
     }
 
     @Override
-    public void prepare(long id, AsyncCallback<Void> callback) {
-        service.prepare(id, callback);
+    public void prepare(long id, Priority priority, AsyncCallback<Void> callback) {
+        service.prepare(id, priority, callback);
     }
 
     @Override

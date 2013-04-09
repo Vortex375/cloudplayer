@@ -10,6 +10,7 @@ import de.pandaserv.music.shared.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -82,12 +83,12 @@ public class GwtMusicServiceImpl extends RemoteServiceServlet implements GwtMusi
     }
 
     @Override
-    public void prepare(long id) throws AccessDeniedException {
+    public void prepare(long id, Priority priority) throws AccessDeniedException {
         if (SessionUtil.getUserId(getThreadLocalRequest().getSession()) < 0) {
             // not logged in
             throw new AccessDeniedException();
         }
-        CacheManager.getInstance().prepare(id);
+        CacheManager.getInstance().prepare(id, priority);
     }
 
     @Override
@@ -96,8 +97,13 @@ public class GwtMusicServiceImpl extends RemoteServiceServlet implements GwtMusi
             // not logged in
             throw new AccessDeniedException();
         }
-        query = query.trim();
+        HttpSession session = getThreadLocalRequest().getSession();
+        long queryId;
+        synchronized (session) { // I hope this works at all
+            queryId = SessionUtil.getLastTrackQueryId(session);
+        }
 
+        query = query.trim();
         List<TrackDetail> resultList = TrackDatabase.getInstance().trackQuerySimple(query);
         if (resultList == null) {
             // exception in query - this shouldn't normally happen
@@ -106,16 +112,29 @@ public class GwtMusicServiceImpl extends RemoteServiceServlet implements GwtMusi
         }
 
         // clear previous query
-        long queryId = SessionUtil.getLastTrackQueryId(getThreadLocalRequest().getSession());
-        RequestCache.getInstance().drop(queryId);
+        synchronized (session) {
+            long queryId2 = SessionUtil.getLastTrackQueryId(getThreadLocalRequest().getSession());
+            if (queryId2 != queryId) {
+                // another request was made for this session while this one was still running
+                // do not store the results of this query
+                // and return an empty query
+                //TODO: this is a hack :-(
+                logger.info("Discarding results for outdated query {}", queryId);
+                return new RangeResponse<TrackDetail>(0, new TrackDetail[0], new Range(0, 0), 0);
+            } else {
+                // this is the latest request
+                RequestCache.getInstance().drop(queryId);
 
-        // store new query
-        TrackDetail[] resultArray = resultList.toArray(new TrackDetail[resultList.size()]);
-        queryId = System.currentTimeMillis() | Thread.currentThread().getId(); // new query id
-        RequestCache.getInstance().put(queryId, resultArray);
-        SessionUtil.setLastTrackQueryId(getThreadLocalRequest().getSession(), queryId);
-
-        return getTrackDetailRange(queryId, new Range(0, INITIAL_RANGE_SIZE));
+                // store new query
+                TrackDetail[] resultArray = resultList.toArray(new TrackDetail[resultList.size()]);
+                // new query id
+                queryId = System.currentTimeMillis() ^ Thread.currentThread().getId();
+                RequestCache.getInstance().put(queryId, resultArray);
+                SessionUtil.setLastTrackQueryId(getThreadLocalRequest().getSession(), queryId);
+                logger.info("Caching results for query {}", queryId);
+                return getTrackDetailRange(queryId, new Range(0, INITIAL_RANGE_SIZE));
+            }
+        }
     }
 
     @Override
@@ -155,8 +174,22 @@ public class GwtMusicServiceImpl extends RemoteServiceServlet implements GwtMusi
             return null;
         }
 
-        TrackDetail[] ret = new TrackDetail[range.getLength()];
-        System.arraycopy(data, range.getStart(), ret, 0, range.getLength());
+        int start = range.getStart();
+        int end = range.getStart() + range.getLength();
+        if (start > end) {
+            // invalid parameter
+            logger.info("Rejecting getTrackDetailRange() request: invalid range parameter");
+            return null;
+        }
+        if (start < 0) {
+            start = 0;
+        }
+        if (end > data.length) {
+            end = data.length;
+        }
+
+        TrackDetail[] ret = new TrackDetail[end - start];
+        System.arraycopy(data, start, ret, 0, ret.length);
 
         return new RangeResponse<>(queryId, ret, range, data.length);
     }

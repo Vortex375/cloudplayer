@@ -7,35 +7,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7bd93867-2de8-4e07-bcf9-3e56608483f4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/service/RequestCache.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/widgets/SearchResultsTable.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/presenters/MusicTestPresenter.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/events/PlaybackWaitingEvent.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/events/PlaybackWaitingEventHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/misc/SessionUtil.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/misc/SessionUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/service/CoverServlet.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/service/CoverServlet.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheManager.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/service/GwtMusicServiceImpl.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/service/GwtMusicServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/service/JobServlet.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/service/JobServlet.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/service/MusicService.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/service/MusicService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/service/StreamServlet.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/service/StreamServlet.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../MusicWebApp/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/MusicApp.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/MusicApp.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/activities/MyActivityMapper.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/activities/MyActivityMapper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/activities/SearchActivity.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/activities/SearchActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/i18n/GuiConstants.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/i18n/GuiConstants.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/activities/WelcomeActivity.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/activities/WelcomeActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/audio/AudioSystem.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/audio/AudioSystem.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/control/PlaybackControllerImpl.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/control/PlaybackControllerImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/presenters/PlaybackPresenter.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/presenters/PlaybackPresenter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/presenters/SearchPresenter.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/presenters/SearchPresenter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/remote/RemoteService.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/remote/RemoteService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/PlaybackView.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/PlaybackView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/PlaybackView.ui.xml" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/PlaybackView.ui.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/PlaybackViewImpl.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/PlaybackViewImpl.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/SearchView.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/SearchView.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/SearchView.ui.xml" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/SearchView.ui.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/SearchViewImpl.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/SearchViewImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/shared/Cover.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/shared/Cover.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/shared/DataType.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/shared/DataType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/shared/FileStatus.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/shared/FileStatus.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/shared/GwtMusicService.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/shared/GwtMusicService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/shared/GwtMusicServiceAsync.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/shared/GwtMusicServiceAsync.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/shared/QueueMode.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/shared/QueueMode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/shared/Track.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/shared/Track.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/shared/TrackDetail.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/shared/TrackDetail.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/shared/UserInfo.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/shared/UserInfo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/widgets/SearchResultsTable.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/widgets/SearchResultsTable.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/app.css" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/app.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SharedEntities/src/shared/GwtMusicService.java" afterPath="$PROJECT_DIR$/../SharedEntities/src/shared/GwtMusicService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SharedEntities/src/shared/GwtMusicServiceAsync.java" afterPath="$PROJECT_DIR$/../SharedEntities/src/shared/GwtMusicServiceAsync.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SharedEntities/src/shared/QueueMode.java" afterPath="$PROJECT_DIR$/../SharedEntities/src/shared/QueueMode.java" />
     </list>
     <ignored path="MusicServer.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -97,10 +96,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="GwtMusicServiceImpl.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="GwtMusicServiceImpl.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/GwtMusicServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="115" column="87" selection-start="4130" selection-end="4130" vertical-scroll-proportion="0.64881563">
+            <state line="90" column="55" selection-start="3005" selection-end="3005" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -109,7 +108,7 @@
       <file leaf-file-name="GwtMusicService.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/shared/GwtMusicService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="25" selection-start="662" selection-end="662" vertical-scroll-proportion="0.0">
+            <state line="23" column="50" selection-start="756" selection-end="756" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -127,7 +126,7 @@
       <file leaf-file-name="RequestCache.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/RequestCache.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="32" selection-start="997" selection-end="997" vertical-scroll-proportion="0.0">
+            <state line="34" column="9" selection-start="850" selection-end="850" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -138,7 +137,7 @@
       <file leaf-file-name="MusicService.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/MusicService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="47" column="13" selection-start="1854" selection-end="1854" vertical-scroll-proportion="0.0">
+            <state line="44" column="44" selection-start="1741" selection-end="1741" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -147,25 +146,27 @@
       <file leaf-file-name="CacheManager.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="63" column="4" selection-start="1919" selection-end="2057" vertical-scroll-proportion="0.0">
+            <state line="280" column="51" selection-start="9707" selection-end="9707" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CoverServlet.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/CoverServlet.java">
+      <file leaf-file-name="PrepareJob.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="54" selection-start="872" selection-end="872" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="78" column="19" selection-start="2136" selection-end="2136" vertical-scroll-proportion="0.40164778">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JobServlet.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/JobServlet.java">
+      <file leaf-file-name="Priority.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/shared/Priority.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="54" selection-start="812" selection-end="812" vertical-scroll-proportion="0.0">
+            <state line="12" column="11" selection-start="251" selection-end="251" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -202,22 +203,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java" />
-        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/misc/PasswordTools.java" />
-        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/misc/PasswordUtil.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/misc/HttpUtil.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/shared/SecurityException.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/shared/AccessDeniedException.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/database/UserDatabase.java" />
-        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/misc/SessionUtil.java" />
-        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/MusicService.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/StreamServlet.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/CoverServlet.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/JobServlet.java" />
-        <option value="$PROJECT_DIR$/src/de/pandaserv/music/shared/GwtMusicService.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/shared/RangeResponse.java" />
+        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/MusicService.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/RequestCache.java" />
+        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/misc/SessionUtil.java" />
+        <option value="$PROJECT_DIR$/src/de/pandaserv/music/shared/Priority.java" />
+        <option value="$PROJECT_DIR$/src/de/pandaserv/music/shared/GwtMusicService.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/GwtMusicServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheManager.java" />
+        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java" />
       </list>
     </option>
   </component>
@@ -914,21 +915,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/MusicServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="22" selection-start="2539" selection-end="2539" vertical-scroll-proportion="0.519573" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/database/UserDatabase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="112" column="82" selection-start="3497" selection-end="3497" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/database/DatabaseManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="39" selection-start="1909" selection-end="1909" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/shared/AccessDeniedException.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="34" selection-start="222" selection-end="222" vertical-scroll-proportion="0.0" />
@@ -942,27 +928,6 @@
     <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/misc/HttpUtil.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="20" column="5" selection-start="638" selection-end="638" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="4" selection-start="1919" selection-end="2057" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/misc/SessionUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="33" selection-start="1360" selection-end="1360" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/StreamServlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="110" column="54" selection-start="4292" selection-end="4292" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/CoverServlet.java">
@@ -986,33 +951,77 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/MusicService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="44" selection-start="1741" selection-end="1741" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/RequestCache.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="32" selection-start="997" selection-end="997" vertical-scroll-proportion="0.0">
+        <state line="34" column="9" selection-start="850" selection-end="850" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/shared/GwtMusicService.java">
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/misc/SessionUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="25" selection-start="662" selection-end="662" vertical-scroll-proportion="0.0">
+        <state line="44" column="33" selection-start="1360" selection-end="1360" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/MusicService.java">
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/StreamServlet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="13" selection-start="1854" selection-end="1854" vertical-scroll-proportion="0.0">
+        <state line="110" column="54" selection-start="4292" selection-end="4292" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///opt/java/src.zip!/java/util/concurrent/PriorityBlockingQueue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="208" column="32" selection-start="7048" selection-end="7048" vertical-scroll-proportion="0.36354274">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/shared/Priority.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="11" selection-start="251" selection-end="251" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/shared/GwtMusicService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="50" selection-start="756" selection-end="756" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/GwtMusicServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="115" column="87" selection-start="4130" selection-end="4130" vertical-scroll-proportion="0.64881563">
+        <state line="90" column="55" selection-start="3005" selection-end="3005" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="280" column="51" selection-start="9707" selection-end="9707" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="78" column="19" selection-start="2136" selection-end="2136" vertical-scroll-proportion="0.40164778">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

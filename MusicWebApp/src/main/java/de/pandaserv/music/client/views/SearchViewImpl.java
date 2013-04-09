@@ -68,7 +68,12 @@ public class SearchViewImpl extends Composite implements SearchView {
 
         privateHandlers = new ArrayList<HandlerRegistration>();
 
-
+        resultsTable.addTrackClickHandler(new SearchResultsTable.TrackClickHandler() {
+            @Override
+            public void onTrackClicked(long trackId) {
+                presenter.onTrackClicked(trackId);
+            }
+        });
     }
 
     @Override
@@ -82,6 +87,8 @@ public class SearchViewImpl extends Composite implements SearchView {
                 GWT.log("window scroll");
             }
         }));
+
+        searchBox.setFocus(true);
     }
 
     @Override

@@ -6,7 +6,7 @@ import de.pandaserv.music.client.presenters.WelcomePresenter;
 import de.pandaserv.music.client.views.WelcomeView;
 import de.pandaserv.music.client.views.WelcomeViewImpl;
 
-public class WelcomeActivity extends MyActivity {
+public class WelcomeActivity extends MyActivity implements CacheableActivity {
     private WelcomeView view;
     private WelcomePresenter presenter;
 

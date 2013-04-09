@@ -40,6 +40,7 @@ public class MusicService extends ServletContextHandler {
                 /*
                  * drop saved queries from cache when a user session is destroyed
                  */
+                logger.info("Session destroyed");
                 HttpSession session = event.getSession();
                 long lastQuery = SessionUtil.getLastTrackQueryId(session);
                 if (lastQuery > 0) {

@@ -28,7 +28,7 @@ import de.pandaserv.music.shared.UserInfo;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class MusicApp {
-    public static final String STREAM_SERVICE_URL = GWT.getHostPageBaseURL() + "/service/stream/";
+    public static final String STREAM_SERVICE_URL = GWT.getHostPageBaseURL() + "service/stream/";
 
     private final UserInfo user;
     private final SimpleEventBus eventBus;

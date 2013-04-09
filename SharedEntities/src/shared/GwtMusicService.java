@@ -21,7 +21,7 @@ public interface GwtMusicService extends RemoteService {
     public void logout();
     public UserInfo getCurrentUserInfo();
 
-    public void prepare(long id) throws AccessDeniedException;
+    public void prepare(long id, Priority priority) throws AccessDeniedException;
 
     // query methods
     public RangeResponse<TrackDetail> trackQuerySimple(String query) throws AccessDeniedException;

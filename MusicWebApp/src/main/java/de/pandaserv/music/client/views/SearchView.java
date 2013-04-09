@@ -1,6 +1,8 @@
 package de.pandaserv.music.client.views;
 
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Widget;
 import de.pandaserv.music.shared.RangeResponse;
 import de.pandaserv.music.shared.TrackDetail;
 
@@ -14,6 +16,8 @@ import de.pandaserv.music.shared.TrackDetail;
 public interface SearchView extends IsWidget {
     public interface Presenter {
         void newSearchQuery(String query);
+
+        void onTrackClicked(long id);
     }
 
     String getQueryString();

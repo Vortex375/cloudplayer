@@ -11,7 +11,7 @@ import com.google.gwt.view.client.Range;
  * To change this template use File | Settings | File Templates.
  */
 public interface GwtMusicServiceAsync {
-    void prepare(long id, AsyncCallback<Void> callback);
+    void prepare(long id, Priority priority, AsyncCallback<Void> async);
 
     // query methods
     void trackQuerySimple(String query, AsyncCallback<RangeResponse<TrackDetail>> async);

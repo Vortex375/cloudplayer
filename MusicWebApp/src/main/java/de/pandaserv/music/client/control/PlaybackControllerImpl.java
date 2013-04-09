@@ -4,12 +4,17 @@ import com.google.gwt.dom.client.AudioElement;
 import com.google.gwt.dom.client.MediaElement;
 import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.media.client.Audio;
+import com.google.gwt.user.client.Timer;
 import com.google.web.bindery.event.shared.EventBus;
 import de.pandaserv.music.client.MusicApp;
 import de.pandaserv.music.client.audio.AudioSystem;
 import de.pandaserv.music.client.events.*;
 import de.pandaserv.music.client.misc.NotSupportedException;
 import de.pandaserv.music.client.misc.PlaybackStatus;
+import de.pandaserv.music.client.remote.MyAsyncCallback;
+import de.pandaserv.music.client.remote.RemoteService;
+import de.pandaserv.music.shared.FileStatus;
+import de.pandaserv.music.shared.Priority;
 import de.pandaserv.music.shared.QueueMode;
 
 /**
@@ -25,17 +30,33 @@ public class PlaybackControllerImpl implements PlaybackController {
     private AudioSystem audioSystem;
     private EventBus eventBus;
 
-    private PlaybackStatus playbackStatus;
-    private long currentId;
+    private PlaybackStatus playbackStatus = PlaybackStatus.STOP;
+    private long currentId = -1;
     private QueueMode queueMode;
     private long[] queue;
+    private FileStatus[] statuses;
     private int queuePosition;
+
+    private int autoPrepareIndex = 0; // current index where autoPrepare() is running, relative to queuePosition
+    private long autoPrepareId; // id that is currently preparing in background
+    private boolean nextTrackPreparing = false;
+    private Timer autoPrepareTimer;
 
     public PlaybackControllerImpl(final EventBus eventBus) throws NotSupportedException {
         this.eventBus = eventBus;
 
+        autoPrepareTimer = new Timer() {
+            @Override
+            public void run() {
+                autoPrepare();
+            }
+        };
+
         boolean enableAudioSystem = Boolean.parseBoolean(Dictionary.getDictionary("startupConfig").get("enableVis"));
 
+        /*
+         * create Audio playback element
+         */
         Audio audio = Audio.createIfSupported();
         if (audio != null) {
             audioElement = audio.getAudioElement();
@@ -43,6 +64,9 @@ public class PlaybackControllerImpl implements PlaybackController {
             throw new NotSupportedException();
         }
 
+        /*
+         * create AudioSystem (for vis), if enabled
+         */
         if (enableAudioSystem) {
             try {
                 audioSystem = new AudioSystem();
@@ -157,6 +181,16 @@ public class PlaybackControllerImpl implements PlaybackController {
         this.queueMode = queueMode;
         this.queue = queue;
         this.queuePosition = pos;
+        this.autoPrepareIndex = 1;
+        autoPrepareTimer.cancel();
+        autoPrepareTimer.schedule(2000);
+
+        statuses = new FileStatus[queue.length];
+        for (int i = 0; i < statuses.length; i++) {
+            // file status is unknown - we assume NOT_PREPARED
+            statuses[i] = FileStatus.NOT_PREPARED;
+        }
+        nextTrackPreparing = false;
 
         tickle();
     }
@@ -167,6 +201,11 @@ public class PlaybackControllerImpl implements PlaybackController {
             throw new IllegalArgumentException("position out of range");
         }
         this.queuePosition = position;
+        this.autoPrepareIndex = 1;
+        autoPrepareTimer.cancel();
+        autoPrepareTimer.schedule(2000);
+
+        nextTrackPreparing = false;
 
         tickle();
     }
@@ -174,28 +213,122 @@ public class PlaybackControllerImpl implements PlaybackController {
     // actually move to the next track
     private void tickle() {
         currentId = queue[queuePosition];
+        eventBus.fireEvent(new PlaybackCurrentIdEvent(currentId));
 
-        if (audioSystem != null) {
-            audioSystem.disconnect();
-            audioElement.setSrc("");
+        /*
+         * check if the next track is available
+         */
+        if (!(statuses[queuePosition] == FileStatus.PREPARED)) {
+            eventBus.fireEvent(new PlaybackWaitingEvent(true));
+            final int queryPos = queuePosition;
+            RemoteService.getInstance().getStatus(currentId, new MyAsyncCallback<FileStatus>() {
+                @Override
+                protected void onResult(FileStatus result) {
+                    statuses[queryPos] = result;
+                    if (result == FileStatus.PREPARED) {
+                        /*
+                         * next track is ready - run tickle() again
+                         */
+                        tickle();
+                    } else {
+                        /*
+                         * next track is NOT ready - issue prepare job with HIGH priority
+                         */
+                        if (!nextTrackPreparing) {
+                            nextTrackPreparing = true;
+                            RemoteService.getInstance().prepare(currentId, Priority.HIGH, new MyAsyncCallback<Void>() {
+                                @Override
+                                protected void onResult(Void result) {
+                                    // do nothing
+                                }
+                            });
+                        }
+                        /*
+                         * check again if the track is prepared after 500ms
+                         */
+                        new Timer() {
+                            @Override
+                            public void run() {
+                                tickle();
+                            }
+                        }.schedule(500);
+                    }
+                }
+            });
+        } else {
+            eventBus.fireEvent(new PlaybackWaitingEvent(false));
+            /*
+             * start playback of next track
+             */
+            if (audioSystem != null) {
+                audioSystem.disconnect();
+                audioElement.setSrc("");
+                audioElement.pause();
+                audioElement.load();
+                /*
+                 * Create a new audio element !!
+                 * This _should_ not be necessary but it is needed
+                 * to work around an audio playback bug
+                 */
+                audioElement = Audio.createIfSupported().getAudioElement();
+                bind(audioElement); //TODO: unbind old element?
+                audioSystem.setMediaElement(audioElement);
+            }
+            audioElement.setSrc(MusicApp.STREAM_SERVICE_URL + currentId);
             audioElement.pause();
             audioElement.load();
-            /*
-             * Create a new audio element !!
-             * This _should_ not be necessary but it is needed
-             * to work around an audio playback bug
-             */
-            audioElement = Audio.createIfSupported().getAudioElement();
-            bind(audioElement); //TODO: unbind old element?
-            audioSystem.setMediaElement(audioElement);
+            if (audioSystem != null) {
+                audioSystem.connect();
+            }
+            audioElement.play();
         }
-        audioElement.setSrc(MusicApp.STREAM_SERVICE_URL + currentId);
-        audioElement.pause();
-        audioElement.load();
-        if (audioSystem != null) {
-            audioSystem.connect();
-        }
+    }
 
-        eventBus.fireEvent(new PlaybackCurrentIdEvent(currentId));
+    private void autoPrepare() {
+        /*
+         * automatically prepare tracks on the playback queue in the background
+         */
+        final int queryPos = (queuePosition + autoPrepareIndex);
+        if (queryPos >= queue.length) {
+            // reached end of queue while auto preparing
+            return;
+        }
+        long id = queue[queryPos];
+        RemoteService.getInstance().getStatus(id, new MyAsyncCallback<FileStatus>() {
+            @Override
+            protected void onResult(FileStatus result) {
+                statuses[queryPos] = result;
+                if (result == FileStatus.PREPARED) {
+                    /*
+                     * we are done with this index - move to the next
+                     */
+                    autoPrepareIndex += 1;
+                    if (autoPrepareIndex > 3) {
+                        /*
+                         * we have prepared the next 3 tracks
+                         * stop auto prepare
+                         */
+                        return;
+                    }
+                } else {
+                    if (autoPrepareId != queue[queryPos]) {
+                        /*
+                         * track is not preparing - issue prepare job with NORMAL priority
+                         */
+                        autoPrepareId = queue[queryPos];
+                        RemoteService.getInstance().prepare(queue[queryPos], Priority.NORMAL, new MyAsyncCallback<Void>() {
+                            @Override
+                            protected void onResult(Void result) {
+                                // do nothing
+                            }
+                        });
+                    }
+                }
+                /*
+                 * continue auto prepare
+                 */
+                autoPrepareTimer.schedule(2000);
+            }
+        });
     }
 }

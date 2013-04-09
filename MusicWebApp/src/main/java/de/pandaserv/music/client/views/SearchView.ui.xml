@@ -13,7 +13,7 @@
                     <table style="width: 100%">
                         <tr>
                             <td style="width: 99%">
-                                <b:AppendButton>
+                                <b:AppendButton addStyleNames="searchBoxWrapper">
                                     <b:TextBox ui:field="searchBox"
                                                placeholder="Type here to find tracks"
                                                addStyleNames="searchBox"/>

@@ -83,6 +83,19 @@ public class PlaybackViewImpl extends Composite implements PlaybackView {
     }
 
     @Override
+    public void showPlaybackWaiting(boolean show) {
+        if (show) {
+            playButton.setIcon(IconType.SPINNER);
+            // HACK to make the waiting icon spin
+            // (rather than spinning the whole button, which looks funny
+            playButton.getElement().getElementsByTagName("I").getItem(0).addClassName("icon-spin");
+        } else {
+            playButton.setIcon(IconType.PLAY);
+            playButton.getElement().getElementsByTagName("I").getItem(0).removeClassName("icon-spin");
+        }
+    }
+
+    @Override
     public void setCurrentTrackInfo(Track track) {
         titleLabel.setText(track.getTitle());
         artistLabel.setText(track.getArtist());

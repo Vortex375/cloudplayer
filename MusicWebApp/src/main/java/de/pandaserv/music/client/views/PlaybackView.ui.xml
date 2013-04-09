@@ -17,11 +17,9 @@
                                 </td>
                                 <td class="nowrap fullTableColumn">
                                     <g:FlowPanel>
-                                        <g:Label ui:field="titleLabel" addStyleNames="titleLabel">Track Title
-                                        </g:Label>
-                                        <g:Label ui:field="artistLabel" addStyleNames="artistLabel">Artist Name
-                                        </g:Label>
-                                        <g:Label ui:field="albumLabel" addStyleNames="albumLabel">Album</g:Label>
+                                        <g:Label ui:field="titleLabel" addStyleNames="titleLabel"/>
+                                        <g:Label ui:field="artistLabel" addStyleNames="artistLabel"/>
+                                        <g:Label ui:field="albumLabel" addStyleNames="albumLabel"/>
                                     </g:FlowPanel>
                                 </td>
                                 <td class="rightText">

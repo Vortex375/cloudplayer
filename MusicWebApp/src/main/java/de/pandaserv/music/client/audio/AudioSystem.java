@@ -243,7 +243,7 @@ public class AudioSystem {
             if (n == 0) {
                 x = 0;
             } else {
-                x = 120 * Math.log10(n * 100);
+                x = 110 * Math.log10(n * 100);
                 //x = 20 * Math.log10(n * 100);
                 //x = 50 * Math.log10(n * 200);
                 //x = (Math.pow(255, n / 255)) - 1;

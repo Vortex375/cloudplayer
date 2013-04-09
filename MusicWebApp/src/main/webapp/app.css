@@ -187,6 +187,10 @@ body {
     margin-top: 0.5em;
 }
 
+.searchBoxWrapper {
+    margin-top: 4px;
+}
+
 .searchBox {
     width: 85%;
 }

@@ -8,13 +8,16 @@ import de.pandaserv.music.server.events.PrepareCompleteEvent;
 import de.pandaserv.music.server.events.PrepareFailedEvent;
 import de.pandaserv.music.server.misc.StringUtil;
 import de.pandaserv.music.shared.FileStatus;
+import de.pandaserv.music.shared.Priority;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -48,6 +51,49 @@ public class CacheManager {
         }
     }
 
+    private class JobComparator implements Comparator<Runnable> {
+        @Override
+        public int compare(Runnable o1, Runnable o2) {
+            if (o1 instanceof PrepareJob && o2 instanceof PrepareJob) {
+                PrepareJob job1 = (PrepareJob) o1;
+                PrepareJob job2 = (PrepareJob) o2;
+
+                int prio1 = 0;
+                int prio2 = 0;
+                switch(job1.getPriority()) {
+                    case HIGH:
+                        prio1 = 2;
+                        break;
+                    case NORMAL:
+                        prio1 = 1;
+                        break;
+                    case LOW:
+                        prio1 = 0;
+                        break;
+                }
+                switch(job2.getPriority()) {
+                    case HIGH:
+                        prio2 = 2;
+                        break;
+                    case NORMAL:
+                        prio2 = 1;
+                        break;
+                    case LOW:
+                        prio2 = 0;
+                        break;
+                }
+                if (prio1 != prio2) {
+                    return (prio1 > prio2 ? 1 : -1);
+                } else {
+                    return new Long(job1.getCreationTime()).compareTo(job2.getCreationTime());
+                }
+            } else {
+                // can't compare those
+                return 0;
+            }
+        }
+    }
+
     static Logger logger = LoggerFactory.getLogger(CacheManager.class);
 
     private static final int COPY_BUFFER_SIZE = 8192; // used in prepareFinished()
@@ -58,7 +104,7 @@ public class CacheManager {
     private Deque<Long> priorityQueue;
     private File cacheDir;
     private File downloadDir;
-    private ExecutorService executorService;
+    private ThreadPoolExecutor threadPool;
     private String transcodeCommand;
 
     // Singleton
@@ -87,7 +133,7 @@ public class CacheManager {
 
         // prepare at most three files simultaneously
         //TODO: make configurable
-        executorService = Executors.newFixedThreadPool(3);
+        threadPool = new ThreadPoolExecutor(3, 3, 0, TimeUnit.SECONDS, new PriorityBlockingQueue<Runnable>(11, new JobComparator()));
 
         // prepare cache directory
         String cachePath = config.getProperty("cache_dir");
@@ -181,8 +227,12 @@ public class CacheManager {
             throw new RuntimeException("The requested file has not finished preparing.");
         }
     }
-    
+
     public synchronized void prepare(long id) {
+        prepare(id, Priority.NORMAL);
+    }
+
+    public synchronized void prepare(long id, Priority priority) {
         // clean up cache if necessary
         cacheCleanup();
         if (cacheMap.containsKey(id)) {
@@ -228,7 +278,7 @@ public class CacheManager {
 
         // submit prepare job
         logger.info("submit prepare job for " + id);
-        executorService.submit(new PrepareJob(id, device, deviceAndPath[1], downloadFile, transcodeCommand));
+        threadPool.submit(new PrepareJob(priority, id, device, deviceAndPath[1], downloadFile, transcodeCommand));
     }
 
     public synchronized void cacheCleanup() {

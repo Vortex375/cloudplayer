@@ -50,6 +50,19 @@ public class PlaybackPresenter implements PlaybackView.Presenter {
                 view.setPlaybackStatus(status);
             }
         });
+        MusicApp.getInstance().getEventBus().addHandler(PlaybackWaitingEvent.TYPE, new PlaybackWaitingEventHandler() {
+            @Override
+            public void onPlaybackWaiting(boolean waiting) {
+                view.showPlaybackWaiting(waiting);
+            }
+        });
+
+        MusicApp.getInstance().getEventBus().addHandler(VisDataEvent.TYPE, new VisDataEventHandler() {
+            @Override
+            public void onVisData(int[] data) {
+                view.setVisData(data);
+            }
+        });
     }
 
     private void refreshCurrentTrackInfo(long id) {

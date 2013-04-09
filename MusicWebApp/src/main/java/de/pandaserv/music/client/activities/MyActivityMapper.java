@@ -32,10 +32,10 @@ public class MyActivityMapper implements ActivityMapper {
             if (place instanceof WelcomePlace) {
                 ret = new WelcomeActivity();
             } else if (place instanceof SearchPlace) {
-                return new SearchActivity();
+                ret = new SearchActivity();
             }
 
-            if (ret != null) {
+            if (ret != null && ret instanceof CacheableActivity) {
                 cache.put(place, ret);
             }
 

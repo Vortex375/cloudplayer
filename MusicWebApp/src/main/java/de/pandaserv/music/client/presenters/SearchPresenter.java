@@ -1,8 +1,10 @@
 package de.pandaserv.music.client.presenters;
 
+import de.pandaserv.music.client.MusicApp;
 import de.pandaserv.music.client.remote.MyAsyncCallback;
 import de.pandaserv.music.client.remote.RemoteService;
 import de.pandaserv.music.client.views.SearchView;
+import de.pandaserv.music.shared.QueueMode;
 import de.pandaserv.music.shared.RangeResponse;
 import de.pandaserv.music.shared.TrackDetail;
 
@@ -32,5 +34,11 @@ public class SearchPresenter implements SearchView.Presenter {
                 }
             });
         }
+    }
+
+    @Override
+    public void onTrackClicked(long id) {
+        //TODO: set appropriate queue mode
+        MusicApp.getInstance().getPlaybackController().setQueue(new QueueMode.Other(), new long[] {id}, 0);
     }
 }

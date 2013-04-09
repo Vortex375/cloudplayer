@@ -13,7 +13,7 @@ import de.pandaserv.music.client.views.SearchViewImpl;
  * Time: 11:30 PM
  * To change this template use File | Settings | File Templates.
  */
-public class SearchActivity extends MyActivity {
+public class SearchActivity extends MyActivity implements CacheableActivity {
 
     private SearchView view;
     private SearchPresenter presenter;

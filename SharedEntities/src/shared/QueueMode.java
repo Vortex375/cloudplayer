@@ -9,12 +9,12 @@ import java.io.Serializable;
  * Time: 11:18 PM
  * To change this template use File | Settings | File Templates.
  */
-public class QueueMode implements Serializable, DataType {
-    public static class Other {
+public abstract class QueueMode implements Serializable, DataType {
+    public static class Other extends QueueMode {
 
     }
 
-    public static class Playlist {
+    public static class Playlist extends QueueMode {
         private String playlist;
 
         public Playlist() {
@@ -33,7 +33,7 @@ public class QueueMode implements Serializable, DataType {
         }
     }
 
-    public static class AlbumOf {
+    public static class AlbumOf extends QueueMode {
         private long id;
 
         public AlbumOf() {
@@ -52,7 +52,7 @@ public class QueueMode implements Serializable, DataType {
         }
     }
 
-    public static class Query {
+    public static class Query extends QueueMode {
         private String query; //TODO: string?
 
         public Query() {
