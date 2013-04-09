@@ -1,9 +1,12 @@
 package de.pandaserv.music.client.widgets;
 
 import com.github.gwtbootstrap.client.ui.CellTable;
+import com.google.gwt.cell.client.Cell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.view.client.*;
 import de.pandaserv.music.client.i18n.GuiConstants;
 import de.pandaserv.music.client.remote.MyAsyncCallback;
@@ -131,7 +134,9 @@ public class SearchResultsTable extends CellTable<TrackDetail> {
     private int visibleRows;
 
     public SearchResultsTable() {
+        super(PAGE_INCREMENT, (CellTable.SelectableResources) GWT.create(CellTable.SelectableResources.class));
         visibleRows = PAGE_INCREMENT;
+        sinkEvents(Event.ONDBLCLICK);
 
         trackClickHandlers = new ArrayList<TrackClickHandler>();
 
@@ -140,6 +145,11 @@ public class SearchResultsTable extends CellTable<TrackDetail> {
         setSelectionModel(selectionModel);
 
         titleColumn = new TextColumn<TrackDetail>() {
+            @Override
+            public String getCellStyleNames(Cell.Context context, TrackDetail object) {
+                return "searchResultCell";
+            }
+
             @Override
             public String getValue(TrackDetail trackDetail) {
                 if (trackDetail == null) {
@@ -150,6 +160,11 @@ public class SearchResultsTable extends CellTable<TrackDetail> {
         };
         artistColumn = new TextColumn<TrackDetail>() {
             @Override
+            public String getCellStyleNames(Cell.Context context, TrackDetail object) {
+                return "searchResultCell";
+            }
+
+            @Override
             public String getValue(TrackDetail trackDetail) {
                 if (trackDetail == null) {
                     return null;
@@ -158,6 +173,11 @@ public class SearchResultsTable extends CellTable<TrackDetail> {
             }
         };
         albumColumn = new TextColumn<TrackDetail>() {
+            @Override
+            public String getCellStyleNames(Cell.Context context, TrackDetail object) {
+                return "searchResultCell";
+            }
+
             @Override
             public String getValue(TrackDetail trackDetail) {
                 if (trackDetail == null) {
@@ -171,6 +191,12 @@ public class SearchResultsTable extends CellTable<TrackDetail> {
         addColumn(artistColumn, msg.artist());
         addColumn(albumColumn, msg.album());
 
+        addColumnStyleName(0, "searchResultColumn");
+        addColumnStyleName(0, "searchResultColumn");
+        addColumnStyleName(0, "searchResultColumn");
+
+
+
         setRowCount(0);
         dataProvider = new TrackDataProvider();
         dataProvider.addDataDisplay(this);
@@ -183,7 +209,10 @@ public class SearchResultsTable extends CellTable<TrackDetail> {
             @Override
             public void onCellPreview(CellPreviewEvent<TrackDetail> event) {
                 GWT.log("onCellPreview: " + event.getNativeEvent().getType());
-                if (event.getNativeEvent().getType().equals("click")) {
+                if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+                    onTrackClicked(event.getValue().getId());
+                } else if (event.getNativeEvent().getType().equals("dblclick")) {
+                    event.getNativeEvent().preventDefault();
                     onTrackClicked(event.getValue().getId());
                 }
             }

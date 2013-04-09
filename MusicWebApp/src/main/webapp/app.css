@@ -194,3 +194,16 @@ body {
 .searchBox {
     width: 85%;
 }
+
+.searchResultColumn {
+    width: 33%;
+}
+
+.searchResultCell {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.searchResultCell div {
+    text-overflow: ellipsis;
+}

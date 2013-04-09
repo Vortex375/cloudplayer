@@ -1,6 +1,8 @@
 package de.pandaserv.music.client.presenters;
 
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.place.shared.PlaceChangeEvent;
+import com.google.gwt.user.client.Event;
 import de.pandaserv.music.client.MusicApp;
 import de.pandaserv.music.client.places.SearchPlace;
 import de.pandaserv.music.client.places.WelcomePlace;
@@ -23,6 +25,21 @@ public class MenuPresenter implements MenuView.Presenter {
             @Override
             public void onPlaceChange(PlaceChangeEvent placeChangeEvent) {
                 view.setCurrentPlace(placeChangeEvent.getNewPlace());
+            }
+        });
+
+        /*
+         * Handler for menu shortcuts
+         */
+        Event.addNativePreviewHandler(new Event.NativePreviewHandler() {
+            @Override
+            public void onPreviewNativeEvent(Event.NativePreviewEvent preview) {
+                NativeEvent ne = preview.getNativeEvent();
+                if (ne.getCtrlKey() && ne.getKeyCode() == '0') {
+                    onHomeButtonClicked();
+                } else if (ne.getCtrlKey() && ne.getKeyCode() == '1') {
+                    onSearchButtonClicked();
+                }
             }
         });
     }
