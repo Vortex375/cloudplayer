@@ -1,6 +1,7 @@
 package de.pandaserv.music.client.presenters;
 
 import de.pandaserv.music.client.MusicApp;
+import de.pandaserv.music.client.audio.AudioSystem;
 import de.pandaserv.music.client.events.*;
 import de.pandaserv.music.client.misc.PlaybackStatus;
 import de.pandaserv.music.client.remote.MyAsyncCallback;
@@ -57,9 +58,9 @@ public class PlaybackPresenter implements PlaybackView.Presenter {
             }
         });
 
-        MusicApp.getInstance().getEventBus().addHandler(VisDataEvent.TYPE, new VisDataEventHandler() {
+        MusicApp.getInstance().getPlaybackController().addVisDataHandler(new AudioSystem.VisDataHandler() {
             @Override
-            public void onVisData(int[] data) {
+            public void onVisDataUpdate(int[] data) {
                 view.setVisData(data);
             }
         });

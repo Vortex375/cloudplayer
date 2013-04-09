@@ -7,34 +7,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7bd93867-2de8-4e07-bcf9-3e56608483f4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/events/PlaybackWaitingEvent.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/events/PlaybackWaitingEventHandler.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/events/VisDataEvent.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/events/VisDataEventHandler.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheManager.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/service/GwtMusicServiceImpl.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/service/GwtMusicServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/service/MusicService.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/service/MusicService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../MusicWebApp/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/MusicApp.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/MusicApp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/activities/MyActivityMapper.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/activities/MyActivityMapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/activities/SearchActivity.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/activities/SearchActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/activities/WelcomeActivity.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/activities/WelcomeActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/audio/AudioSystem.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/audio/AudioSystem.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/control/PlaybackController.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/control/PlaybackController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/control/PlaybackControllerImpl.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/control/PlaybackControllerImpl.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/presenters/PlaybackPresenter.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/presenters/PlaybackPresenter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/presenters/SearchPresenter.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/presenters/SearchPresenter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/remote/RemoteService.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/remote/RemoteService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/PlaybackView.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/PlaybackView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/PlaybackView.ui.xml" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/PlaybackView.ui.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/PlaybackViewImpl.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/PlaybackViewImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/SearchView.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/SearchView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/SearchView.ui.xml" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/SearchView.ui.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/SearchViewImpl.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/views/SearchViewImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/widgets/SearchResultsTable.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/widgets/SearchResultsTable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/app.css" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/webapp/app.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SharedEntities/src/shared/GwtMusicService.java" afterPath="$PROJECT_DIR$/../SharedEntities/src/shared/GwtMusicService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SharedEntities/src/shared/GwtMusicServiceAsync.java" afterPath="$PROJECT_DIR$/../SharedEntities/src/shared/GwtMusicServiceAsync.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SharedEntities/src/shared/QueueMode.java" afterPath="$PROJECT_DIR$/../SharedEntities/src/shared/QueueMode.java" />
     </list>
     <ignored path="MusicServer.iws" />
     <ignored path=".idea/workspace.xml" />

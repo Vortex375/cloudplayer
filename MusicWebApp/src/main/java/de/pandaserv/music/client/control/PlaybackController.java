@@ -1,5 +1,7 @@
 package de.pandaserv.music.client.control;
 
+import com.google.web.bindery.event.shared.HandlerRegistration;
+import de.pandaserv.music.client.audio.AudioSystem;
 import de.pandaserv.music.client.misc.PlaybackStatus;
 import de.pandaserv.music.shared.QueueMode;
 
@@ -25,4 +27,6 @@ public interface PlaybackController {
 
     public void setQueue(QueueMode queueMode, long[] queue, int pos);
     public void setQueuePosition(int position);
+
+    public HandlerRegistration addVisDataHandler(AudioSystem.VisDataHandler handler);
 }

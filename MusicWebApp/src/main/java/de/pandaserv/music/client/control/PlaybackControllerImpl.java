@@ -6,6 +6,7 @@ import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.media.client.Audio;
 import com.google.gwt.user.client.Timer;
 import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.HandlerRegistration;
 import de.pandaserv.music.client.MusicApp;
 import de.pandaserv.music.client.audio.AudioSystem;
 import de.pandaserv.music.client.events.*;
@@ -16,6 +17,9 @@ import de.pandaserv.music.client.remote.RemoteService;
 import de.pandaserv.music.shared.FileStatus;
 import de.pandaserv.music.shared.Priority;
 import de.pandaserv.music.shared.QueueMode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -42,8 +46,12 @@ public class PlaybackControllerImpl implements PlaybackController {
     private boolean nextTrackPreparing = false;
     private Timer autoPrepareTimer;
 
+    private List<AudioSystem.VisDataHandler> handlers;
+
     public PlaybackControllerImpl(final EventBus eventBus) throws NotSupportedException {
         this.eventBus = eventBus;
+
+        handlers = new ArrayList<AudioSystem.VisDataHandler>();
 
         autoPrepareTimer = new Timer() {
             @Override
@@ -73,7 +81,9 @@ public class PlaybackControllerImpl implements PlaybackController {
                 audioSystem.addVisDataHandler(new AudioSystem.VisDataHandler() {
                     @Override
                     public void onVisDataUpdate(int[] data) {
-                        eventBus.fireEvent(new VisDataEvent(data));
+                        for (AudioSystem.VisDataHandler handler: handlers) {
+                            handler.onVisDataUpdate(data);
+                        }
                     }
                 });
             } catch (NotSupportedException e) {
@@ -208,6 +218,17 @@ public class PlaybackControllerImpl implements PlaybackController {
         nextTrackPreparing = false;
 
         tickle();
+    }
+
+    @Override
+    public HandlerRegistration addVisDataHandler(final AudioSystem.VisDataHandler handler) {
+        handlers.add(handler);
+        return new HandlerRegistration() {
+            @Override
+            public void removeHandler() {
+                handlers.remove(handler);
+            }
+        };
     }
 
     // actually move to the next track
