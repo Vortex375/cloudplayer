@@ -6,9 +6,10 @@ package de.pandaserv.music.server.ssh;
 
 import org.apache.sshd.SshServer;
 import org.apache.sshd.common.Factory;
+import org.apache.sshd.common.forward.DefaultForwardingAcceptorFactory;
 import org.apache.sshd.server.Command;
+import org.apache.sshd.server.ServerFactoryManager;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
-import org.apache.sshd.server.session.DefaultForwardingAcceptorFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +45,9 @@ public class SshPortForwardService {
     private SshPortForwardService(int port) throws IOException {
         sshd = SshServer.setUpDefaultServer();
         sshd.setPort(port);
+        // disable idle timeout
+        sshd.getProperties().put(ServerFactoryManager.IDLE_TIMEOUT, "" + Integer.MAX_VALUE);
+
         //TODO: store host key in another location
         sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider("hostkey.ser"));
         

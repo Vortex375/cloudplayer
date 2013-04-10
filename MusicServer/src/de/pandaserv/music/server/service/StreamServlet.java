@@ -198,13 +198,12 @@ public class StreamServlet extends HttpServlet {
             HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "Unable to open input stream", response);
             return;
         }
-        OutputStream outStream = response.getOutputStream();
 
         // setHeaders
         if (isRangeRequest) {
             // set response code to PARTIAL CONTENT
             response.setStatus(HttpServletResponse.SC_PARTIAL_CONTENT);
-            response.setHeader("Content-Length", "" + (rangeEnd - rangeStart + 1));
+            //response.setContentLength((int) (rangeEnd - rangeStart + 1));
             if (length > 0) {
                 response.setHeader("Content-Range", "bytes " + rangeStart + "-" + rangeEnd + "/" + length);
             } else {
@@ -213,18 +212,18 @@ public class StreamServlet extends HttpServlet {
         } else {
             response.setStatus(HttpServletResponse.SC_OK);
             if (length > 0) {
-                response.setHeader("Content-Length", "" + length);
+                response.setContentLength((int) length);
             } else {
                 // do not set Content-Length
                 //TODO: I don't think this is valid HTTP/1.1
 
                 // set rangeEnd to an unspecified large value
                 // so the streaming task will keep running
-                rangeEnd = Long.MAX_VALUE;
+                //rangeEnd = Long.MAX_VALUE;
             }
         }
+        response.setContentType("audio/webm");
         response.setHeader("Accept-Ranges", "bytes");
-        response.setHeader("Content-Type", "audio/webm"); //TODO: always webm!!
 
         // begin streaming task
 
@@ -234,6 +233,8 @@ public class StreamServlet extends HttpServlet {
         if (client == null) {
             client = request.getRemoteAddr();
         }
+
+        OutputStream outStream = response.getOutputStream();
         StreamJob streamJob = new StreamJob(id, client,
                 outStream, inStream,
                 rangeStart, rangeEnd);

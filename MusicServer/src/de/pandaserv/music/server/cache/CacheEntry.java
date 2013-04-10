@@ -13,8 +13,6 @@ class CacheEntry {
     private float completion;
     private String message;
 
-    private TranscodeInputStream transcodeInputStream;
-
     public CacheEntry(long id, FileStatus initialStatus) {
         this.id = id;
         this.status = initialStatus;
@@ -59,17 +57,5 @@ class CacheEntry {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public void setTranscodeInputStream(TranscodeInputStream stream) {
-        this.transcodeInputStream = stream;
-    }
-
-    public TranscodeInputStream getTranscodeInputStream() {
-        if (status == FileStatus.TRANSCODING) {
-            return transcodeInputStream;
-        } else {
-            return null;
-        }
     }
 }

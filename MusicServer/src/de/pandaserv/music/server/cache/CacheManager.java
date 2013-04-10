@@ -220,9 +220,9 @@ public class CacheManager {
                 throw e;
             }
         } else if (entry.getStatus() == FileStatus.TRANSCODING) {
-            TranscodeInputStream ret = entry.getTranscodeInputStream();
-            ret.rewind(); // make sure the returned input stream is positioned at 0
-            return ret;
+            // use the partially downloaded file
+            File f = new File(downloadDir.getAbsolutePath() + "/" + id);
+            return new FileInputStream(f);
         } else {
             throw new RuntimeException("The requested file has not finished preparing.");
         }
@@ -259,6 +259,9 @@ public class CacheManager {
 
         // create normal cache entry
         CacheEntry entry = new CacheEntry(id, FileStatus.PREPARING);
+        // set size negative size to indicate that the size is currently unknown
+        // the real size ist set in prepareFinished()
+        entry.setSize(-1);
         cacheMap.put(id, entry);
 
         // get device
@@ -335,6 +338,12 @@ public class CacheManager {
             cacheMap.get(id).setStatus(FileStatus.FAILED);
             cacheMap.get(id).setMessage(message);
             EventBusService.publish(new PrepareFailedEvent(id));
+        }
+    }
+
+    synchronized void transcodeStarted(long id) {
+        if (cacheMap.containsKey(id)) {
+            cacheMap.get(id).setStatus(FileStatus.TRANSCODING);
         }
     }
 }

@@ -7,7 +7,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7bd93867-2de8-4e07-bcf9-3e56608483f4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/service/JobServlet.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/service/JobServlet.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/mina-core-2.0.4.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/sshd-core-0.7.0.jar" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MusicServer.iml" afterPath="$PROJECT_DIR$/MusicServer.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.xml" afterPath="$PROJECT_DIR$/build.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheEntry.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheEntry.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheManager.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/service/StreamServlet.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/service/StreamServlet.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/ssh/SshPortForwardService.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/ssh/SshPortForwardService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/control/PlaybackControllerImpl.java" afterPath="$PROJECT_DIR$/../MusicWebApp/src/main/java/de/pandaserv/music/client/control/PlaybackControllerImpl.java" />
     </list>
     <ignored path="MusicServer.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -69,19 +80,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CacheManager.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="280" column="51" selection-start="9707" selection-end="9707" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="PrepareJob.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="96" column="71" selection-start="3017" selection-end="3017" vertical-scroll-proportion="0.0">
+            <state line="124" column="87" selection-start="4274" selection-end="4274" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -90,17 +92,10 @@
       <file leaf-file-name="SshPortForwardService.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/ssh/SshPortForwardService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="13" selection-start="599" selection-end="599" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DeviceForwardingFilter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/ssh/DeviceForwardingFilter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="6" selection-start="454" selection-end="454" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="51" column="57" selection-start="1669" selection-end="1669" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -132,19 +127,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StreamServlet.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="StreamServlet.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/StreamServlet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="169" column="61" selection-start="6628" selection-end="6628" vertical-scroll-proportion="0.0">
+            <state line="148" column="25" selection-start="5820" selection-end="5829" vertical-scroll-proportion="0.66700304">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JobServlet.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="CacheManager.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="223" column="41" selection-start="7508" selection-end="7508" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JobServlet.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/JobServlet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="44" selection-start="1012" selection-end="1012" vertical-scroll-proportion="0.1853759">
+            <state line="29" column="50" selection-start="1244" selection-end="1244" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -172,11 +176,7 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/misc/HttpUtil.java" />
-        <option value="$PROJECT_DIR$/src/de/pandaserv/music/shared/SecurityException.java" />
-        <option value="$PROJECT_DIR$/src/de/pandaserv/music/shared/AccessDeniedException.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/database/UserDatabase.java" />
-        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/StreamServlet.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/CoverServlet.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/shared/RangeResponse.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/MusicService.java" />
@@ -185,9 +185,13 @@
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/shared/Priority.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/shared/GwtMusicService.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/GwtMusicServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheManager.java" />
-        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/JobServlet.java" />
+        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/ssh/SshPortForwardService.java" />
+        <option value="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
+        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/service/StreamServlet.java" />
+        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java" />
+        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheEntry.java" />
+        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheManager.java" />
       </list>
     </option>
   </component>
@@ -563,7 +567,7 @@
   <component name="PropertiesComponent">
     <property name="GenerateAntBuildDialog.generateIdeaHomeProperty" value="false" />
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
@@ -796,18 +800,18 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31791338" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1664888" sideWeight="0.6820866" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32504147" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32480314" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="100" y="123" width="1720" height="924" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32669982" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31791338" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Metrics" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -906,21 +910,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar:///opt/java/src.zip!/java/util/concurrent/PriorityBlockingQueue.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="208" column="32" selection-start="7048" selection-end="7048" vertical-scroll-proportion="0.36354274" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/GwtMusicServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="90" column="55" selection-start="3005" selection-end="3005" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/shared/GwtMusicService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="50" selection-start="756" selection-end="756" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/shared/RangeResponse.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="45" selection-start="303" selection-end="303" vertical-scroll-proportion="0.0" />
@@ -934,21 +923,6 @@
     <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/MusicService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="44" column="44" selection-start="1741" selection-end="1741" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="280" column="51" selection-start="9707" selection-end="9707" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="71" selection-start="3017" selection-end="3017" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/ssh/SshPortForwardService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="13" selection-start="599" selection-end="599" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/ssh/DeviceForwardingFilter.java">
@@ -978,16 +952,60 @@
         <state line="44" column="33" selection-start="1360" selection-end="1360" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/StreamServlet.java">
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/JobServlet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="169" column="61" selection-start="6628" selection-end="6628" vertical-scroll-proportion="0.0">
+        <state line="29" column="50" selection-start="1244" selection-end="1244" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/JobServlet.java">
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/MusicServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="44" selection-start="1012" selection-end="1012" vertical-scroll-proportion="0.1853759">
+        <state line="32" column="13" selection-start="1051" selection-end="1051" vertical-scroll-proportion="0.13903193">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/META-INF/MANIFEST.MF">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="0" selection-start="549" selection-end="549" vertical-scroll-proportion="0.06263048">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/ssh/SshPortForwardService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="57" selection-start="1669" selection-end="1669" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="124" column="87" selection-start="4274" selection-end="4274" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheEntry.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="59" column="5" selection-start="1184" selection-end="1184" vertical-scroll-proportion="1.3132716">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="223" column="41" selection-start="7508" selection-end="7508" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/service/StreamServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="148" column="25" selection-start="5820" selection-end="5829" vertical-scroll-proportion="0.66700304">
           <folding />
         </state>
       </provider>
@@ -1051,6 +1069,7 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
