@@ -19,6 +19,7 @@ public abstract class AppPlace extends Place {
         allPlaces = new ArrayList<AppPlace>();
         allPlaces.add(new WelcomePlace());
         allPlaces.add(new SearchPlace());
+        allPlaces.add(new AdminPlace());
         // fail place is not registered as it has no token
     }
 

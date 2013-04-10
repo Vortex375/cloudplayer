@@ -207,3 +207,25 @@ body {
 .searchResultCell div {
     text-overflow: ellipsis;
 }
+
+/* Admin View */
+
+.console {
+    margin: 0.5em;
+    font-family: monospace;
+    max-width: 100%;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.consoleMessage {
+    min-height: 1em;
+}
+
+.consolePromptLabel {
+    margin-right: 0.5em;
+}
+
+.consolePrompt {
+    min-width: 5em;
+}

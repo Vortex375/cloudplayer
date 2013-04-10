@@ -1,24 +1,21 @@
 package de.pandaserv.music.client.views;
 
-import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.IsWidget;
+import de.pandaserv.music.client.console.Console;
 
 /**
  * Created with IntelliJ IDEA.
  * User: ich
- * Date: 4/5/13
- * Time: 10:44 PM
+ * Date: 4/10/13
+ * Time: 2:38 PM
  * To change this template use File | Settings | File Templates.
  */
-public interface MenuView extends IsWidget {
+public interface AdminView extends IsWidget {
     public interface Presenter {
-        void onHomeButtonClicked();
-        void onSearchButtonClicked();
 
-        void onAdminButtonClicked();
     }
 
-    void setCurrentPlace(Place place);
+    Console getConsole();
 
     void setPresenter(Presenter presenter);
 }

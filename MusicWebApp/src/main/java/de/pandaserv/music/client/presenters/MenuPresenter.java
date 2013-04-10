@@ -4,6 +4,7 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.place.shared.PlaceChangeEvent;
 import com.google.gwt.user.client.Event;
 import de.pandaserv.music.client.MusicApp;
+import de.pandaserv.music.client.places.AdminPlace;
 import de.pandaserv.music.client.places.SearchPlace;
 import de.pandaserv.music.client.places.WelcomePlace;
 import de.pandaserv.music.client.views.MenuView;
@@ -29,7 +30,7 @@ public class MenuPresenter implements MenuView.Presenter {
         });
 
         /*
-         * Handler for menu shortcuts
+         * Handler for menu keyboard shortcuts
          */
         Event.addNativePreviewHandler(new Event.NativePreviewHandler() {
             @Override
@@ -52,5 +53,10 @@ public class MenuPresenter implements MenuView.Presenter {
     @Override
     public void onSearchButtonClicked() {
         MusicApp.getInstance().getPlaceController().goTo(new SearchPlace());
+    }
+
+    @Override
+    public void onAdminButtonClicked() {
+        MusicApp.getInstance().getPlaceController().goTo(new AdminPlace());
     }
 }

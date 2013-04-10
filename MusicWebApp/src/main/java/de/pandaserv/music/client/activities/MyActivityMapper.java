@@ -2,6 +2,7 @@ package de.pandaserv.music.client.activities;
 
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.place.shared.Place;
+import de.pandaserv.music.client.places.AdminPlace;
 import de.pandaserv.music.client.places.SearchPlace;
 import de.pandaserv.music.client.places.WelcomePlace;
 
@@ -33,6 +34,8 @@ public class MyActivityMapper implements ActivityMapper {
                 ret = new WelcomeActivity();
             } else if (place instanceof SearchPlace) {
                 ret = new SearchActivity();
+            } else if (place instanceof AdminPlace) {
+                ret = new AdminActivity();
             }
 
             if (ret != null && ret instanceof CacheableActivity) {

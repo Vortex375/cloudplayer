@@ -10,6 +10,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import de.pandaserv.music.client.places.AdminPlace;
 import de.pandaserv.music.client.places.SearchPlace;
 import de.pandaserv.music.client.places.WelcomePlace;
 
@@ -33,6 +34,8 @@ public class MenuViewImpl extends Composite implements MenuView {
     NavLink homeButton;
     @UiField
     NavLink searchButton;
+    @UiField
+    NavLink adminButton;
 
     public MenuViewImpl() {
         initWidget(ourUiBinder.createAndBindUi(this));
@@ -44,10 +47,13 @@ public class MenuViewImpl extends Composite implements MenuView {
         //TODO: all buttons
         homeButton.setActive(false);
         searchButton.setActive(false);
+        adminButton.setActive(false);
         if (place instanceof WelcomePlace) {
             homeButton.setActive(true);
         } else if (place instanceof SearchPlace) {
             searchButton.setActive(true);
+        } else if (place instanceof AdminPlace) {
+            adminButton.setActive(true);
         }
     }
 
@@ -64,5 +70,10 @@ public class MenuViewImpl extends Composite implements MenuView {
     @UiHandler("searchButton")
     void onSearchButtonClicked(ClickEvent e) {
         presenter.onSearchButtonClicked();
+    }
+
+    @UiHandler("adminButton")
+    void onAdminButtonClicked(ClickEvent e) {
+        presenter.onAdminButtonClicked();
     }
 }
