@@ -23,7 +23,7 @@ class JobServlet extends HttpServlet {
             return;
         }
 
-        if (!request.getPathInfo().equals("/")) {
+        if (request.getPathInfo() != null && !(request.getPathInfo().equals("/"))) {
             // for now
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             PrintWriter out = response.getWriter();
