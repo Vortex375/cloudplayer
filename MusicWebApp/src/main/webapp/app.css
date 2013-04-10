@@ -228,4 +228,5 @@ body {
 
 .consolePrompt {
     min-width: 5em;
+    outline: 0px solid rgba(0,0,0,0); /* no border */
 }

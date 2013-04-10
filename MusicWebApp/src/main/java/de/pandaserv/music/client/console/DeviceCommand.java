@@ -11,7 +11,7 @@ public class DeviceCommand implements Runnable {
     private Console console;
 
     public DeviceCommand(Console console, String[] args) {
-
+        this.console = console;
     }
 
     @Override
