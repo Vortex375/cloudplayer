@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.Executors;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -185,6 +184,18 @@ public class CacheManager {
         }
     }
 
+    /**
+     * Get the progress of the running PrepareJob for the file specified by id.
+     * This is only meaningful if the file is in state PREPARING or TRANSCODING.
+     */
+    public synchronized float getCompletion(long id) {
+        if (cacheMap.containsKey(id)) {
+            return cacheMap.get(id).getCompletion();
+        } else {
+            return 0;
+        }
+    }
+
     public synchronized long getSize(long id) {
         if (!cacheMap.containsKey(id)) {
             return -1;
@@ -258,7 +269,7 @@ public class CacheManager {
             return;
         }
 
-        // create normal cache entry
+        // create cache entry
         CacheEntry entry = new CacheEntry(id, FileStatus.PREPARING);
         // set size negative size to indicate that the size is currently unknown
         // the real size ist set in prepareFinished()
@@ -345,6 +356,13 @@ public class CacheManager {
     synchronized void transcodeStarted(long id) {
         if (cacheMap.containsKey(id)) {
             cacheMap.get(id).setStatus(FileStatus.TRANSCODING);
+        }
+    }
+
+    // currently unused, because we cannot determine the file size reliably
+    synchronized void setCompletion(long id, float completion) {
+        if (cacheMap.containsKey(id)) {
+            cacheMap.get(id).setCompletion(completion);
         }
     }
 

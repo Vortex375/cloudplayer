@@ -21,7 +21,7 @@ import java.util.Arrays;
  */
 public class PrepareJob implements Job {
 
-    private static final int COPY_BUFFER_SIZE = 524288; // 512kB
+    private static final int COPY_BUFFER_SIZE = 1048576; // 1MB
 
     static final Logger logger = LoggerFactory.getLogger(PrepareJob.class);
 

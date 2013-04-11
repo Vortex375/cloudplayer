@@ -3,8 +3,6 @@ package de.pandaserv.music.client.views;
 import com.github.gwtbootstrap.client.ui.Button;
 import com.github.gwtbootstrap.client.ui.TextBox;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -54,6 +52,8 @@ public class SearchViewImpl extends Composite implements SearchView {
     @UiField
     SearchResultsTable resultsTable;
 
+    private Timer resizeTimer;
+
     private List<HandlerRegistration> privateHandlers;
 
     public SearchViewImpl() {
@@ -66,6 +66,13 @@ public class SearchViewImpl extends Composite implements SearchView {
             }
         };
 
+        resizeTimer = new Timer() {
+            @Override
+            public void run() {
+                resizeResultsTable();
+            }
+        };
+
         privateHandlers = new ArrayList<HandlerRegistration>();
 
         resultsTable.addTrackClickHandler(new SearchResultsTable.TrackClickHandler() {
@@ -74,6 +81,21 @@ public class SearchViewImpl extends Composite implements SearchView {
                 presenter.onTrackClicked(trackId);
             }
         });
+
+        //resizeTimer.schedule(1);
+    }
+
+    private void resizeResultsTable() {
+        /*
+         * manually resize table so it doesn't overflow
+         *
+         * TODO: currently all columns are set to equal sizes
+         */
+        int columnWidth = getOffsetWidth() / resultsTable.getColumnCount();
+
+        for (int i = 0; i < resultsTable.getColumnCount(); i++) {
+            resultsTable.setColumnWidth(i, columnWidth + "px");
+        }
     }
 
     @Override
@@ -87,6 +109,12 @@ public class SearchViewImpl extends Composite implements SearchView {
                 GWT.log("window scroll");
             }
         }));
+        /*privateHandlers.add(Window.addResizeHandler(new ResizeHandler() {
+            @Override
+            public void onResize(ResizeEvent resizeEvent) {
+                resizeTimer.schedule(1);
+            }
+        }));*/
 
         searchBox.setFocus(true);
     }

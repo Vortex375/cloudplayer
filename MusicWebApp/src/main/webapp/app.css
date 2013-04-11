@@ -200,15 +200,15 @@ body {
 }
 
 .searchResultCell {
-    overflow: hidden;
+    overflow: hidden !important; /* set important because gwt sets overflow: auto on highlight -.- */
     white-space: nowrap;
-    width: 33%;
-    max-width: 33%;
+    text-overflow: ellipsis;
+    /*width: 33%;
+    max-width: 33%;*/
 }
 
 .searchResultCell div {
     display: inline;
-    text-overflow: ellipsis;
 }
 
 /* Admin View */

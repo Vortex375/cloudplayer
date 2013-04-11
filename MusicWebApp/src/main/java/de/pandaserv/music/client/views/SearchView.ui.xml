@@ -29,7 +29,13 @@
             </b:Column>
         </b:Row>
         <hr/>
-        <g:Label ui:field="noResultsLabel" visible="false"><ui:msg>No tracks found.</ui:msg></g:Label>
-        <widgets:SearchResultsTable ui:field="resultsTable" visible="false"/>
+        <b:Row>
+            <b:Column size="12">
+                <g:FlowPanel addStyleNames="centerText">
+                    <g:Label ui:field="noResultsLabel" visible="false"><ui:msg>No tracks found.</ui:msg></g:Label>
+                </g:FlowPanel>
+                <widgets:SearchResultsTable ui:field="resultsTable" visible="false"/>
+            </b:Column>
+        </b:Row>
     </g:HTMLPanel>
 </ui:UiBinder>

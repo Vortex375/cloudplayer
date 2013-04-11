@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.web.bindery.event.shared.HandlerRegistration;
@@ -87,8 +88,14 @@ public class HtmlConsole extends FlowPanel implements Console {
         msg.setInnerText(message);
         getElement().appendChild(msg);
 
+        // delay re-showing of prompt to work around DOM issues
         if (promptWasShowing) {
-            showPrompt();
+            new Timer() {
+                @Override
+                public void run() {
+                    showPrompt();
+                }
+            }.schedule(10);
         }
     }
 

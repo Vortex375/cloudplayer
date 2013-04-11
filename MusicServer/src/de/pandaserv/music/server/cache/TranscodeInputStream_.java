@@ -3,12 +3,8 @@ package de.pandaserv.music.server.cache;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Created with IntelliJ IDEA.
- * User: ich
- * Date: 2/26/13
- * Time: 10:06 PM
- * To change this template use File | Settings | File Templates.
+/*
+ * this class is currently unused
  */
 public class TranscodeInputStream_ extends InputStream {
     private static final int INITIAL_BUFFER_SIZE = 5242880; // 5MB

@@ -38,7 +38,7 @@ public class StreamServlet extends HttpServlet {
         private long bytesSent;
 
         /**
-         * Create new a new Job that streams (audio) data to a client.
+         * Create new a new StreamJob that streams (audio) data to a client.
          * @param streamId streamId - for debug purposes
          * @param client client identifier (e.g. an IP-address) - for debug purposes
          * @param outStream the output stream where the streaming data is written (usually a ServletOutputStream)
@@ -108,12 +108,17 @@ public class StreamServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        /*
+         * check access privileges
+         */
         if (SessionUtil.getUserId(request.getSession()) < 0) {
             HttpUtil.fail(HttpServletResponse.SC_FORBIDDEN, "You must log in to access this interface.", response);
             return;
         }
 
-        // check if stream id was specified
+        /*
+         * check if stream id was specified
+         */
         StringTokenizer tk = new StringTokenizer(request.getPathInfo(), "/");
         if (!tk.hasMoreTokens()) {
             HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "Please specify a stream id, such as \"/stream/12345\".",
@@ -121,7 +126,9 @@ public class StreamServlet extends HttpServlet {
             return;
         }
 
-        // parse stream id
+        /*
+         * parse stream id
+         */
         String idString = tk.nextToken();
         long id;
         try {
@@ -131,14 +138,21 @@ public class StreamServlet extends HttpServlet {
             return;
         }
 
-        // get stream data
+        /*
+         * check if the requested file is available from cache
+         */
         if (!(CacheManager.getInstance().getStatus(id) == FileStatus.PREPARED || CacheManager.getInstance().getStatus(id) == FileStatus.TRANSCODING)) {
             // stream is not (yet) available
             HttpUtil.fail(HttpServletResponse.SC_NOT_FOUND, "No data is available for this stream.", response);
             return;
         }
 
-        // parse requested range
+        /*
+         * check if the total size of the requested file is known
+         * the size is unknown if the file has not yet finished transcoding
+         *
+         * if the total size is unknown, check how many bytes are currently available for reading
+         */
         long length;
         long available;
         synchronized (CacheManager.getInstance()) {
@@ -150,27 +164,40 @@ public class StreamServlet extends HttpServlet {
             }
         }
 
+        /*
+         * check if the request contains a "Range" header field
+         * and parse the given range
+         */
         long rangeStart;
         long rangeEnd;
         boolean isRangeRequest;
         String rangeHeader = request.getHeader("Range");
         if (rangeHeader == null) {
-            // no range specified? -> send full file
+            /*
+             * no range specified? -> send full file
+             */
             rangeStart = 0;
             rangeEnd = available - 1;
             isRangeRequest = false;
         } else if (!rangeHeader.startsWith("bytes=")) {
-            // range not specified in bytes
+            /*
+             * invalid range header - range not specified in bytes
+             */
             HttpUtil.fail(HttpServletResponse.SC_BAD_REQUEST, "The only accepted Range is \"byte\"", response);
             return;
         } else {
+            /*
+             * parse range
+             */
             isRangeRequest = true;
             String[] rangeStrings = rangeHeader.substring(6).split("-");
             try {
                 rangeStart = Long.parseLong(rangeStrings[0]);
                 if (rangeStrings.length < 2 || rangeStrings[1].equals("*")) {
-                    // range end not specified
-                    // set to end of file
+                    /*
+                     * range end not specified
+                     * set to end of file
+                     */
                     rangeEnd = available - 1;
                 } else {
                     rangeEnd = Long.parseLong(rangeStrings[1]);
@@ -181,7 +208,9 @@ public class StreamServlet extends HttpServlet {
             }
         }
 
-        // check for valid ranges
+        /*
+         * check if the parsed ranges are valid
+         */
         if (rangeEnd < rangeStart) {
             HttpUtil.fail(HttpServletResponse.SC_BAD_REQUEST, "Invalid ranges specified in request.", response);
             return;
@@ -190,6 +219,9 @@ public class StreamServlet extends HttpServlet {
             rangeEnd = available - 1;
         }
 
+        /*
+         * get InputStream from cache
+         */
         InputStream inStream;
         try {
             inStream = CacheManager.getInstance().getInputStream(id);
@@ -199,45 +231,75 @@ public class StreamServlet extends HttpServlet {
             return;
         }
 
-        // setHeaders
+        /*
+         * set response status code and header fields
+         */
         if (isRangeRequest && length > 0) {
-            // set response code to PARTIAL CONTENT
+            /*
+             * the request contained a "Range" header, so we must reply with "206 PARTIAL CONTENT"
+             */
             response.setStatus(HttpServletResponse.SC_PARTIAL_CONTENT);
-            //response.setContentLength((int) (rangeEnd - rangeStart + 1));
-            if (length > 0) { //TODO: always false
+            response.setHeader("Content-Range", "bytes " + rangeStart + "-" + rangeEnd + "/" + length);
+            /*
+             * we do not set the content length here
+             * this causes jetty to automatically switch to "Transfer-Encoding: chunked"
+             * TODO: check if this actually makes a difference
+             */
+
+            /*if (length > 0) {
                 response.setHeader("Content-Range", "bytes " + rangeStart + "-" + rangeEnd + "/" + length);
             } else {
                 response.setHeader("Content-Range", "bytes " + rangeStart + "-" + rangeEnd + "/*");
-            }
+            }*/
         } else {
+            /*
+             * the request did not contain a "Range" header
+             * or the total size of the file is unknown
+             */
             response.setStatus(HttpServletResponse.SC_OK);
             if (length > 0) {
+                /*
+                 * specify the content length, if known
+                 */
                 response.setContentLength((int) length);
             } else {
-                // do not set Content-Length
-                //TODO: I don't think this is valid HTTP/1.1
-
-                // set rangeEnd to an unspecified large value
-                // so the streaming task will keep running
+                /*
+                 * do not set content length and use
+                 * Transfer-Encoding: chunked to stream the file as it is being generated
+                 *
+                 * we set rangeEnd to an unspecified large value
+                 * so the streaming task will keep running until it hits the end of file
+                 */
                 rangeEnd = Integer.MAX_VALUE - 1;
             }
         }
+
+        /*
+         * set additional header fields
+         */
         response.setContentType("audio/webm");
         response.setHeader("Accept-Ranges", "bytes");
 
-        // begin streaming task
-
-        // get name of client (for debug) and also respect proxy requests
-        // only for debug purposes
+        /*
+         * get the name (ip-adress) of the client that issued the request
+         * this is only for debug purposes
+         */
         String client = request.getHeader("X-Forwarded-For");
         if (client == null) {
             client = request.getRemoteAddr();
         }
 
+        /*
+         * begin the streaming task
+         */
         OutputStream outStream = response.getOutputStream();
-        StreamJob streamJob = new StreamJob(id, client,
-                outStream, inStream,
-                rangeStart, rangeEnd);
+        StreamJob streamJob = new StreamJob(
+                id,         // for debug
+                client,     // for debug
+                outStream,
+                inStream,
+                rangeStart,
+                rangeEnd);
         streamJob.run();
     }
 }

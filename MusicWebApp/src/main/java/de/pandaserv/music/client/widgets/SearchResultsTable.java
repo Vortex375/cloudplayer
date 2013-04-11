@@ -135,14 +135,16 @@ public class SearchResultsTable extends CellTable<TrackDetail> {
 
     public SearchResultsTable() {
         super(PAGE_INCREMENT, (CellTable.SelectableResources) GWT.create(CellTable.SelectableResources.class));
+        setTableLayoutFixed(true);
+
         visibleRows = PAGE_INCREMENT;
         sinkEvents(Event.ONDBLCLICK);
 
         trackClickHandlers = new ArrayList<TrackClickHandler>();
 
         selectionModel = new MultiSelectionModel<TrackDetail>(KEY_PROVIDER);
-        setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
         setSelectionModel(selectionModel);
+        //setKeyboardSelectionPolicy(KeyboardSelectionPolicy.BOUND_TO_SELECTION);
 
         titleColumn = new TextColumn<TrackDetail>() {
             @Override
@@ -191,9 +193,13 @@ public class SearchResultsTable extends CellTable<TrackDetail> {
         addColumn(artistColumn, msg.artist());
         addColumn(albumColumn, msg.album());
 
+        /*addColumnStyleName(0, "searchResultColumn");
         addColumnStyleName(0, "searchResultColumn");
-        addColumnStyleName(0, "searchResultColumn");
-        addColumnStyleName(0, "searchResultColumn");
+        addColumnStyleName(0, "searchResultColumn");*/
+
+        setColumnWidth(titleColumn, 33, com.google.gwt.dom.client.Style.Unit.PCT);
+        setColumnWidth(artistColumn, 33, com.google.gwt.dom.client.Style.Unit.PCT);
+        setColumnWidth(albumColumn, 33, com.google.gwt.dom.client.Style.Unit.PCT);
 
         setRowCount(0);
         dataProvider = new TrackDataProvider();
