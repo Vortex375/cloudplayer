@@ -4,14 +4,11 @@
  */
 package de.pandaserv.music.server.ssh;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
+
+import java.io.*;
 
 /**
  * Fake "shell" for ssh connections that does not allow to run any commands
@@ -22,6 +19,8 @@ import org.apache.sshd.server.ExitCallback;
 public class DeviceShell implements Command {
 
     private ExitCallback exitCallback;
+    private InputThread inputThread;
+    private OutputThread outputThread;
 
     private class InputThread extends Thread {
 
@@ -53,9 +52,40 @@ public class DeviceShell implements Command {
         }
     }
 
+    private class OutputThread extends Thread {
+        private final OutputStream out;
+        private boolean running;
+
+        private OutputThread(OutputStream out) {
+            this.out = out;
+        }
+
+        @Override
+        public void run() {
+            running = true;
+            OutputStreamWriter writer = new OutputStreamWriter(out);
+            while(running) {
+                try {
+                    writer.write("keep alive\n");
+                    Thread.sleep(60000);
+                    writer.flush();
+                } catch (IOException e) {
+                    // stop running on error
+                    return;
+                } catch (InterruptedException e) {
+                    // ignore
+                }
+            }
+        }
+
+        public synchronized void abort() {
+            running = false;
+        }
+    }
+
     @Override
     public void setInputStream(InputStream in) {
-        InputThread inputThread = new InputThread(in);
+        inputThread = new InputThread(in);
         inputThread.start();
     }
 
@@ -66,7 +96,10 @@ public class DeviceShell implements Command {
         writer.print("You have successfully connected to Music Server.\r\n");
         writer.print("\r\n");
         writer.print("Press Control-C or Control-D to close this connection.\r\n");
-        writer.close();
+        writer.flush();
+        //writer.close();
+        outputThread = new OutputThread(out);
+        outputThread.start();
     }
 
     @Override
@@ -84,5 +117,6 @@ public class DeviceShell implements Command {
 
     @Override
     public void destroy() {
+        outputThread.abort();
     }
 }

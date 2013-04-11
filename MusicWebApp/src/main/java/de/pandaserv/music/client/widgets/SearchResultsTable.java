@@ -195,8 +195,6 @@ public class SearchResultsTable extends CellTable<TrackDetail> {
         addColumnStyleName(0, "searchResultColumn");
         addColumnStyleName(0, "searchResultColumn");
 
-
-
         setRowCount(0);
         dataProvider = new TrackDataProvider();
         dataProvider.addDataDisplay(this);
