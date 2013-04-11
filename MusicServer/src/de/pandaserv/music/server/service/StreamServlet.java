@@ -200,11 +200,11 @@ public class StreamServlet extends HttpServlet {
         }
 
         // setHeaders
-        if (isRangeRequest) {
+        if (isRangeRequest && length > 0) {
             // set response code to PARTIAL CONTENT
             response.setStatus(HttpServletResponse.SC_PARTIAL_CONTENT);
             //response.setContentLength((int) (rangeEnd - rangeStart + 1));
-            if (length > 0) {
+            if (length > 0) { //TODO: always false
                 response.setHeader("Content-Range", "bytes " + rangeStart + "-" + rangeEnd + "/" + length);
             } else {
                 response.setHeader("Content-Range", "bytes " + rangeStart + "-" + rangeEnd + "/*");
@@ -219,7 +219,7 @@ public class StreamServlet extends HttpServlet {
 
                 // set rangeEnd to an unspecified large value
                 // so the streaming task will keep running
-                //rangeEnd = Long.MAX_VALUE;
+                rangeEnd = Integer.MAX_VALUE - 1;
             }
         }
         response.setContentType("audio/webm");

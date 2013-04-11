@@ -22,9 +22,9 @@ public class TranscodeDataJob implements Job {
 
     private int byteCount;
     private final InputStream in;
-    private final TranscodeInputStream out;
+    private final TranscodeInputStream_ out;
 
-    public TranscodeDataJob(InputStream in, TranscodeInputStream out) {
+    public TranscodeDataJob(InputStream in, TranscodeInputStream_ out) {
         this.in = in;
         this.out = out;
         byteCount = 0;

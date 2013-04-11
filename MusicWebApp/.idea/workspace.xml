@@ -2,20 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f1c0cd2-992b-43ee-9133-b53096797987" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicServer/lib/mina-core-2.0.4.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../MusicServer/lib/sshd-core-0.7.0.jar" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicServer/.idea/artifacts/MusicServer_jar.xml" afterPath="$PROJECT_DIR$/../MusicServer/.idea/artifacts/MusicServer_jar.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../MusicServer/src/de/pandaserv/music/server/cache/TranscodeInputStream_.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicServer/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../MusicServer/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicServer/MusicServer.iml" afterPath="$PROJECT_DIR$/../MusicServer/MusicServer.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicServer/build.properties" afterPath="$PROJECT_DIR$/../MusicServer/build.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicServer/build.xml" afterPath="$PROJECT_DIR$/../MusicServer/build.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicServer/src/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/../MusicServer/src/META-INF/MANIFEST.MF" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicServer/src/de/pandaserv/music/server/cache/CacheEntry.java" afterPath="$PROJECT_DIR$/../MusicServer/src/de/pandaserv/music/server/cache/CacheEntry.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicServer/src/de/pandaserv/music/server/cache/CacheManager.java" afterPath="$PROJECT_DIR$/../MusicServer/src/de/pandaserv/music/server/cache/CacheManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicServer/src/de/pandaserv/music/server/cache/PrepareJob.java" afterPath="$PROJECT_DIR$/../MusicServer/src/de/pandaserv/music/server/cache/PrepareJob.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicServer/src/de/pandaserv/music/server/cache/TranscodeDataJob.java" afterPath="$PROJECT_DIR$/../MusicServer/src/de/pandaserv/music/server/cache/TranscodeDataJob.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicServer/src/de/pandaserv/music/server/cache/TranscodeInputStream.java" afterPath="$PROJECT_DIR$/../MusicServer/src/de/pandaserv/music/server/cache/TranscodeInputStream.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicServer/src/de/pandaserv/music/server/service/StreamServlet.java" afterPath="$PROJECT_DIR$/../MusicServer/src/de/pandaserv/music/server/service/StreamServlet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../MusicServer/src/de/pandaserv/music/server/ssh/SshPortForwardService.java" afterPath="$PROJECT_DIR$/../MusicServer/src/de/pandaserv/music/server/ssh/SshPortForwardService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/control/PlaybackControllerImpl.java" afterPath="$PROJECT_DIR$/src/main/java/de/pandaserv/music/client/control/PlaybackControllerImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="MusicWebApp.iws" />
     <ignored path=".idea/workspace.xml" />

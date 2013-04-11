@@ -285,11 +285,9 @@
     <copy file="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-io.jar" tofile="${artifact.output.musicserver:jar}/lib/jetty-io.jar"/>
     <copy file="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-server.jar" tofile="${artifact.output.musicserver:jar}/lib/jetty-server.jar"/>
     <copy file="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-util.jar" tofile="${artifact.output.musicserver:jar}/lib/jetty-util.jar"/>
-    <copy file="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/mina-core-2.0.4.jar" tofile="${artifact.output.musicserver:jar}/lib/mina-core-2.0.4.jar"/>
     <copy file="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/servlet-api-3.0.jar" tofile="${artifact.output.musicserver:jar}/lib/servlet-api-3.0.jar"/>
     <copy file="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/slf4j-api-1.7.1.jar" tofile="${artifact.output.musicserver:jar}/lib/slf4j-api-1.7.1.jar"/>
     <copy file="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/slf4j-simple-1.7.1.jar" tofile="${artifact.output.musicserver:jar}/lib/slf4j-simple-1.7.1.jar"/>
-    <copy file="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/sshd-core-0.7.0.jar" tofile="${artifact.output.musicserver:jar}/lib/sshd-core-0.7.0.jar"/>
     <copy file="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/simpleeventbus-1.x.jar" tofile="${artifact.output.musicserver:jar}/lib/simpleeventbus-1.x.jar"/>
     <copy file="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jetty-servlet.jar" tofile="${artifact.output.musicserver:jar}/lib/jetty-servlet.jar"/>
     <copy file="${basedir}/../../../../../../../opt/gwt/gwt-servlet.jar" tofile="${artifact.output.musicserver:jar}/lib/gwt-servlet.jar"/>
@@ -297,6 +295,8 @@
     <copy file="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/hsqldb.jar" tofile="${artifact.output.musicserver:jar}/lib/hsqldb.jar"/>
     <copy file="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/sqlite-jdbc-3.7.2.jar" tofile="${artifact.output.musicserver:jar}/lib/sqlite-jdbc-3.7.2.jar"/>
     <copy file="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/jsch-0.1.49.jar" tofile="${artifact.output.musicserver:jar}/lib/jsch-0.1.49.jar"/>
+    <copy file="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/mina-core-2.0.7.jar" tofile="${artifact.output.musicserver:jar}/lib/mina-core-2.0.7.jar"/>
+    <copy file="${basedir}/../../../../../../../home/ich/workspace/cloudplayer/MusicServer/lib/sshd-core-0.8.0.jar" tofile="${artifact.output.musicserver:jar}/lib/sshd-core-0.8.0.jar"/>
   </target>
   
   <target name="build.all.artifacts" depends="artifact.musicserver:jar" description="Build all artifacts">

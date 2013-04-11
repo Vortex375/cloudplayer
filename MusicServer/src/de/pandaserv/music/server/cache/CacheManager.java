@@ -221,8 +221,9 @@ public class CacheManager {
             }
         } else if (entry.getStatus() == FileStatus.TRANSCODING) {
             // use the partially downloaded file
-            File f = new File(downloadDir.getAbsolutePath() + "/" + id);
-            return new FileInputStream(f);
+            //File f = new File(downloadDir.getAbsolutePath() + "/" + id);
+            //return new FileInputStream(f);
+            return new TranscodeInputStream(id);
         } else {
             throw new RuntimeException("The requested file has not finished preparing.");
         }
@@ -345,5 +346,11 @@ public class CacheManager {
         if (cacheMap.containsKey(id)) {
             cacheMap.get(id).setStatus(FileStatus.TRANSCODING);
         }
+    }
+
+    // access method for TranscodeInputStream
+    synchronized InputStream getTranscodeInputStream(long id) throws FileNotFoundException {
+        File f = new File(downloadDir.getAbsolutePath() + "/" + id);
+        return new FileInputStream(f);
     }
 }
