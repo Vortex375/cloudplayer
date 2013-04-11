@@ -1,154 +1,149 @@
 package de.pandaserv.music.server.cache;
 
+import de.pandaserv.music.shared.FileStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created with IntelliJ IDEA.
- * User: ich
- * Date: 2/26/13
- * Time: 10:06 PM
- * To change this template use File | Settings | File Templates.
+ * Magic File Input Stream that re-opens the file when EOF is hit
  */
 public class TranscodeInputStream extends InputStream {
-    private static final int INITIAL_BUFFER_SIZE = 5242880; // 5MB
-    private static final int BUFFER_EXTEND_STEP = 1048576; // 1MB
+    static Logger logger = LoggerFactory.getLogger(TranscodeInputStream.class);
 
-    private byte[] data;
-    private int writePos;
-    private ThreadLocal<Integer> readPos; // allow reads from multiple threads
-    private boolean finished; // no more data is to be added
-    private boolean errored;
+    private long id;
+    private boolean magicEnabled;
+    private InputStream actualInputStream;
+    private long offset;
 
-    public TranscodeInputStream() {
-        data = new byte[INITIAL_BUFFER_SIZE];
-        readPos = new ThreadLocal<Integer>() {
-            @Override
-            protected Integer initialValue() {
-                return 0;
-            }
-        };
-        writePos = 0;
-        finished = false;
-        errored = false;
+    public TranscodeInputStream(long id) {
+        this.id = id;
+        offset = 0;
+        refreshFile();
     }
 
-    @Override
-    public synchronized int read() throws IOException {
-        while (!finished && readPos.get() >= writePos) {
+    private void refreshFile() {
+        InputStream newInputStream;
+        synchronized (CacheManager.getInstance()) {
+            if (CacheManager.getInstance().getStatus(id) == FileStatus.TRANSCODING) {
+                logger.info("refreshFile(): accessing partial file. >>magic refresh<<");
+                magicEnabled = true;
+                try {
+                    newInputStream = CacheManager.getInstance().getTranscodeInputStream(id);
+                } catch (FileNotFoundException e) {
+                    logger.warn("refreshFile() failed: {}", e);
+                    // can not refresh
+                    return;
+                }
+            } else if (CacheManager.getInstance().getStatus(id) == FileStatus.PREPARED) {
+                logger.info("refreshFile(): switching to completed file.");
+                magicEnabled = false;
+                try {
+                    newInputStream = CacheManager.getInstance().getInputStream(id);
+                } catch (IOException e) {
+                    logger.warn("refreshFile() failed: {}", e);
+                    // can not refresh
+                    return;
+                }
+            } else {
+                logger.warn("refreshFile() failed: file no longer available in cache O_o");
+                // can not refresh
+                return;
+            }
+        }
+        if (actualInputStream != null) {
             try {
-                wait(); // block until data is available or end of stream is reached
-            } catch (InterruptedException e) {
+                actualInputStream.close();
+            } catch (IOException e) {
                 // ignore
             }
         }
-        if (readPos.get() >= writePos) {
-            // no more data can be read - end of stream reached
-            return -1;
-        } else {
-            int ret = data[readPos.get()];
-            readPos.set(readPos.get()  + 1);
-            return ret;
+        try {
+            long skipped = newInputStream.skip(offset);
+            if (skipped != offset) {
+                logger.warn("refreshFile() failed: can not seek to correct offset");
+                // can not refresh
+                return;
+            }
+        } catch (IOException e) {
+            logger.warn("refreshFile() failed: {}", e);
+            // can not refresh
+            return;
         }
+        actualInputStream = newInputStream;
     }
 
     @Override
-    public synchronized int read(byte[] b) throws IOException {
-        while (!finished && readPos.get() >= writePos) {
+    public int read() throws IOException {
+        int ret = actualInputStream.read();
+        if (magicEnabled && ret < 0) {
             try {
-                wait(); // block until data is available or end of stream is reached
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 // ignore
             }
+            refreshFile();
+            return read();
         }
-        if (readPos.get() >= writePos) {
-            // no more data can be read - end of stream reached
-            return -1;
-        } else {
-            int len = Math.min(writePos - readPos.get(), b.length);
-            System.arraycopy(data, readPos.get(), b, 0, len);
-            readPos.set(readPos.get() + len);
-            return len;
-        }
-    }
-
-    @Override
-    public synchronized int read(byte[] b, int off, int len) throws IOException {
-        while (!finished && readPos.get() >= writePos) {
-            try {
-                wait(); // block until data is available or end of stream is reached
-            } catch (InterruptedException e) {
-                // ignore
-            }
-        }
-        if (readPos.get() >= writePos) {
-            // no more data can be read - end of stream reached
-            return -1;
-        } else {
-            len = Math.min(writePos - readPos.get(), len);
-            System.arraycopy(data, readPos.get(), b, off, len);
-            readPos.set(readPos.get() + len);
-            return len;
-        }
-    }
-
-    @Override
-    public synchronized long skip(long n) throws IOException {
-        // read pos is expressed as integer - we can therefore only skip a number of bytes
-        // that fits in an integer
-        if (n > Integer.MAX_VALUE || n < Integer.MIN_VALUE) {
-            throw new IOException("Unable to skip: parameter out of range");
-        }
-        readPos.set(readPos.get() + (int) n);
-        return n;
-    }
-
-    @Override
-    public synchronized int available() throws IOException {
-        int ret = writePos - readPos.get();
-        if (ret < 0) // shouldn't happen
-            return 0;
+        offset += 1;
         return ret;
     }
 
-    public synchronized void pushData(byte[] b, int off, int len) {
-        if (writePos + len > data.length) {
-            // expand array
-            byte[] dataNew = new byte[data.length + len + BUFFER_EXTEND_STEP];
-            System.arraycopy(data, 0, dataNew, 0, writePos);
-            data = dataNew;
-            // hopefully the old data array is garbage collected
+    @Override
+    public int read(byte[] b) throws IOException {
+        int ret = actualInputStream.read(b);
+        if (magicEnabled && ret < 0) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                // ignore
+            }
+            refreshFile();
+            return read(b);
         }
-        System.arraycopy(b, off, data, writePos, len);
-        writePos += len;
-        notifyAll();
+        offset += ret;
+        return ret;
     }
 
-    public synchronized void finishWrite() {
-        if (finished) {
-            return;
+    @Override
+    public int read(byte[] b, int off, int len) throws IOException {
+        int ret = actualInputStream.read(b, off, len);
+        if (magicEnabled && ret < 0) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                // ignore
+            }
+            refreshFile();
+            return read(b, off, len);
         }
-        // truncate array
-        byte[] dataNew = new byte[writePos];
-        System.arraycopy(data, 0, dataNew, 0, writePos);
-        data = dataNew;
-        finished = true;
-        notifyAll();
+        offset += ret;
+        return ret;
     }
 
-    public boolean isErrored() {
-        return errored;
+    @Override
+    public long skip(long n) throws IOException {
+        long ret = actualInputStream.skip(n);
+        offset += ret;
+        return ret;
     }
 
-    public void setErrored(boolean errored) {
-        this.errored = errored;
+    @Override
+    public void close() throws IOException {
+        actualInputStream.close();
     }
 
-    public synchronized void rewind() {
-        readPos.set(0);
+    @Override
+    public int available() throws IOException {
+        return actualInputStream.available();
     }
 
-    public byte[] getData() {
-        return data;
+    @Override
+    public synchronized void reset() throws IOException {
+        actualInputStream.reset();
     }
 }

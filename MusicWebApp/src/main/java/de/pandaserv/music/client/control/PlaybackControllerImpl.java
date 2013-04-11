@@ -239,14 +239,14 @@ public class PlaybackControllerImpl implements PlaybackController {
         /*
          * check if the next track is available
          */
-        if (!(statuses[queuePosition] == FileStatus.PREPARED)) {
+        if (!(statuses[queuePosition] == FileStatus.PREPARED || statuses[queuePosition] == FileStatus.TRANSCODING)) {
             eventBus.fireEvent(new PlaybackWaitingEvent(true));
             final int queryPos = queuePosition;
             RemoteService.getInstance().getStatus(currentId, new MyAsyncCallback<FileStatus>() {
                 @Override
                 protected void onResult(FileStatus result) {
                     statuses[queryPos] = result;
-                    if (result == FileStatus.PREPARED) {
+                    if (result == FileStatus.PREPARED || result == FileStatus.TRANSCODING) {
                         /*
                          * next track is ready - run tickle() again
                          */

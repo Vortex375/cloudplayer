@@ -21,7 +21,7 @@ import java.util.Arrays;
  */
 public class PrepareJob implements Job {
 
-    private static final int COPY_BUFFER_SIZE = 1048576; // 1MB
+    private static final int COPY_BUFFER_SIZE = 524288; // 512kB
 
     static final Logger logger = LoggerFactory.getLogger(PrepareJob.class);
 
@@ -119,8 +119,14 @@ public class PrepareJob implements Job {
                 // start copy process
                 byte[] buf = new byte[COPY_BUFFER_SIZE];
                 int read = inStream.read(buf);
+                boolean setStatus = false;
                 while (read > 0) {
                     outStream.write(buf, 0, read);
+                    // now that we have some data, set the file's status to TRANSCODING
+                    if (!setStatus) {
+                        CacheManager.getInstance().transcodeStarted(id);
+                        setStatus = true;
+                    }
                     read = inStream.read(buf);
                 }
 

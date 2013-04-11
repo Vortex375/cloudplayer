@@ -17,11 +17,9 @@
         <element id="file-copy" path="$PROJECT_DIR$/lib/jetty-io.jar" />
         <element id="file-copy" path="$PROJECT_DIR$/lib/jetty-server.jar" />
         <element id="file-copy" path="$PROJECT_DIR$/lib/jetty-util.jar" />
-        <element id="file-copy" path="$PROJECT_DIR$/lib/mina-core-2.0.4.jar" />
         <element id="file-copy" path="$PROJECT_DIR$/lib/servlet-api-3.0.jar" />
         <element id="file-copy" path="$PROJECT_DIR$/lib/slf4j-api-1.7.1.jar" />
         <element id="file-copy" path="$PROJECT_DIR$/lib/slf4j-simple-1.7.1.jar" />
-        <element id="file-copy" path="$PROJECT_DIR$/lib/sshd-core-0.7.0.jar" />
         <element id="file-copy" path="$PROJECT_DIR$/lib/simpleeventbus-1.x.jar" />
         <element id="file-copy" path="$PROJECT_DIR$/lib/jetty-servlet.jar" />
         <element id="file-copy" path="/opt/gwt/gwt-servlet.jar" />
@@ -29,6 +27,8 @@
         <element id="file-copy" path="$PROJECT_DIR$/lib/hsqldb.jar" />
         <element id="file-copy" path="$PROJECT_DIR$/lib/sqlite-jdbc-3.7.2.jar" />
         <element id="file-copy" path="$PROJECT_DIR$/lib/jsch-0.1.49.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/lib/mina-core-2.0.7.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/lib/sshd-core-0.8.0.jar" />
       </element>
     </root>
   </artifact>
