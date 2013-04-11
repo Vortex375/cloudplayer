@@ -11,7 +11,7 @@ public class UserCommand implements Runnable {
     private Console console;
 
     public UserCommand(Console console, String[] args) {
-
+        this.console = console;
     }
 
     @Override
