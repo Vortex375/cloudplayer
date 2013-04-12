@@ -95,12 +95,12 @@ void Database::prepare()
                            &commitStmt,
                            NULL));
     success &= checkReturn(sqlite3_prepare_v2(db,
-                           "INSERT INTO tracks (title, artist, album, genre, track, year, path, lastmodified, mark) VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'), 1)",
+                           "INSERT INTO tracks (title, artist, album, genre, track, year, duration, fileSize, path, lastmodified, mark) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), 1)",
                            -1,
                            &insertTrackStmt,
                            NULL));
     success &= checkReturn(sqlite3_prepare_v2(db,
-                           "UPDATE tracks SET title=?, artist=?, album=?, genre=?, track=?, year=?, lastmodified=datetime('now'), mark=1, cover=NULL WHERE path=?", // unset cover on update
+                           "UPDATE tracks SET title=?, artist=?, album=?, genre=?, track=?, year=?, duration=?, fileSize=?, lastmodified=datetime('now'), mark=1, cover=NULL WHERE path=?", // unset cover on update
                            -1,
                            &updateTrackStmt,
                            NULL));
@@ -173,6 +173,8 @@ bool Database::create()
                        "genre TEXT,"
                        "track INTEGER,"
                        "year INTEGER,"
+                       "duration INTEGER,"
+                       "fileSize INTEGER,"
                        "cover TEXT,"
                        "path TEXT UNIQUE," // creates index on path
                        "lastmodified DATE,"
@@ -227,7 +229,7 @@ void Database::commit()
     //sqlite3_reset(commitStmt);
 }
 
-void Database::insertTrack(const char* title, const char* artist, const char* album, const char* genre, int track, int year, const char* path)
+void Database::insertTrack(const char* title, const char* artist, const char* album, const char* genre, int track, int year, int duration, long fileSize, const char* path)
 {
     if (!insertTrackStmt) {
         prepare();
@@ -241,7 +243,9 @@ void Database::insertTrack(const char* title, const char* artist, const char* al
     sqlite3_bind_text(insertTrackStmt, 4, genre, -1, SQLITE_TRANSIENT);
     sqlite3_bind_int(insertTrackStmt, 5, track);
     sqlite3_bind_int(insertTrackStmt, 6, year);
-    sqlite3_bind_text(insertTrackStmt, 7, path, -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int(insertTrackStmt, 7, duration);
+    sqlite3_bind_int64(insertTrackStmt, 8, fileSize);
+    sqlite3_bind_text(insertTrackStmt, 9, path, -1, SQLITE_TRANSIENT);
 
     int ret;
     if ((ret = sqlite3_step(insertTrackStmt)) != SQLITE_DONE) {
@@ -253,7 +257,7 @@ void Database::insertTrack(const char* title, const char* artist, const char* al
     sqlite3_reset(insertTrackStmt);
 }
 
-void Database::updateTrack(const char* title, const char* artist, const char* album, const char* genre, int track, int year, const char* path)
+void Database::updateTrack(const char* title, const char* artist, const char* album, const char* genre, int track, int year, int duration, long fileSize, const char* path)
 {
     if (!updateTrackStmt) {
         prepare();
@@ -267,7 +271,9 @@ void Database::updateTrack(const char* title, const char* artist, const char* al
     sqlite3_bind_text(updateTrackStmt, 4, genre, -1, SQLITE_TRANSIENT);
     sqlite3_bind_int(updateTrackStmt, 5, track);
     sqlite3_bind_int(updateTrackStmt, 6, year);
-    sqlite3_bind_text(updateTrackStmt, 7, path, -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int(insertTrackStmt, 7, duration);
+    sqlite3_bind_int64(insertTrackStmt, 8, fileSize);
+    sqlite3_bind_text(updateTrackStmt, 9, path, -1, SQLITE_TRANSIENT);
 
     int ret;
     if ((ret = sqlite3_step(updateTrackStmt)) != SQLITE_DONE) {

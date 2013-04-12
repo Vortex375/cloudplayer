@@ -1,7 +1,6 @@
 package de.pandaserv.music.server.cache;
 
 import com.adamtaft.eb.EventBusService;
-import de.pandaserv.music.server.database.CacheDatabase;
 import de.pandaserv.music.server.database.TrackDatabase;
 import de.pandaserv.music.server.devices.Device;
 import de.pandaserv.music.server.devices.DeviceManager;
@@ -10,7 +9,6 @@ import de.pandaserv.music.server.events.PrepareFailedEvent;
 import de.pandaserv.music.server.misc.StringUtil;
 import de.pandaserv.music.shared.FileStatus;
 import de.pandaserv.music.shared.Priority;
-import de.pandaserv.music.shared.TrackLength;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author ich
  */
-public class CacheManager {
+public class CacheManager_ {
     private class CacheMap extends HashMap<Long, CacheEntry> {
         @Override
         public CacheEntry put(Long key, CacheEntry value) {
@@ -52,32 +50,79 @@ public class CacheManager {
         }
     }
 
-    static Logger logger = LoggerFactory.getLogger(CacheManager.class);
+    private class JobComparator implements Comparator<Runnable> {
+        @Override
+        public int compare(Runnable o1, Runnable o2) {
+            if (o1 instanceof PrepareJob && o2 instanceof PrepareJob) {
+                PrepareJob job1 = (PrepareJob) o1;
+                PrepareJob job2 = (PrepareJob) o2;
+
+                int prio1 = 0;
+                int prio2 = 0;
+                switch(job1.getPriority()) {
+                    case HIGH:
+                        prio1 = 2;
+                        break;
+                    case NORMAL:
+                        prio1 = 1;
+                        break;
+                    case LOW:
+                        prio1 = 0;
+                        break;
+                }
+                switch(job2.getPriority()) {
+                    case HIGH:
+                        prio2 = 2;
+                        break;
+                    case NORMAL:
+                        prio2 = 1;
+                        break;
+                    case LOW:
+                        prio2 = 0;
+                        break;
+                }
+                if (prio1 != prio2) {
+                    return (prio1 > prio2 ? 1 : -1);
+                } else {
+                    return new Long(job1.getCreationTime()).compareTo(job2.getCreationTime());
+                }
+            } else {
+                // can't compare those
+                return 0;
+            }
+        }
+    }
+
+    static Logger logger = LoggerFactory.getLogger(CacheManager_.class);
+
+    private static final int COPY_BUFFER_SIZE = 8192; // used in prepareFinished()
 
     private CacheMap cacheMap;
     private long maxCacheSize;
     private long currentCacheSize;
     private Deque<Long> priorityQueue;
     private File cacheDir;
+    private File downloadDir;
+    private ThreadPoolExecutor threadPool;
     private String transcodeCommand;
 
     // Singleton
-    private static CacheManager ourInstance;
-    public static CacheManager getInstance() {
+    private static CacheManager_ ourInstance;
+    public static CacheManager_ getInstance() {
         return ourInstance;
     }
-    
-    public static CacheManager setup(Properties config) {
+
+    public static CacheManager_ setup(Properties config) {
         if (ourInstance != null) {
             logger.warn("CacheManager.setup() called but there is already an instance!");
         } else {
-            ourInstance = new CacheManager(config);
+            ourInstance = new CacheManager_(config);
         }
 
         return ourInstance;
     }
-    
-    private CacheManager(Properties config) {
+
+    private CacheManager_(Properties config) {
         cacheMap = new CacheMap();
         currentCacheSize = 0;
         maxCacheSize = StringUtil.parseSize(config.getProperty("cache_max_size"));
@@ -85,100 +130,114 @@ public class CacheManager {
         priorityQueue = new LinkedList<>();
         transcodeCommand = config.getProperty("transcode_cmd");
 
+        // prepare at most three files simultaneously
+        //TODO: make configurable
+        threadPool = new ThreadPoolExecutor(3, 3, 0, TimeUnit.SECONDS, new PriorityBlockingQueue<Runnable>(11, new JobComparator()));
+
         // prepare cache directory
         String cachePath = config.getProperty("cache_dir");
         cacheDir = new File(cachePath);
 
+        // prepare download directory
+        downloadDir = new File(cachePath + "/download");
+        if (!downloadDir.exists()) {
+            // create download dir if it does not exist already
+            downloadDir.mkdirs();
+        } else {
+            // clean up partial downloads
+            for (File file: downloadDir.listFiles()) {
+                file.delete();
+            }
+        }
+        
         indexCache();
     }
 
     private void indexCache() {
-        logger.info("indexing cache...");
-        List<CacheDatabase.Entry> entries = CacheDatabase.getInstance().listEntries();
-
-        int count = 0;
-        for (CacheDatabase.Entry entry: entries) {
-            long id = entry.getId();
-            File f = new File(cacheDir.getAbsolutePath() + "/" + id);
-
-            if (!f.exists()) {
-                logger.info("Indexed file not found, removing from index: {}", id);
-                // file in cache index was deleted on disk
-                CacheDatabase.getInstance().removeEntry(id);
+        // index existing files in cache directory
+        logger.info("Indexing cache...");
+        for (File f: cacheDir.listFiles()) {
+            if (!f.isFile()) {
                 continue;
             }
+            String filename = f.getName();
 
-            TrackLength length = TrackDatabase.getInstance().getTrackLength(id);
-
-            if (length == null) {
-                // file in cache index was deleted from database
-                // delete the file from index and on disk
-                logger.info("Indexed file is not in track database, removing from index: {}", id);
-                CacheDatabase.getInstance().removeEntry(id);
-                f.delete();
-                continue;
+            try {
+                long id = Long.parseLong(filename);
+                CacheEntry entry = new CacheEntry(id, FileStatus.PREPARED);
+                entry.setFileSize(f.length());
+                cacheMap.put(id, entry);
+                priorityQueue.addLast(id);
+            } catch (NumberFormatException e) {
+                logger.warn("My cache directory contains a strange file: {}", filename);
             }
-
-            if (f.length() != length.getFileSize()) {
-                // file size was changed!?
-                logger.info("Size mismatch, removing file from index: {}", id);
-                CacheDatabase.getInstance().removeEntry(id);
-                f.delete();
-                continue;
-            }
-
-            if (entry.getAvailable() > f.length()) {
-                // insane cache entry
-                logger.info("Invalid cache entry: available bytes is larger than file size: {}", id);
-                CacheDatabase.getInstance().removeEntry(id);
-                f.delete();
-                continue;
-            }
-
-            /*
-             * all checks passed, create new cache entry
-             */
-            CacheEntry cacheEntry = new CacheEntry(id);
-            cacheEntry.setAvailable(entry.getAvailable());
-            cacheEntry.setDuration(length.getDuration());
-            cacheEntry.setFileSize(length.getFileSize());
-
-            cacheMap.put(id, cacheEntry);
-            count++;
         }
-        logger.info("{} files indexed", count);
+        logger.info("{} files indexed", cacheMap.size());
+        cacheCleanup();
     }
     
-    public synchronized InputStream getInputStream(long id, int offsetSeconds) throws IOException {
-        CacheEntry cacheEntry;
+    public synchronized FileStatus getStatus(long id) {
         if (!cacheMap.containsKey(id)) {
-            /*
-             * create new cache entry
-             */
-            cacheCleanup();
-
-            TrackLength length = TrackDatabase.getInstance().getTrackLength(id);
-            if (length == null) {
-                logger.info("getInputStream(): unknown track: {}", id);
-                return null;
-            }
-
-            cacheEntry = new CacheEntry(id);
-            cacheEntry.setFileSize(length.getFileSize());
-            cacheEntry.setDuration(length.getDuration());
-            cacheEntry.setAvailable(0);
-
-            cacheMap.put(id, cacheEntry);
-
-            priorityQueue.addFirst(id);
+            return FileStatus.NOT_PREPARED;
         } else {
-            cacheEntry = cacheMap.get(id);
+            return cacheMap.get(id).getStatus();
+        }
+    }
 
-            priorityQueue.removeFirstOccurrence(id);
-            priorityQueue.addFirst(id);
+    /**
+     * Get the progress of the running PrepareJob for the file specified by id.
+     * This is only meaningful if the file is in state PREPARING or TRANSCODING.
+     */
+    public synchronized float getCompletion(long id) {
+        if (cacheMap.containsKey(id)) {
+            return cacheMap.get(id).getCompletion();
+        } else {
+            return 0;
+        }
+    }
+
+    public synchronized long getSize(long id) {
+        if (!cacheMap.containsKey(id)) {
+            return -1;
+        } else {
+            return cacheMap.get(id).getFileSize();
+        }
+    }
+    
+    public synchronized InputStream getInputStream(long id) throws IOException {
+        if (!cacheMap.containsKey(id)) {
+            throw new RuntimeException("You must call prepare() first, before requesting a file from cache!");
         }
 
+        CacheEntry entry = cacheMap.get(id);
 
+        if (entry.getStatus() == FileStatus.PREPARED) {
+            try {
+                /*// try direct access
+                //TODO: unused
+                InputStream ret;
+                ret = entry.getDirectAccess();
+                if (ret != null) {
+                    return ret;
+                }*/
+
+                // use file from cache
+                File f = new File(cacheDir.getAbsolutePath() + "/" + id);
+                return new FileInputStream(f);
+            } catch (IOException e) {
+                logger.error("IOException while opening input stream for " + id);
+                // invalidate the cache entry for this file
+                entry.setStatus(FileStatus.FAILED);
+                throw e;
+            }
+        } else if (entry.getStatus() == FileStatus.TRANSCODING) {
+            // use the partially downloaded file
+            //File f = new File(downloadDir.getAbsolutePath() + "/" + id);
+            //return new FileInputStream(f);
+            return new TranscodeInputStream(id);
+        } else {
+            throw new RuntimeException("The requested file has not finished preparing.");
+        }
     }
 
     public synchronized void prepare(long id) {

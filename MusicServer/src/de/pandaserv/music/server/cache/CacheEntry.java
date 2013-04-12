@@ -8,31 +8,51 @@ import de.pandaserv.music.shared.FileStatus;
  */
 class CacheEntry {
     private final long id;
-    private long size; // file size
+    private long fileSize; // total file size
+    private int duration; // duration in seconds
+    private long available; // how many bytes are currently in the cache
     private FileStatus status;
-    private float completion;
     private String message;
+
+    private Object writeLock; // lock write access
 
     public CacheEntry(long id, FileStatus initialStatus) {
         this.id = id;
         this.status = initialStatus;
+
+        writeLock = new Object();
     }
 
     public CacheEntry(long id) {
-        this.id = id;
-        this.status = FileStatus.PREPARED;
+        this(id, FileStatus.PREPARED);
     }
 
     public long getId() {
         return id;
     }
 
-    public long getSize() {
-        return size;
+    public long getFileSize() {
+        return fileSize;
     }
 
-    public void setSize(long size) {
-        this.size = size;
+    public void setFileSize(long fileSize) {
+        this.fileSize = fileSize;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public synchronized long getAvailable() {
+        return available;
+    }
+
+    public synchronized void setAvailable(long available) {
+        this.available = available;
     }
 
     public synchronized void setStatus(FileStatus status) {
@@ -43,19 +63,15 @@ class CacheEntry {
         return status;
     }
 
-    public float getCompletion() {
-        return completion;
-    }
-
-    public void setCompletion(float completion) {
-        this.completion = completion;
-    }
-
     public String getMessage() {
         return message;
     }
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Object getWriteLock() {
+        return writeLock;
     }
 }

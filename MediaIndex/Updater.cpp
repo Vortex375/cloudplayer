@@ -62,6 +62,8 @@ void Updater::run()
                     f.tag()->genre().toCString(true),
                     f.tag()->track(),
                     f.tag()->year(),
+                    f.audioProperties()->length(), // duration in seconds
+                    f.file()->length(), // file size in bytes (i think)
                     p.c_str()
                 );
             }
@@ -77,6 +79,8 @@ void Updater::run()
                     f.tag()->genre().toCString(true),
                     f.tag()->track(),
                     f.tag()->year(),
+                    f.audioProperties()->length(), // duration in seconds
+                    f.file()->length(), // file size in bytes (i think)
                     p.c_str()
                 );
             }

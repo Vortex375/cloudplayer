@@ -34,8 +34,8 @@ public:
     bool create();
     void begin();
     void commit();
-    void insertTrack(const char* title, const char* artist, const char* album, const char* genre, int track, int year, const char* path);
-    void updateTrack(const char* title, const char* artist, const char* album, const char* genre, int track, int year, const char* path);
+    void insertTrack(const char* title, const char* artist, const char* album, const char* genre, int track, int year, int duration, long fileSize, const char* path);
+    void updateTrack(const char* title, const char* artist, const char* album, const char* genre, int track, int year, int duration, long fileSize, const char* path);
     void mark(sqlite_int64 id);
     void dropUnmarked();
     void clearMarks();

@@ -3,6 +3,7 @@ package de.pandaserv.music.server.database;
 import de.pandaserv.music.shared.Cover;
 import de.pandaserv.music.shared.Track;
 import de.pandaserv.music.shared.TrackDetail;
+import de.pandaserv.music.shared.TrackLength;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +25,7 @@ public class TrackDatabase {
     private final LocalPreparedStatement getDeviceAndPath;
     private final LocalPreparedStatement listTracks;
     private final LocalPreparedStatement getTrackInfo;
+    private final LocalPreparedStatement getTrackLength;
     private final LocalPreparedStatement trackQuerySimple;
 
     // Singleton
@@ -76,6 +78,10 @@ public class TrackDatabase {
                 + "SELECT id, device, title, artist, album, genre, track, year, device_path, cover"
                 + " FROM Tracks"
                 + " WHERE id=?");
+        getTrackLength = new LocalPreparedStatement("" +
+                "SELECT id, duration, fileSize" +
+                " FROM Tracks" +
+                " WHERE id=?");
         trackQuerySimple = new LocalPreparedStatement("" +
                 "SELECT id, title, artist, album, device_path" +
                 " FROM Tracks" +
@@ -111,7 +117,7 @@ public class TrackDatabase {
                 logger.warn("Unknown track id: " + id);
             }
         } catch (SQLException e) {
-            logger.warn("SQL Exception in listDeviceNames():");
+            logger.warn("SQL Exception in getDeviceAndPath():");
             e.printStackTrace();
         }
 
@@ -138,7 +144,7 @@ public class TrackDatabase {
 
             return ret;
         } catch (SQLException e) {
-            logger.warn("SQL Exception in listDeviceNames():");
+            logger.warn("SQL Exception in listTracks():");
             e.printStackTrace();
             return new LinkedList<>();
         }
@@ -213,6 +219,31 @@ public class TrackDatabase {
             }
         } catch (SQLException e) {
             logger.warn("SQL Exception in listDeviceNames():");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public TrackLength getTrackLength(long id) {
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+            ps = getTrackLength.get();
+            ps.setLong(1, id);
+            rs = ps.executeQuery();
+
+            if(rs.next()) {
+                TrackLength length = new TrackLength();
+                length.setId(rs.getLong(1));
+                length.setDuration(rs.getInt(2));
+                length.setFileSize(rs.getLong(3));
+                return length;
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            logger.warn("SQL Exception in getTrackLength():");
             e.printStackTrace();
             return null;
         }

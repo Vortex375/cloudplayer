@@ -20,6 +20,8 @@ public class DatabaseManager {
             " genre VARCHAR(200)," +
             " track INTEGER," +
             " year INTEGER," +
+            " duration INTEGER," +
+            " fileSize BIGINT" +
             " cover VARCHAR(200)," +
             " device_path VARCHAR(800)," +
             " lastmodified TIMESTAMP," +
@@ -30,6 +32,11 @@ public class DatabaseManager {
             " data LONGVARBINARY," +
             " length INTEGER," +
             " mimetype VARCHAR(50))";
+
+    private static final String CREATE_CACHE_TABLE =
+            "CREATE CACHED TABLE CacheIndex (" +
+            " id BIGINT PRIMARY KEY," +
+            " available BIGINT)";
 
     private static final String CREATE_DEVICES_TABLE =
             "CREATE CACHED TABLE Devices (" +
@@ -137,6 +144,7 @@ public class DatabaseManager {
         // TODO: also check columns
         boolean needTracksTable = false;
         boolean needCoversTable = false;
+        boolean needCacheTable = false;
         boolean needUsersTable = false;
         boolean needAttributesTable = false;
         boolean needDevicesTable = false;
@@ -148,6 +156,8 @@ public class DatabaseManager {
         needTracksTable = !rs.next();
         rs = stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME='COVERS'");
         needCoversTable = !rs.next();
+        rs = stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME='CACHEINDEX'");
+        needCacheTable = !rs.next();
         rs = stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME='USERS'");
         needUsersTable = !rs.next();
         rs = stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME='ATTRIBUTES'");
@@ -166,6 +176,10 @@ public class DatabaseManager {
         if (needCoversTable) {
             logger.info("Creating table 'Covers'");
             stmt.executeUpdate(CREATE_COVERS_TABLE);
+        }
+        if (needCacheTable) {
+            logger.info("Creating table 'CacheIndex'");
+            stmt.executeUpdate(CREATE_CACHE_TABLE);
         }
         if (needUsersTable) {
             logger.info("Creating table 'Users'");
