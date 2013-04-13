@@ -2,7 +2,6 @@ package de.pandaserv.music.server.service;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.gwt.view.client.Range;
-import de.pandaserv.music.server.cache.CacheManager;
 import de.pandaserv.music.server.database.TrackDatabase;
 import de.pandaserv.music.server.database.UserDatabase;
 import de.pandaserv.music.server.misc.SessionUtil;
@@ -83,15 +82,6 @@ public class GwtMusicServiceImpl extends RemoteServiceServlet implements GwtMusi
     }
 
     @Override
-    public void prepare(long id, Priority priority) throws AccessDeniedException {
-        if (SessionUtil.getUserId(getThreadLocalRequest().getSession()) < 0) {
-            // not logged in
-            throw new AccessDeniedException();
-        }
-        CacheManager.getInstance().prepare(id, priority);
-    }
-
-    @Override
     public RangeResponse<TrackDetail> trackQuerySimple(String query) throws AccessDeniedException {
         if (SessionUtil.getUserId(getThreadLocalRequest().getSession()) < 0) {
             // not logged in
@@ -144,15 +134,6 @@ public class GwtMusicServiceImpl extends RemoteServiceServlet implements GwtMusi
             throw new AccessDeniedException();
         }
         return TrackDatabase.getInstance().getTrackInfo(id);
-    }
-
-    @Override
-    public FileStatus getStatus(long id) throws AccessDeniedException {
-        if (SessionUtil.getUserId(getThreadLocalRequest().getSession()) < 0) {
-            // not logged in
-            throw new AccessDeniedException();
-        }
-        return CacheManager.getInstance().getStatus(id);
     }
 
     @Override

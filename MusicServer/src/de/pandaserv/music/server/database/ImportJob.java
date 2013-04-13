@@ -32,15 +32,15 @@ public class ImportJob implements Job {
             "MERGE INTO Tracks AS t" +
             // here, we add the bogus column "device" to the import table
             // because using a string constant in the ON clause apparently does not work
-            " USING (SELECT ? AS device, id, title, artist, album, genre, track, year, cover, path, lastmodified FROM import_tracks_%s) AS i" +
+            " USING (SELECT ? AS device, id, title, artist, album, genre, track, year, duration, fileSize, cover, path, lastmodified FROM import_tracks_%s) AS i" +
             " ON t.device=i.device AND t.device_id=i.id" +
             " WHEN MATCHED THEN UPDATE SET" +
             "       t.title = i.title, t.artist = i.artist, t.album = i.album, t.genre = i.genre," +
-            "       t.track = i.track, t.year = i.year, t.cover = i.cover, " +
+            "       t.track = i.track, t.year = i.year, t.duration=i.duration, t.fileSize=i.fileSize, t.cover = i.cover, " +
             "       t.device_path = i.path, t.lastmodified = i.lastmodified" +
             " WHEN NOT MATCHED THEN INSERT (device, device_id, title, artist, album, genre," +
-            "       track, year, cover, device_path, lastmodified)" +
-            " VALUES (i.device, i.id, i.title, i.artist, i.album, i.genre, i.track, i.year, i.cover, i.path, i.lastmodified)";
+            "       track, year, duration, fileSize, cover, device_path, lastmodified)" +
+            " VALUES (i.device, i.id, i.title, i.artist, i.album, i.genre, i.track, i.year, i.duration, i.fileSize, i.cover, i.path, i.lastmodified)";
 
     private static final String REMOVE_DELETED_TRACKS = "" +
             "DELETE FROM Tracks " +

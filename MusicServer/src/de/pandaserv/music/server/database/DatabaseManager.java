@@ -21,7 +21,7 @@ public class DatabaseManager {
             " track INTEGER," +
             " year INTEGER," +
             " duration INTEGER," +
-            " fileSize BIGINT" +
+            " fileSize BIGINT," +
             " cover VARCHAR(200)," +
             " device_path VARCHAR(800)," +
             " lastmodified TIMESTAMP," +

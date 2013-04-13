@@ -29,17 +29,15 @@ public class PrepareJob implements Job {
     private final String path;
     private final File outputFile;
     private long startTime;
-    private String transcodeCommand;
     private long creationTime;
 
     private boolean canceled = false;
 
-    public PrepareJob(CacheEntry cacheEntry, Device device, String path, File outputFile, String transcodeCommand) {
+    public PrepareJob(CacheEntry cacheEntry, Device device, String path, File outputFile) {
         this.cacheEntry = cacheEntry;
         this.device = device;
         this.path = path;
         this.outputFile = outputFile;
-        this.transcodeCommand = transcodeCommand;
         creationTime = System.currentTimeMillis();
     }
 

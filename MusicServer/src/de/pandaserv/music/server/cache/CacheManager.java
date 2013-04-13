@@ -1,24 +1,16 @@
 package de.pandaserv.music.server.cache;
 
-import com.adamtaft.eb.EventBusService;
 import de.pandaserv.music.server.database.CacheDatabase;
 import de.pandaserv.music.server.database.TrackDatabase;
 import de.pandaserv.music.server.devices.Device;
 import de.pandaserv.music.server.devices.DeviceManager;
-import de.pandaserv.music.server.events.PrepareCompleteEvent;
-import de.pandaserv.music.server.events.PrepareFailedEvent;
 import de.pandaserv.music.server.misc.StringUtil;
-import de.pandaserv.music.shared.FileStatus;
-import de.pandaserv.music.shared.Priority;
 import de.pandaserv.music.shared.TrackLength;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.PriorityBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -88,6 +80,9 @@ public class CacheManager {
         // prepare cache directory
         String cachePath = config.getProperty("cache_dir");
         cacheDir = new File(cachePath);
+        if (!cacheDir.exists()) {
+            cacheDir.mkdirs();
+        }
 
         indexCache();
     }
@@ -163,6 +158,8 @@ public class CacheManager {
                 return null;
             }
 
+            createCacheFile(id, length.getFileSize());
+
             cacheEntry = new CacheEntry(id);
             cacheEntry.setFileSize(length.getFileSize());
             cacheEntry.setDuration(length.getDuration());
@@ -178,63 +175,42 @@ public class CacheManager {
             priorityQueue.addFirst(id);
         }
 
+        File entryFile = new File(cacheDir.getPath() + "/" + id);
+        PrepareJob prepareJob;
+        if (cacheEntry.getAvailable() < cacheEntry.getFileSize()) {
+            // prepare job is needed
+            // get neccessary information from track database
+            String[] deviceAndPath = TrackDatabase.getInstance().getDeviceAndPath(id);
+            if (deviceAndPath == null) {
+                logger.warn("getInputStream() called with unknown track id");
+                return null;
+            }
+            // get device
+            Device device = DeviceManager.getInstance().getDevice(deviceAndPath[0]);
+            String path = deviceAndPath[1];
 
-    }
-
-    public synchronized void prepare(long id) {
-        prepare(id, Priority.NORMAL);
-    }
-
-    public synchronized void prepare(long id, Priority priority) {
-        // clean up cache if necessary
-        cacheCleanup();
-        if (cacheMap.containsKey(id)) {
-            priorityQueue.removeFirstOccurrence(id);
-            priorityQueue.addFirst(id);
-           CacheEntry entry = cacheMap.get(id);
-           if (entry.getStatus() == FileStatus.PREPARING || entry.getStatus() == FileStatus.TRANSCODING || entry.getStatus() == FileStatus.PREPARED) {
-               // preparation is already in progress or complete
-               logger.info("{} is already prepared or preparing", id);
-               return;
-           }
+            prepareJob = new PrepareJob(cacheEntry, device, path, entryFile);
         } else {
-            priorityQueue.addFirst(id);
+            // file is already fully cached
+            prepareJob = null;
         }
 
-        // start or re-start prepare process
+        return new CacheInputStream(cacheEntry,
+                prepareJob, entryFile, transcodeCommand, offsetSeconds);
+    }
 
-        // get neccessary information from track database
-        String[] deviceAndPath = TrackDatabase.getInstance().getDeviceAndPath(id);
-        if (deviceAndPath == null) {
-            logger.warn("prepare() called with unknown track id");
-            return;
+    //TODO: more efficient way to initalize a file to zeroes?
+    private void createCacheFile(long id, long length) throws IOException {
+        File f = new File(cacheDir.getPath() + "/" + id);
+
+        FileOutputStream out = new FileOutputStream(f);
+        byte[] nullBuffer = new byte[1048576]; // 1MB null byte buffer
+        while (length > 0) {
+            out.write(nullBuffer, 0, (int) Math.min(nullBuffer.length, length));
+            length -= nullBuffer.length;
         }
-
-        // create cache entry
-        CacheEntry entry = new CacheEntry(id, FileStatus.PREPARING);
-        // set size negative size to indicate that the size is currently unknown
-        // the real size ist set in prepareFinished()
-        entry.setFileSize(-1);
-        cacheMap.put(id, entry);
-
-        // get device
-        Device device = DeviceManager.getInstance().getDevice(deviceAndPath[0]);
-        //TODO: device.needsPrepare() is ignored!
-
-        // create temporary file
-        File downloadFile = new File(downloadDir.getPath() + "/" + id);
-        try {
-            downloadFile.createNewFile();
-        } catch (IOException e) {
-            logger.warn("Failed to create temporary download file while preparing " + id);
-            entry.setMessage("Failed to create temporary download file.");
-            entry.setStatus(FileStatus.FAILED);
-            return;
-        }
-
-        // submit prepare job
-        logger.info("submit prepare job for " + id);
-        threadPool.submit(new PrepareJob(priority, id, device, deviceAndPath[1], downloadFile, transcodeCommand));
+        out.flush();
+        out.close();
     }
 
     public synchronized void cacheCleanup() {
@@ -250,66 +226,5 @@ public class CacheManager {
             }
             logger.info("{} files dropped.", count);
         }
-    }
-
-    /* package-private callback functions for PrepareJob */
-
-    //TODO: this is a bit not-so elegantly done
-    synchronized void prepareComplete(long id) {
-        String filename = "" + id;
-        File downloadFile = new File(downloadDir.getPath() +"/" + filename);
-        if (!cacheMap.containsKey(id)) {
-            logger.info("Discarding downloaded file for {}: file dropped from cache index.", id);
-            // file was removed from cache during preparation
-            // that means it is no longer needed
-            // delete downloaded file
-            downloadFile.delete();
-            return;
-        }
-
-        // prepare successful - move the temporary file to the cache directory
-        File targetFile = new File(cacheDir.getPath() + "/" + filename);
-        downloadFile.renameTo(targetFile);
-
-        // all successful - update cache entry
-        cacheMap.get(id).setStatus(FileStatus.PREPARED);
-        cacheMap.get(id).setFileSize(targetFile.length());
-        // *HACK*: refresh size
-        cacheMap.put(id, cacheMap.get(id));
-        logger.info("Preparation of {} complete.", id);
-        EventBusService.publish(new PrepareCompleteEvent(id));
-    }
-
-    synchronized void prepareFailed(long id, String message) {
-        // remove the (maybe partially downloaded or empty) file
-        String filename = "" + id;
-        File downloadFile = new File(downloadDir.getPath() + "/" + filename);
-        downloadFile.delete();
-
-        if (cacheMap.containsKey(id)) {
-            // update cache entry
-            cacheMap.get(id).setStatus(FileStatus.FAILED);
-            cacheMap.get(id).setMessage(message);
-            EventBusService.publish(new PrepareFailedEvent(id));
-        }
-    }
-
-    synchronized void transcodeStarted(long id) {
-        if (cacheMap.containsKey(id)) {
-            cacheMap.get(id).setStatus(FileStatus.TRANSCODING);
-        }
-    }
-
-    // currently unused, because we cannot determine the file size reliably
-    synchronized void setCompletion(long id, float completion) {
-        if (cacheMap.containsKey(id)) {
-            cacheMap.get(id).setCompletion(completion);
-        }
-    }
-
-    // access method for TranscodeInputStream
-    synchronized InputStream getTranscodeInputStream(long id) throws FileNotFoundException {
-        File f = new File(downloadDir.getAbsolutePath() + "/" + id);
-        return new FileInputStream(f);
     }
 }

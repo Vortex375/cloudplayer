@@ -33,6 +33,8 @@ public class SqliteImportJob implements Job {
             " genre VARCHAR(200)," +
             " track INTEGER," +
             " year INTEGER," +
+            " duration INTEGER," +
+            " fileSize BIGINT," +
             " cover VARCHAR(200)," +
             " path VARCHAR(800)," +
             " lastmodified TIMESTAMP)";
@@ -44,9 +46,9 @@ public class SqliteImportJob implements Job {
             " mimetype VARCHAR(50))";
     private static final String INSERT_TRACK =
             "INSERT INTO import_tracks_%s" +
-            " (id, title, artist, album, genre, track, year, cover, path, lastmodified)" +
+            " (id, title, artist, album, genre, track, year, duration, fileSize, cover, path, lastmodified)" +
             " VALUES" +
-            " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String INSERT_COVER =
             "INSERT INTO import_covers_%s" +
             " (md5, data, length, mimetype)" +
@@ -118,7 +120,7 @@ public class SqliteImportJob implements Job {
                 position = 0;
                 state = State.TRACKS;
             }
-            rs = sqliteStmt.executeQuery("SELECT id, title, artist, album, genre, track, year, cover, path, lastmodified" +
+            rs = sqliteStmt.executeQuery("SELECT id, title, artist, album, genre, track, year, duration, fileSize, cover, path, lastmodified" +
                     " FROM tracks;");
             logger.info("Copying {} tracks...", totalRows);
             while (rs.next()) {
@@ -129,9 +131,11 @@ public class SqliteImportJob implements Job {
                 String genre = rs.getString(5);
                 int track = rs.getInt(6);
                 int year =  rs.getInt(7);
-                String cover = rs.getString(8);
-                String path = rs.getString(9);
-                Date lmod = rs.getDate(10);
+                int duration = rs.getInt(8);
+                long fileSize = rs.getLong(9);
+                String cover = rs.getString(10);
+                String path = rs.getString(11);
+                Date lmod = rs.getDate(12);
 
                 trackStmt.setLong(1, id);
                 trackStmt.setString(2, title);
@@ -140,9 +144,11 @@ public class SqliteImportJob implements Job {
                 trackStmt.setString(5, genre);
                 trackStmt.setInt(6, track);
                 trackStmt.setInt(7, year);
-                trackStmt.setString(8, cover);
-                trackStmt.setString(9, path);
-                trackStmt.setDate(10, lmod);
+                trackStmt.setInt(8, duration);
+                trackStmt.setLong(9, fileSize);
+                trackStmt.setString(10, cover);
+                trackStmt.setString(11, path);
+                trackStmt.setDate(12, lmod);
                 //trackStmt.executeUpdate();
                 trackStmt.addBatch();
 
