@@ -52,6 +52,13 @@ public class LocalDevice implements Device {
     }
 
     @Override
+    public InputStream getFile(String path, long offset) throws IOException {
+        FileInputStream ret = new FileInputStream(new File(path));
+        ret.skip(offset);
+        return ret;
+    }
+
+    @Override
     public void setup(Properties config) {
         // nothing to do
     }

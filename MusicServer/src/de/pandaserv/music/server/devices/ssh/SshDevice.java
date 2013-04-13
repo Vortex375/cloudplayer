@@ -71,7 +71,12 @@ public class SshDevice implements Device {
     }
 
     @Override
-    public InputStream getFile(String path) {
+    public InputStream getFile(String path) throws IOException {
+        return getFile(path, 0);
+    }
+
+    @Override
+    public InputStream getFile(String path, long offset) {
         if (!connected || !session.isConnected()) {
             try {
                 connect();
@@ -84,7 +89,7 @@ public class SshDevice implements Device {
             }
         }
         try {
-            String command="cat \"" + path + "\"";
+            String command="dd bs=1 skip="+offset+" if=\"" + path + "\"";
             ChannelExec channel = (ChannelExec) session.openChannel("exec");
             channel.setCommand(command);
             channel.connect();

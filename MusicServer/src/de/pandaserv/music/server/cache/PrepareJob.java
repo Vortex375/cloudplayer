@@ -84,7 +84,7 @@ public class PrepareJob implements Job {
             try {
                 try {
                     // get input stream
-                    InputStream inStream = device.getFile(path);
+                    InputStream inStream = device.getFile(path, cacheEntry.getAvailable());
                     if (inStream == null) {
                         logger.error("Unable to get input stream from device.");
                         return;

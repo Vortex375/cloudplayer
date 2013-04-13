@@ -28,6 +28,8 @@ public interface Device {
     public String getStatusMessage();
     
     public InputStream getFile(String path) throws IOException;
+
+    public InputStream getFile(String path, long offset) throws IOException;
     
     public void setup(Properties config);
 
