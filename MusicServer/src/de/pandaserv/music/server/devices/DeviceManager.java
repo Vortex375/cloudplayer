@@ -45,21 +45,18 @@ public class DeviceManager {
         return ourInstance;
     }
 
+    public void shutdown() {
+        logger.info("Running shutdown hook: shutting down devices.");
+        for (Device d: devices.values()) {
+            d.shutdown();
+        }
+    }
+
     private DeviceManager() {
         devices = new HashMap<>();
 
         loadDevices();
         logger.info("Loaded {} devices from database.", devices.size());
-
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                logger.info("Running shutdown hook: shutting down devices.");
-                for (Device d: devices.values()) {
-                    d.shutdown();
-                }
-            }
-        });
     }
 
     /**

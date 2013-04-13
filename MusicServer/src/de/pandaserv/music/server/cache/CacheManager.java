@@ -68,7 +68,14 @@ public class CacheManager {
 
         return ourInstance;
     }
-    
+
+    public synchronized void shutdown() {
+        CacheDatabase.getInstance().clear();
+        for (CacheEntry entry: cacheMap.values()) {
+            CacheDatabase.getInstance().putEntry(entry.getId(), entry.getAvailable());
+        }
+    }
+
     private CacheManager(Properties config) {
         cacheMap = new CacheMap();
         currentCacheSize = 0;

@@ -75,7 +75,7 @@ public class TrackDatabase {
                 + "SELECT id, title, artist, album"
                 + " FROM Tracks");
         getTrackInfo = new LocalPreparedStatement(""
-                + "SELECT id, device, title, artist, album, genre, track, year, device_path, cover"
+                + "SELECT id, device, title, artist, album, genre, track, year, duration, device_path, cover"
                 + " FROM Tracks"
                 + " WHERE id=?");
         getTrackLength = new LocalPreparedStatement("" +
@@ -211,8 +211,9 @@ public class TrackDatabase {
                 track.setGenre(rs.getString(6));
                 track.setTrack(rs.getInt(7));
                 track.setYear(rs.getInt(8));
-                track.setDevicePath(rs.getString(9));
-                track.setCover(rs.getString(10));
+                track.setDuration(rs.getInt(9));
+                track.setDevicePath(rs.getString(10));
+                track.setCover(rs.getString(11));
                 return track;
             } else {
                 return null;

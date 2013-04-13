@@ -17,6 +17,7 @@ public class Track implements Serializable, DataType {
     private String genre;
     private int track;
     private int year;
+    private int duration;
     private String devicePath;
     private String cover;
     private Date lastModified;
@@ -25,7 +26,7 @@ public class Track implements Serializable, DataType {
 
     }
 
-    public Track(long id, String device, String title, String artist, String album, String genre, int track, int year, String devicePath, Date lastModified) {
+    public Track(long id, String device, String title, String artist, String album, String genre, int track, int year, int duration, String devicePath, Date lastModified) {
         this.id = id;
         this.device = device;
         this.title = title;
@@ -34,6 +35,7 @@ public class Track implements Serializable, DataType {
         this.genre = genre;
         this.track = track;
         this.year = year;
+        this.duration = duration;
         this.devicePath = devicePath;
         this.lastModified = lastModified;
     }
@@ -100,6 +102,14 @@ public class Track implements Serializable, DataType {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
     public String getDevicePath() {

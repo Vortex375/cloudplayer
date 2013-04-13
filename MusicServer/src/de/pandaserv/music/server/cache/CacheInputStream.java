@@ -65,8 +65,9 @@ public class CacheInputStream extends InputStream {
 
     @Override
     public void close() throws IOException {
-        actualInputStream.close();
         transcodeJob.cancel();
+        //TODO: we don't need to close this!?
+        //actualInputStream.close();
         if (prepareJob != null) {
             prepareJob.cancel();
         }

@@ -78,5 +78,14 @@ public class MusicServer extends Server {
         handlers.setHandlers(new Handler[]{musicService, staticContent});
 
         setHandler(handlers);
+
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                CacheManager.getInstance().shutdown();
+                DeviceManager.getInstance().shutdown();
+                DatabaseManager.getInstance().shutdown();
+            }
+        });
     }
 }

@@ -106,26 +106,23 @@ public class DatabaseManager {
         return ourInstance;
     }
 
+    public void shutdown() {
+        logger.info("Running shutdown hook: sending SHUTDOWN command to database.");
+        try {
+            getConnection().createStatement().executeUpdate("SHUTDOWN");
+            logger.info("Database shut down.");
+        } catch (SQLException e) {
+            logger.error("Unable to close database. There should be no data loss" +
+                    " but the next startup will take longer because HSQLDB will do a transaction replay.");
+            logger.error("Trace: " + e);
+        }
+    }
+
     private DatabaseManager(Properties config) throws SQLException {
         //set the database properties
         DB_PATH = config.getProperty("db_dir");
         JDBC_URL = "jdbc:hsqldb:file:" + DB_PATH + "/db";
         threadLocalConnection = new ThreadLocal<>();
-
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                logger.info("Running shutdown hook: sending SHUTDOWN command to database.");
-                try {
-                    getConnection().createStatement().executeUpdate("SHUTDOWN");
-                    logger.info("Database shut down.");
-                } catch (SQLException e) {
-                    logger.error("Unable to close database. There should be no data loss" +
-                            " but the next startup will take longer because HSQLDB will do a transaction replay.");
-                    logger.error("Trace: " + e);
-                }
-            }
-        });
     }
 
     /* called on startup

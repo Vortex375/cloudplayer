@@ -30,11 +30,6 @@ public class RemoteService implements GwtMusicServiceAsync {
     }
 
     @Override
-    public void prepare(long id, Priority priority, AsyncCallback<Void> callback) {
-        service.prepare(id, priority, callback);
-    }
-
-    @Override
     public void trackQuerySimple(String query, AsyncCallback<RangeResponse<TrackDetail>> callback) {
         service.trackQuerySimple(query, callback);
     }
@@ -42,11 +37,6 @@ public class RemoteService implements GwtMusicServiceAsync {
     @Override
     public void getTrackInfo(long id, AsyncCallback<Track> callback) {
         service.getTrackInfo(id, callback);
-    }
-
-    @Override
-    public void getStatus(long id, AsyncCallback<FileStatus> callback) {
-        service.getStatus(id, callback);
     }
 
     @Override

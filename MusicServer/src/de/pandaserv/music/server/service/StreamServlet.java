@@ -128,9 +128,10 @@ public class StreamServlet extends HttpServlet {
         /*
          * parse stream offset
          */
-        String offsetString;
         int offset;
-        if ((offsetString = request.getHeader("X-Stream-Offset-Seconds")) != null) {
+        String query = request.getQueryString();
+        if (query != null) {
+            String offsetString = query.substring(query.indexOf("offset=") + 7);
             try {
                 offset = Integer.parseInt(offsetString);
             } catch (NumberFormatException e) {
