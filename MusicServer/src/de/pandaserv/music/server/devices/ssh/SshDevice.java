@@ -90,6 +90,7 @@ public class SshDevice implements Device {
         }
         try {
             String command="dd bs=1 skip="+offset+" if=\"" + path + "\"";
+            logger.info("Running {} on remote device", command);
             ChannelExec channel = (ChannelExec) session.openChannel("exec");
             channel.setCommand(command);
             channel.connect();

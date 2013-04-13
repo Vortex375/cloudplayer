@@ -7,9 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7bd93867-2de8-4e07-bcf9-3e56608483f4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/Device.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/Device.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/local/LocalDevice.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/local/LocalDevice.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/ssh/SshDevice.java" afterPath="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/ssh/SshDevice.java" />
     </list>
     <ignored path="MusicServer.iws" />
@@ -90,19 +87,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SshDevice.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="SshDevice.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/devices/ssh/SshDevice.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="91" column="73" selection-start="2107" selection-end="2107" vertical-scroll-proportion="0.0">
+            <state line="92" column="64" selection-start="2172" selection-end="2172" vertical-scroll-proportion="0.6109958">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PrepareJob.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="PrepareJob.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="86" column="89" selection-start="2610" selection-end="2610" vertical-scroll-proportion="0.40456432">
+            <state line="86" column="89" selection-start="2610" selection-end="2610" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -189,8 +186,8 @@
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/CacheInputStream.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/Device.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/local/LocalDevice.java" />
-        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/ssh/SshDevice.java" />
         <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java" />
+        <option value="$PROJECT_DIR$/src/de/pandaserv/music/server/devices/ssh/SshDevice.java" />
       </list>
     </option>
   </component>
@@ -985,16 +982,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/devices/ssh/SshDevice.java">
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="91" column="73" selection-start="2107" selection-end="2107" vertical-scroll-proportion="0.0">
+        <state line="86" column="89" selection-start="2610" selection-end="2610" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/cache/PrepareJob.java">
+    <entry file="file://$PROJECT_DIR$/src/de/pandaserv/music/server/devices/ssh/SshDevice.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="89" selection-start="2610" selection-end="2610" vertical-scroll-proportion="0.40456432">
+        <state line="92" column="64" selection-start="2172" selection-end="2172" vertical-scroll-proportion="0.6109958">
           <folding />
         </state>
       </provider>
