@@ -4,6 +4,7 @@ import com.github.gwtbootstrap.client.ui.Button;
 import com.github.gwtbootstrap.client.ui.TextBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -15,6 +16,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 import de.pandaserv.music.client.misc.JSUtil;
 import de.pandaserv.music.client.widgets.SearchResultsTable;
@@ -57,7 +59,6 @@ public class SearchViewImpl extends Composite implements SearchView {
 
     public SearchViewImpl() {
         initWidget(ourUiBinder.createAndBindUi(this));
-        sinkEvents(Event.ONSCROLL);
 
         autoSearchTimer = new Timer() {
             @Override
@@ -75,27 +76,21 @@ public class SearchViewImpl extends Composite implements SearchView {
             }
         });
 
-        addHandler(new ScrollHandler() {
-            @Override
-            public void onScroll(ScrollEvent scrollEvent) {
-                tableFetchMore();
-            }
-        }, ScrollEvent.getType());
-        //addScrollHandler();
+        addScrollHandler();
     }
 
     private native void addScrollHandler() /*-{
         var that = this;
-        $wnd.$($wnd).on('scroll', function (event) {
-            //that.@de.pandaserv.music.client.views.SearchViewImpl::onScroll()();
+        $wnd.$('#mainView').on('scroll', function (event) {
+            that.@de.pandaserv.music.client.views.SearchViewImpl::tableFetchMore()();
         });
     }-*/;
 
     private void tableFetchMore() {
-        int scrollTop = Window.getScrollTop();
-        if (scrollTop > Document.get().getScrollHeight() - 200) {
-            // 200px before scrolling hits bottom
-            JSUtil.log("scrollEvent: " + scrollTop);
+        Element element = Document.get().getElementById("mainView");
+        JSUtil.log("scroll event: height=" + element.getScrollHeight() + " top=" + element.getScrollTop());
+        if (element.getScrollTop() > element.getScrollHeight() - element.getOffsetHeight() - 400) {
+            // 400px before scrolling hits bottom
             if (resultsTable.isVisible()) {
                 resultsTable.fetchMore();
             }
@@ -105,14 +100,6 @@ public class SearchViewImpl extends Composite implements SearchView {
     @Override
     protected void onAttach() {
         super.onAttach();
-        // fetch more rows when the user scrolls to the bottom of the page
-        GWT.log("add window scroll handler");
-        /*privateHandlers.add(Window.addWindowScrollHandler(new Window.ScrollHandler() {
-            @Override
-            public void onWindowScroll(Window.ScrollEvent scrollEvent) {
-                GWT.log("window scroll");
-            }
-        }));*/
 
         searchBox.setFocus(true);
     }

@@ -235,6 +235,8 @@ public class SearchResultsTable extends CellTable<TrackDetail> {
 
     public void setData(RangeResponse<TrackDetail> data) {
         setRowCount(0);  // hack to clear previous data
+        visibleRows = PAGE_INCREMENT;
+        updateVisibleRange();
         dataProvider.setParameters(data.getQueryId(), data.getTotalCount(), data.getData());
         setRowCount(data.getTotalCount());
     }
@@ -246,6 +248,8 @@ public class SearchResultsTable extends CellTable<TrackDetail> {
 
     public void clear() {
         setRowCount(0);
+        visibleRows = PAGE_INCREMENT;
+        updateVisibleRange();
         dataProvider.setParameters(0, 0, new TrackDetail[0]);
     }
 

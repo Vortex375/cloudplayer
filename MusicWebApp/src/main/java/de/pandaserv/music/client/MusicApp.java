@@ -94,6 +94,7 @@ public class MusicApp {
          * MainView and Presenter (NavBar, Menu etc.)
          */
         mainView = new MainViewImpl();
+        mainView.asWidget().getElement().setId("mainView");
         MainPresenter mainPresenter = new MainPresenter(mainView);
         mainView.setPresenter(mainPresenter);
 
