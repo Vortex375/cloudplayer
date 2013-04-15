@@ -30,6 +30,8 @@ public class TranscodeJob implements Job {
     private Process proc;
     private OutputStream procOutput;
 
+    private Thread executingThread;
+
     public TranscodeJob(long id, InputStream inStream, String transcodeCommand, int seekSeconds) {
         this.id = id;
         this.inStream = inStream;
@@ -73,6 +75,9 @@ public class TranscodeJob implements Job {
     @Override
     public synchronized void cancel() {
         canceled = true;
+        //if (executingThread != null) {
+        //    executingThread.interrupt();
+        //}
     }
 
     public synchronized boolean isCanceled() {
@@ -81,13 +86,14 @@ public class TranscodeJob implements Job {
 
     @Override
     public void run() {
+        executingThread = Thread.currentThread();
         final long jobId = JobManager.getInstance().addJob(this);
         logger.info("Starting transcode job for stream {}", id);
         try {
             // start copy process
             byte[] buf = new byte[COPY_BUFFER_SIZE];
             int read = inStream.read(buf);
-            while (!canceled && read > 0) {
+            while (!isCanceled() && read > 0) {
                 procOutput.write(buf, 0, read);
                 read = inStream.read(buf);
             }
@@ -115,6 +121,7 @@ public class TranscodeJob implements Job {
                 // ignore
             }
         } catch (IOException e) {
+            //Thread.interrupted(); // clear interrupt flag
             logger.error("Transcode job for stream {} interrupted by IOException.", id);
             logger.error("Trace: {}", e);
         } finally {

@@ -144,6 +144,7 @@ public class SearchResultsTable extends CellTable<TrackDetail> {
 
         selectionModel = new MultiSelectionModel<TrackDetail>(KEY_PROVIDER);
         setSelectionModel(selectionModel);
+        setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
         //setKeyboardSelectionPolicy(KeyboardSelectionPolicy.BOUND_TO_SELECTION);
 
         titleColumn = new TextColumn<TrackDetail>() {

@@ -23,6 +23,48 @@ public class StreamServlet extends HttpServlet {
     static final Logger logger = LoggerFactory.getLogger(StreamServlet.class);
 
     private static class StreamJob implements Job {
+        private class InterruptThread extends Thread {
+            private Thread target;
+            private boolean canceled;
+
+            private InterruptThread(Thread target) {
+                this.target = target;
+            }
+
+            public synchronized void cancel() {
+                this.canceled = true;
+            }
+
+            private synchronized boolean isCanceled() {
+                return canceled;
+            }
+
+            @Override
+            public void run() {
+                byte[] nullBuffer = new byte[0];
+                while (!isCanceled()) {
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        return;
+                    }
+                    try {
+                        if (isCanceled()) {
+                            return;
+                        }
+                        //outStream.write(nullBuffer);
+                        // check if output stream is still open by flushing the buffer
+                        //TODO: I highly doubt this works at all :-(
+                        logger.info("Checking if streaming task for {} is still needed.", streamId);
+                        outStream.flush();
+                    } catch (IOException e) {
+                        logger.info("Interrupting sleeping streaming task for {}, because the client has disconnected.", streamId);
+                        target.interrupt();
+                    }
+                }
+            }
+        }
+
 
         private final long streamId; // for debug output only
         private final String client; // ditto
@@ -34,10 +76,11 @@ public class StreamServlet extends HttpServlet {
 
         /**
          * Create new a new StreamJob that streams (audio) data to a client.
-         * @param streamId streamId - for debug purposes
-         * @param client client identifier (e.g. an IP-address) - for debug purposes
+         *
+         * @param streamId  streamId - for debug purposes
+         * @param client    client identifier (e.g. an IP-address) - for debug purposes
          * @param outStream the output stream where the streaming data is written (usually a ServletOutputStream)
-         * @param inStream the input stream where the data to be streamed is read from (usually a CacheInputStream)
+         * @param inStream  the input stream where the data to be streamed is read from (usually a CacheInputStream)
          */
         private StreamJob(long streamId, String client, OutputStream outStream, InputStream inStream) {
             this.streamId = streamId;   // for debug output only
@@ -67,20 +110,25 @@ public class StreamServlet extends HttpServlet {
         public void run() {
             final long jobId = JobManager.getInstance().addJob(this);
 
+            InterruptThread interruptThread = new InterruptThread(Thread.currentThread());
+            interruptThread.start();
+
             byte[] buf = new byte[STREAM_BUFFER_SIZE];
             int read;
             try {
-            logger.info("streaming task started for stream " + streamId);
+                logger.info("streaming task started for stream " + streamId);
                 read = inStream.read(buf, 0, buf.length);
                 while (read > 0) {
                     outStream.write(buf, 0, read);
                     bytesSent += read;
                     read = inStream.read(buf, 0, buf.length);
                 }
+                interruptThread.cancel();
                 outStream.flush();
             } catch (IOException e) {
                 logger.info("streaming task interrupted: " + e.toString());
             } finally {
+                interruptThread.cancel();
                 JobManager.getInstance().removeJob(jobId);
                 try {
                     inStream.close();

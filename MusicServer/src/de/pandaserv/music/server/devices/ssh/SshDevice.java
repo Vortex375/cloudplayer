@@ -21,6 +21,8 @@ public class SshDevice implements Device {
 
     static final Logger logger = LoggerFactory.getLogger(SshDevice.class);
 
+    private final int DD_BLOCKSIZE = 256;
+
     private String name;
     private Status status;
     private String statusMessage;
@@ -89,13 +91,24 @@ public class SshDevice implements Device {
             }
         }
         try {
-            String command="dd bs=1 skip="+offset+" if=\"" + path + "\"";
+            long skip = offset / DD_BLOCKSIZE;
+            String command="dd bs=" + DD_BLOCKSIZE + " skip="+skip+" if=\"" + path + "\"";
             logger.info("Running {} on remote device", command);
             ChannelExec channel = (ChannelExec) session.openChannel("exec");
             channel.setCommand(command);
             channel.connect();
 
-            return channel.getInputStream();
+            InputStream ret = channel.getInputStream();
+            long seek = offset - (skip * DD_BLOCKSIZE);
+            logger.info("Discarding additional {} bytes at start of input", seek);
+            long skipped = ret.skip(seek);
+            if (skipped != seek) {
+                // i don't think this should ever happen
+                logger.error("Tried to skip {} bytes but actually skipped {}. Fail.");
+                return null;
+            }
+
+            return ret;
         } catch (JSchException | IOException e) {
             logger.error("Failed to download file from ssh device.");
             logger.error("Trace:", e);
