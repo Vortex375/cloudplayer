@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.view.client.*;
 import de.pandaserv.music.client.i18n.GuiConstants;
 import de.pandaserv.music.client.remote.MyAsyncCallback;
@@ -133,11 +134,14 @@ public class SearchResultsTable extends CellTable<TrackDetail> {
 
     private int visibleRows;
 
+    private boolean fetchingMore;
+
     public SearchResultsTable() {
         super(PAGE_INCREMENT, (CellTable.SelectableResources) GWT.create(CellTable.SelectableResources.class));
         setTableLayoutFixed(true);
 
         visibleRows = PAGE_INCREMENT;
+        fetchingMore = false;
         sinkEvents(Event.ONDBLCLICK);
 
         trackClickHandlers = new ArrayList<TrackClickHandler>();
@@ -237,19 +241,32 @@ public class SearchResultsTable extends CellTable<TrackDetail> {
         setRowCount(0);  // hack to clear previous data
         visibleRows = PAGE_INCREMENT;
         updateVisibleRange();
+        fetchingMore = false;
         dataProvider.setParameters(data.getQueryId(), data.getTotalCount(), data.getData());
         setRowCount(data.getTotalCount());
     }
 
     public void fetchMore() {
+        if (fetchingMore) {
+            return;
+        }
+        fetchingMore = true;
         visibleRows += PAGE_INCREMENT;
         updateVisibleRange();
+        // fetch more just every so often
+        new Timer() {
+            @Override
+            public void run() {
+                fetchingMore = false;
+            }
+        }.schedule(1);
     }
 
     public void clear() {
         setRowCount(0);
         visibleRows = PAGE_INCREMENT;
         updateVisibleRange();
+        fetchingMore = false;
         dataProvider.setParameters(0, 0, new TrackDetail[0]);
     }
 

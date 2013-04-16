@@ -4,12 +4,14 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.gwt.view.client.Range;
 import de.pandaserv.music.server.database.TrackDatabase;
 import de.pandaserv.music.server.database.UserDatabase;
+import de.pandaserv.music.server.database.VfsDatabase;
 import de.pandaserv.music.server.misc.SessionUtil;
 import de.pandaserv.music.shared.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -134,6 +136,58 @@ public class GwtMusicServiceImpl extends RemoteServiceServlet implements GwtMusi
             throw new AccessDeniedException();
         }
         return TrackDatabase.getInstance().getTrackInfo(id);
+    }
+
+    @Override
+    public RangeResponse<Directory> listDir(String device, String path) throws AccessDeniedException {
+        if (SessionUtil.getUserId(getThreadLocalRequest().getSession()) < 0) {
+            // not logged in
+            throw new AccessDeniedException();
+        }
+        //TODO
+        return null;
+    }
+
+    @Override
+    public RangeResponse<Directory> listDir(long id) throws AccessDeniedException {
+        if (SessionUtil.getUserId(getThreadLocalRequest().getSession()) < 0) {
+            // not logged in
+            throw new AccessDeniedException();
+        }
+        //TODO
+        return null;
+    }
+
+    @Override
+    public boolean updateVfs() throws AccessDeniedException {
+        //TODO: only admin can do this
+        if (SessionUtil.getUserId(getThreadLocalRequest().getSession()) < 0) {
+            // not logged in
+            throw new AccessDeniedException();
+        }
+        try {
+            VfsDatabase.getInstance().update();
+        } catch (SQLException e) {
+            logger.error("Updating vfs failed: ", e);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean rebuildVfs() throws AccessDeniedException {
+        //TODO: only admin can do this
+        if (SessionUtil.getUserId(getThreadLocalRequest().getSession()) < 0) {
+            // not logged in
+            throw new AccessDeniedException();
+        }
+        try {
+            VfsDatabase.getInstance().rebuild();
+        } catch (SQLException e) {
+            logger.error("Rebuilding vfs failed: ", e);
+            return false;
+        }
+        return true;
     }
 
     @Override

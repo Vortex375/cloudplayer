@@ -6,6 +6,7 @@ package de.pandaserv.music.server;
 
 import de.pandaserv.music.server.cache.CacheManager;
 import de.pandaserv.music.server.database.DatabaseManager;
+import de.pandaserv.music.server.database.VfsDatabase;
 import de.pandaserv.music.server.devices.DeviceManager;
 import de.pandaserv.music.server.jobs.JobManager;
 import de.pandaserv.music.server.service.MusicService;
@@ -57,7 +58,21 @@ public class MusicServer extends Server {
         if (sshPort > 0) {
             SshPortForwardService.setup(sshPort);
         }
-        
+
+        // refresh virtual File System
+        new Thread() {
+            @Override
+            public void run() {
+                logger.info("Refreshing virtual file system");
+                try {
+                    VfsDatabase.getInstance().update();
+                    logger.info("Refreshing virtual file system complete.");
+                } catch (SQLException e) {
+                    logger.error("Refreshing virtual file system failed: ", e);
+                }
+            }
+        }.start();
+
         // set up http server
 
         // static web app content

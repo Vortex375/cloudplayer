@@ -25,5 +25,11 @@ public interface GwtMusicService extends RemoteService {
     public RangeResponse<TrackDetail> trackQuerySimple(String query) throws AccessDeniedException;
     public Track getTrackInfo(long id) throws AccessDeniedException;
 
+    // vfs methods
+    public RangeResponse<Directory> listDir(String device, String path) throws AccessDeniedException;
+    public RangeResponse<Directory> listDir(long id) throws AccessDeniedException;
+    public boolean updateVfs() throws AccessDeniedException;
+    public boolean rebuildVfs() throws AccessDeniedException;
+
     public RangeResponse<TrackDetail> getTrackDetailRange(long queryId, Range range) throws AccessDeniedException;
 }

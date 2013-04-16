@@ -4,6 +4,7 @@ import de.pandaserv.music.server.cache.CacheManager;
 import de.pandaserv.music.server.jobs.Job;
 import de.pandaserv.music.server.jobs.JobManager;
 import de.pandaserv.music.server.misc.HttpUtil;
+import de.pandaserv.music.server.misc.SessionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -146,10 +147,10 @@ public class StreamServlet extends HttpServlet {
         /*
          * check access privileges
          */
-//        if (SessionUtil.getUserId(request.getSession()) < 0) {
-//            HttpUtil.fail(HttpServletResponse.SC_FORBIDDEN, "You must log in to access this interface.", response);
-//            return;
-//        }
+        if (SessionUtil.getUserId(request.getSession()) < 0) {
+            HttpUtil.fail(HttpServletResponse.SC_FORBIDDEN, "You must log in to access this interface.", response);
+            return;
+        }
 
         /*
          * check if stream id was specified
