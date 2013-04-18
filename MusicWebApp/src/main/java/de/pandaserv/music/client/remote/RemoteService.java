@@ -58,4 +58,24 @@ public class RemoteService implements GwtMusicServiceAsync {
     public void getTrackDetailRange(long queryId, Range range, AsyncCallback<RangeResponse<TrackDetail>> callback) {
         service.getTrackDetailRange(queryId, range, callback);
     }
+
+    @Override
+    public void listDir(String device, String path, AsyncCallback<RangeResponse<Directory>> callback) {
+        service.listDir(device, path, callback);
+    }
+
+    @Override
+    public void listDir(long id, AsyncCallback<RangeResponse<Directory>> callback) {
+        service.listDir(id, callback);
+    }
+
+    @Override
+    public void updateVfs(AsyncCallback<Boolean> callback) {
+        service.updateVfs(callback);
+    }
+
+    @Override
+    public void rebuildVfs(AsyncCallback<Boolean> callback) {
+        service.rebuildVfs(callback);
+    }
 }

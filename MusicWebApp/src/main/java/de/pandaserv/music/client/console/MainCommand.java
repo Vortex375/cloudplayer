@@ -53,6 +53,8 @@ public class MainCommand implements Runnable {
             new UserCommand(console, args).run();
         } else if (command.equals("device")) {
             new DeviceCommand(console, args).run();
+        } else if (command.equals("vfs")) {
+            new VfsCommand(console, args).run();
         } else {
             console.print("Unknown command. Type 'help' for a list of available commands.");
             run();
@@ -88,6 +90,12 @@ public class MainCommand implements Runnable {
                         "Note that this will also remove all tracks from this devices from the database.");
                 console.print("device set <name> <property> <value>: set a property value for a device.");
                 console.print("device unset <name> <property>: unset a property for a device.");
+            } else if (args[0].equals("vfs")) {
+                console.print("");
+                console.print("Help for command 'vfs':");
+                console.print("");
+                console.print("vfs update: update the virtual filesystem database (e.g. after adding or removing tracks)");
+                console.print("vfs rebuild: delete and rebuild the entire virtual filesystem database");
             } else {
                 console.print("No help available for '" + args[0] + "'. Type 'help' for a list of available commands.");
             }
@@ -97,6 +105,7 @@ public class MainCommand implements Runnable {
             console.print("");
             console.print("'user': modify user accounts.");
             console.print("'device': modify devices (media sources).");
+            console.print("'vfs': update or rebuild the virtual filesystem database");
             console.print("");
             console.print("Type 'help <command>' to view detailed options for each command.");
         }

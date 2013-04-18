@@ -8,11 +8,13 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 import de.pandaserv.music.client.console.Console;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,17 +25,24 @@ import de.pandaserv.music.client.console.Console;
  */
 public class HtmlConsole extends FlowPanel implements Console {
     private boolean promptShowing;
+    private boolean waitShowing;
 
     private Label promptLabel;
 
     private Label prompt;
     private Icon loadingIcon;
 
+    private List<String> history;
+    private int historyPos;
+
     private HandlerRegistration inputHandler;
 
     private Runnable mainCommand;
 
     public HtmlConsole() {
+        history = new ArrayList<String>();
+        historyPos = 0;
+
         addStyleName("console");
         promptShowing = false;
         promptLabel = new Label();
@@ -69,6 +78,7 @@ public class HtmlConsole extends FlowPanel implements Console {
         }
 
         super.clear();
+        showWait(false); // hide loading icon on clear
 
         if (promptWasShowing) {
             showPrompt();
@@ -76,6 +86,9 @@ public class HtmlConsole extends FlowPanel implements Console {
     }
 
     public void print(String message) {
+        boolean waitWasShowing = waitShowing;
+        showWait(false);
+
         boolean promptWasShowing = false;
         if (promptShowing) {
             promptWasShowing = true;
@@ -88,14 +101,10 @@ public class HtmlConsole extends FlowPanel implements Console {
         msg.setInnerText(message);
         getElement().appendChild(msg);
 
-        // delay re-showing of prompt to work around DOM issues
+        showWait(waitWasShowing);
+
         if (promptWasShowing) {
-            new Timer() {
-                @Override
-                public void run() {
-                    showPrompt();
-                }
-            }.schedule(10);
+            showPrompt();
         }
     }
 
@@ -105,21 +114,62 @@ public class HtmlConsole extends FlowPanel implements Console {
         inputHandler = prompt.addHandler(new KeyDownHandler() {
             @Override
             public void onKeyDown(KeyDownEvent event) {
+                /*
+                 * submit input when pressing the enter key
+                 */
                 if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
                     event.stopPropagation();
                     event.preventDefault();
                     removeInputHandler();
                     hidePrompt();
+                    history.add(prompt.getText());
+                    historyPos = history.size();
                     callback.onInput(prompt.getText());
+                } else if (event.getNativeKeyCode() == KeyCodes.KEY_UP) {
+                    /*
+                     * browse through history with up and down keys
+                     */
+                    historyPos--;
+                    if (historyPos < 0) {
+                        // reached the end
+                        historyPos++;
+                        return;
+                    }
+
+                    prompt.setText(history.get(historyPos));
+                } else if (event.getNativeKeyCode() == KeyCodes.KEY_DOWN) {
+                    historyPos++;
+                    if (historyPos >= history.size()) {
+                        // reached the end
+                        historyPos--;
+                        return;
+                    }
+
+                    prompt.setText(history.get(historyPos));
                 }
             }
         }, KeyDownEvent.getType());
         showPrompt();
     }
 
-     //TODO: inputHidden() for passwords etc.
+    @Override
+    public void showWait(boolean show) {
+        if (show && !waitShowing) {
+            add(loadingIcon);
+        } else if (!show && waitShowing) {
+            remove(loadingIcon);
+        }
+
+        waitShowing = show;
+    }
+
+    //TODO: inputHidden() for passwords etc.
 
     private void showPrompt() {
+        // always hide wait icon when showing prompt
+        // even when the current command did not hide it
+        showWait(false);
+
         add(promptLabel);
         add(prompt);
         prompt.getElement().focus();

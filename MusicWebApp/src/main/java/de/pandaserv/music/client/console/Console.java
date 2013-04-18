@@ -18,4 +18,5 @@ public interface Console {
     public void clear();
     public void print(String message);
     public void input(String message, final InputCallback callback);
+    public void showWait(boolean show);
 }

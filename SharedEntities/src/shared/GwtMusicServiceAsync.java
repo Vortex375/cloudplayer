@@ -23,4 +23,13 @@ public interface GwtMusicServiceAsync {
     void getCurrentUserInfo(AsyncCallback<UserInfo> callback);
 
     void getTrackDetailRange(long queryId, Range range, AsyncCallback<RangeResponse<TrackDetail>> async);
+
+    // vfs methods
+    void listDir(String device, String path, AsyncCallback<RangeResponse<Directory>> async);
+
+    void listDir(long id, AsyncCallback<RangeResponse<Directory>> async);
+
+    void updateVfs(AsyncCallback<Boolean> async);
+
+    void rebuildVfs(AsyncCallback<Boolean> async);
 }
