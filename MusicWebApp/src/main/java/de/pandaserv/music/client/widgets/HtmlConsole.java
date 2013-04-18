@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.web.bindery.event.shared.HandlerRegistration;
@@ -111,6 +112,7 @@ public class HtmlConsole extends FlowPanel implements Console {
     public void input(String message, final InputCallback callback) {
         promptLabel.setText(message);
         prompt.setText(""); // clear prompt
+        prompt.getElement().setInnerHTML("&#8203;"); // insert unicode zero width space to work around firefox focus bug
         inputHandler = prompt.addHandler(new KeyDownHandler() {
             @Override
             public void onKeyDown(KeyDownEvent event) {
@@ -122,8 +124,18 @@ public class HtmlConsole extends FlowPanel implements Console {
                     event.preventDefault();
                     removeInputHandler();
                     hidePrompt();
+
+                    /*
+                     * add input to history
+                     */
                     history.add(prompt.getText());
                     historyPos = history.size();
+
+                    /*
+                     * output input on the console
+                     */
+                    print(promptLabel.getText() + " " + prompt.getText());
+
                     callback.onInput(prompt.getText());
                 } else if (event.getNativeKeyCode() == KeyCodes.KEY_UP) {
                     /*
@@ -172,7 +184,12 @@ public class HtmlConsole extends FlowPanel implements Console {
 
         add(promptLabel);
         add(prompt);
-        prompt.getElement().focus();
+        new Timer() {
+            @Override
+            public void run() {
+                prompt.getElement().focus();
+            }
+        }.schedule(1);
         promptShowing = true;
     }
 

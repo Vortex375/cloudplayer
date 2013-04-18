@@ -28,6 +28,11 @@ public class MainCommand implements Runnable {
 
     private void input(String input) {
         String[] split = input.split(" ");
+        for (int i = 0; i < split.length; i++) {
+            // remove excess white-space
+            split[i] = split[i].trim().replace("\u200B", ""); // replace zero width space character
+        }
+
         if (split.length < 1) {
             // no command
             run();
@@ -56,7 +61,7 @@ public class MainCommand implements Runnable {
         } else if (command.equals("vfs")) {
             new VfsCommand(console, args).run();
         } else {
-            console.print("Unknown command. Type 'help' for a list of available commands.");
+            console.print("Unknown command: " + command + ". Type 'help' for a list of available commands.");
             run();
         }
     }
