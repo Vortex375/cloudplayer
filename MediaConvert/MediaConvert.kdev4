@@ -1,0 +1,4 @@
+[Project]
+Name=MediaConvert
+Manager=KDevCMakeManager
+VersionControl=kdevgit
