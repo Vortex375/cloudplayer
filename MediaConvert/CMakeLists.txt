@@ -5,9 +5,9 @@ include(FindPkgConfig)
 find_package(Qt4 REQUIRED)
 pkg_search_module(GST REQUIRED gstreamer-1.0)
 
-include_directories(${QT_INCLUDES} ${GST_INCLUDE_DIRS})
+include_directories(${QT_INCLUDES} ${GST_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR})
 
-set(MediaConvert_SRCS main.cpp)
+set(MediaConvert_SRCS main.cpp Application.cpp MediaConvert.cpp InitException.cpp)
 
 qt4_automoc(${MediaIndex_SRCS})
 

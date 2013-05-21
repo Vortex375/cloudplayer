@@ -20,44 +20,21 @@
 #ifndef MEDIA_CONVERT_H
 #define MEDIA_CONVERT_H
 
-#include <QtCore/QObject>
-
-extern "C" {
-    #include <gst/gst.h>
-}
+#include <QCoreApplication>
 
 #include "InitException.h"
 
-class MediaConvert : public QObject{
+class Application : public QCoreApplication {
 Q_OBJECT
 
 
 public:
-    MediaConvert() throw (InitException);
-    virtual ~MediaConvert();
-    
-    void reset();
-    void pause();
-    void play();
-    
-    void seek(double seconds);
-    
-    
-signals:
-    void error(char* msg);
+    Application(int& argc, char** argv, int  = ApplicationFlags);
+    virtual ~Application();
 
 //protected:
     
-private:
-    static const char* GST_PIPELINE = "fdsrc name=src ! decodebin name=decode"
-            " ! queue ! audioconvert ! audioresample ! vorbisenc quality=0.6" //TODO: make quality configurable
-            " ! webmmux name=mux streamable=true ! fdsink name=sink";
-    
-    GstElement* mPipeline;
-    
-    static gboolean busCall(GstBus *bus, GstMessage *msg, gpointer data);
-    emitError(char* msg);
-    
+//private:
 };
 
 #endif // MEDIA_CONVERT_H
