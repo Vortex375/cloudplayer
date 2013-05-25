@@ -1,6 +1,6 @@
 #include <iostream>
-#include <QCoreApplication>
 #include "MediaConvert.h"
+#include "Application.h"
 
 extern "C" {
     #include <gst/gst.h>
@@ -11,12 +11,7 @@ int main(int argc, char **argv) {
     gst_init(&argc, &argv);
     
     // initialize QApplication
-    QCoreApplication app(&argc, argv);
-    
-    MediaConvert mediaConvert();
-    
-    // quit application on error
-    QObject::connect(mediaConvert, SIGNAL(error(char*)), app, SLOT(quit()));
+    Application app(argc, argv);
     
     // start main loop
     return app.exec();

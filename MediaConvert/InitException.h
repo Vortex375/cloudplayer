@@ -8,12 +8,12 @@ using namespace std;
 class InitException: public exception
 {
 public:
-    InitException(char* msg);
+    InitException(const char* msg);
     
     virtual const char* what() const throw();
     
 private:
-    char* msg;
+    const char* msg;
 };
 
 #endif // INIT_EXCEPTION_H

@@ -2,13 +2,13 @@
 
 #include <string.h>
 
-InitException::InitException(char* msg)
+InitException::InitException(const char* msg)
 {
     this->msg = strdup(msg);
 }
 
 
-const char* InitException::what() const
+const char* InitException::what() const throw()
 {
     return msg;
 }

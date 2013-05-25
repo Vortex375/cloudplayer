@@ -17,16 +17,16 @@
 */
 
 
-#ifndef MEDIA_CONVERT_H
-#define MEDIA_CONVERT_H
+#ifndef APPLICATION_H
+#define APPLICATION_H
 
 #include <QCoreApplication>
 
 #include "InitException.h"
+#include "MediaConvert.h"
 
 class Application : public QCoreApplication {
 Q_OBJECT
-
 
 public:
     Application(int& argc, char** argv, int  = ApplicationFlags);
@@ -34,7 +34,8 @@ public:
 
 //protected:
     
-//private:
+public slots:
+  void onError(char* msg);
 };
 
-#endif // MEDIA_CONVERT_H
+#endif // APPLICATION_H

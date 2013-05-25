@@ -25,11 +25,11 @@ gboolean MediaConvert::busCall(GstBus* bus, GstMessage* msg, gpointer data)
     return TRUE;
 }
 
-MediaConvert::MediaConvert()
+MediaConvert::MediaConvert() throw (InitException)
 {
     GError* error;
 
-    mPipeline = gst_parse_launch(GST_PIPELINE, &error);
+    mPipeline = gst_parse_launch(MEDIACONVERT_TRANSCODE_PIPELINE, &error);
 
     if (!mPipeline) {
         // pipeline construction failed
@@ -42,5 +42,43 @@ MediaConvert::~MediaConvert()
 {
 
 }
+
+void MediaConvert::emitError(char* msg)
+{
+  emit error(msg);
+}
+
+void MediaConvert::pause()
+{
+  gst_element_set_state(mPipeline, GST_STATE_PAUSED);
+}
+
+void MediaConvert::play()
+{
+  gst_element_set_state(mPipeline, GST_STATE_PLAYING);
+}
+
+void MediaConvert::reset()
+{
+  // reset pipeline
+  gst_element_set_state(mPipeline, GST_STATE_NULL);
+  
+  // free the current pipeline and construct a new one, just to be safe
+  gst_object_unref(mPipeline);
+  
+  GError* error;
+
+  mPipeline = gst_parse_launch(MEDIACONVERT_TRANSCODE_PIPELINE, &error);
+  
+  if (!mPipeline) {
+    emitError("unable to reset pipeline");
+  }
+}
+
+void MediaConvert::seek(double seconds)
+{
+
+}
+
 
 #include "MediaConvert.moc"

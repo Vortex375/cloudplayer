@@ -28,6 +28,11 @@ extern "C" {
 
 #include "InitException.h"
 
+//TODO: make quality configurable
+#define MEDIACONVERT_TRANSCODE_PIPELINE "fdsrc name=src ! decodebin name=decode" \
+            " ! queue ! audioconvert ! audioresample ! vorbisenc quality=0.6" \
+            " ! webmmux name=mux streamable=true ! fdsink name=sink"
+
 class MediaConvert : public QObject{
 Q_OBJECT
 
@@ -49,14 +54,10 @@ signals:
 //protected:
     
 private:
-    static const char* GST_PIPELINE = "fdsrc name=src ! decodebin name=decode"
-            " ! queue ! audioconvert ! audioresample ! vorbisenc quality=0.6" //TODO: make quality configurable
-            " ! webmmux name=mux streamable=true ! fdsink name=sink";
-    
     GstElement* mPipeline;
     
     static gboolean busCall(GstBus *bus, GstMessage *msg, gpointer data);
-    emitError(char* msg);
+    void emitError(char* msg);
     
 };
 
