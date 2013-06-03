@@ -7,8 +7,8 @@ gboolean MediaConvert::busCall(GstBus* bus, GstMessage* msg, gpointer data)
     switch (GST_MESSAGE_TYPE (msg)) {
 
     case GST_MESSAGE_ERROR: {
-        gchar  *debug;
-        GError *error;
+        gchar  *debug = NULL;
+        GError *error = NULL;
 
         gst_message_parse_error (msg, &error, &debug);
         g_free (debug);
@@ -27,7 +27,7 @@ gboolean MediaConvert::busCall(GstBus* bus, GstMessage* msg, gpointer data)
 
 MediaConvert::MediaConvert() throw (InitException)
 {
-    GError* error;
+    GError* error = NULL;
 
     mPipeline = gst_parse_launch(MEDIACONVERT_TRANSCODE_PIPELINE, &error);
 
@@ -77,7 +77,7 @@ void MediaConvert::reset()
 
 void MediaConvert::seek(double seconds)
 {
-
+  gst_element_seek_simple(mPipeline, GST_FORMAT_TIME, GST_SEEK_FLAG_FLUSH, (gint64) (seconds * GST_SECOND));
 }
 
 

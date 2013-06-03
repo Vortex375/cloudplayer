@@ -21,9 +21,11 @@
 #define APPLICATION_H
 
 #include <QCoreApplication>
+#include <QThread>
 
 #include "InitException.h"
 #include "MediaConvert.h"
+#include "InputReader.h"
 
 class Application : public QCoreApplication {
 Q_OBJECT
@@ -36,6 +38,13 @@ public:
     
 public slots:
   void onError(char* msg);
+  
+  void testMessage(QString msg);
+  
+private:
+    MediaConvert *mediaConvert;
+    InputReader *inputReader;
+    QThread *inputThread;
 };
 
 #endif // APPLICATION_H
