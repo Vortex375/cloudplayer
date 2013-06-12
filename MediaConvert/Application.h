@@ -33,13 +33,17 @@ Q_OBJECT
 public:
     Application(int& argc, char** argv, int  = ApplicationFlags);
     virtual ~Application();
+    
+    static void signal_handler(int signal);
 
 //protected:
     
 public slots:
+  virtual void quit();
+    
   void onError(char* msg);
   
-  void testMessage(QString msg);
+  void onMessage(QString msg);
   
 private:
     MediaConvert *mediaConvert;

@@ -55,6 +55,7 @@ signals:
     
 private:
     GstElement* mPipeline;
+    guint mBusWatch;
     
     static gboolean busCall(GstBus *bus, GstMessage *msg, gpointer data);
     void emitError(char* msg);

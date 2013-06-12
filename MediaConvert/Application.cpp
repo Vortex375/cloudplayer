@@ -1,6 +1,7 @@
 #include "Application.h"
 
 #include <iostream>
+#include <functional>
 
 #include <QDebug>
 #include <QFile>
@@ -9,30 +10,37 @@ Application::Application(int& argc, char** argv, int ): QCoreApplication(argc, a
 {
   mediaConvert = new MediaConvert();
   
-  QFile *inFile = new QFile();
-  inFile->open(stdin, QIODevice::ReadOnly);
-  
-  inputReader = new InputReader(inFile);
+  inputReader = new InputReader();
   inputThread = new QThread();
   inputReader->moveToThread(inputThread);
     
   // quit application on error
   connect(mediaConvert, SIGNAL(error(char*)), this, SLOT(onError(char*)));
-  // receive message (test)
-  connect(inputReader, SIGNAL(message(QString)), this, SLOT(testMessage(QString)));
+  // receive message 
+  connect(inputReader, SIGNAL(message(QString)), this, SLOT(onMessage(QString)));
   
+  
+  connect(inputThread, SIGNAL(started()), inputReader, SLOT(start()));
   inputThread->start();
 }
 
 Application::~Application()
-{
-    inputReader->stop();
-    inputThread->wait();
-    
+{ 
     delete inputThread;
     delete inputReader;
     delete mediaConvert;
 }
+
+void Application::quit()
+{
+    qDebug() << "exiting...";
+    mediaConvert->reset();
+    inputReader->stop();
+    inputThread->quit();
+    inputThread->wait();
+    QCoreApplication::quit();
+}
+
 
 void Application::onError(char* msg)
 {
@@ -40,9 +48,17 @@ void Application::onError(char* msg)
   this->exit(1);
 }
 
-void Application::testMessage(QString msg)
+void Application::onMessage(QString msg)
 {
-    qDebug() << msg;
+    qDebug() << msg << " compare: " << QString::compare(msg, QString("q"));
+    if (QString::compare(msg, QString("q")) == 0) {
+        quit();
+    }
+}
+
+void Application::signal_handler(int signal)
+{
+    ((Application *) QCoreApplication::instance())->quit();
 }
 
 

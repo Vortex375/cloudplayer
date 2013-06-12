@@ -28,7 +28,7 @@ Q_OBJECT
 
 
 public:
-    InputReader(QFile *inFile);
+    InputReader();
     virtual ~InputReader();
     
 public slots:

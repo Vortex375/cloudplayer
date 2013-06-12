@@ -1,14 +1,22 @@
 #include "InputReader.h"
+#include <iostream>
 
-InputReader::InputReader(QFile *inFile): QObject()
+#include <QDebug>
+
+InputReader::InputReader(): QObject()
 {
-    this->inFile = inFile;
+    inFile = new QFile();
+    inFile->open(stdin, QIODevice::ReadOnly);
+    qDebug() << "opened stdin";
 }
 
 
 InputReader::~InputReader()
 {
-    inFile->close();
+    if (inFile->isOpen()) {
+        inFile->close();
+        qDebug() << "closed stdin";
+    }
 }
 
 void InputReader::start()
@@ -17,22 +25,27 @@ void InputReader::start()
     
     char buf[1024];
     while (allowWork) {
+        //qDebug() << "waiting for input...";
         qint64 read = inFile->readLine(buf, sizeof(buf));
+        QString msg = QString::fromLocal8Bit(buf, read);
+        //qDebug() << "read: " << msg;
         
         if (read < 0) {
             break;
         }
         
-        QString msg = QString::fromLocal8Bit(buf, read);
         msg = msg.trimmed();
         
         emit message(msg);
     }
+    qDebug() << "input reader finished";
 }
 
 void InputReader::stop()
 {
     allowWork = false;
+    inFile->close();
+    qDebug() << "closed stdin";
 }
 
 
