@@ -21,6 +21,6 @@ int main(int argc, char **argv) {
     signal(SIGINT, &(app.signal_handler));
     
     // start main loop
-    std::cout << "starting main loop";
+    //std::cout << "starting main loop";
     return app.exec();
 }

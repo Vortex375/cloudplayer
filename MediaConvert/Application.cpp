@@ -8,24 +8,31 @@
 
 Application::Application(int& argc, char** argv, int ): QCoreApplication(argc, argv)
 {
-  mediaConvert = new MediaConvert();
-  
-  inputReader = new InputReader();
-  inputThread = new QThread();
-  inputReader->moveToThread(inputThread);
+    if (argc < 2) {
+        std::cout << "Missing input filename" << std::endl;
+        std::exit(1);
+    }
+
+    mediaConvert = new MediaConvert(argv[1]);
+
+    inputReader = new InputReader();
+    inputThread = new QThread();
+    inputReader->moveToThread(inputThread);
+
+    // quit application on error
+    connect(mediaConvert, SIGNAL(error(char*)), this, SLOT(onError(char*)));
+    // receive message
+    connect(inputReader, SIGNAL(message(QString)), this, SLOT(onMessage(QString)));
+
+
+    connect(inputThread, SIGNAL(started()), inputReader, SLOT(start()));
+    inputThread->start();
     
-  // quit application on error
-  connect(mediaConvert, SIGNAL(error(char*)), this, SLOT(onError(char*)));
-  // receive message 
-  connect(inputReader, SIGNAL(message(QString)), this, SLOT(onMessage(QString)));
-  
-  
-  connect(inputThread, SIGNAL(started()), inputReader, SLOT(start()));
-  inputThread->start();
+    mediaConvert->pause();
 }
 
 Application::~Application()
-{ 
+{
     delete inputThread;
     delete inputReader;
     delete mediaConvert;
@@ -33,7 +40,7 @@ Application::~Application()
 
 void Application::quit()
 {
-    qDebug() << "exiting...";
+    //qDebug() << "exiting...";
     mediaConvert->reset();
     inputReader->stop();
     inputThread->quit();
@@ -44,15 +51,25 @@ void Application::quit()
 
 void Application::onError(char* msg)
 {
-  std::cout << "Fatal Error: " << msg << std::endl;
-  this->exit(1);
+    std::cout << "Fatal Error: " << msg << std::endl;
+    this->exit(1);
 }
 
 void Application::onMessage(QString msg)
 {
-    qDebug() << msg << " compare: " << QString::compare(msg, QString("q"));
+    //qDebug() << msg << " compare: " << QString::compare(msg, QString("q"));
     if (QString::compare(msg, QString("q")) == 0) {
         quit();
+    } else if (QString::compare(msg, QString("play")) == 0) {
+        mediaConvert->play();
+    } else if (QString::compare(msg, QString("pause")) == 0) {
+        mediaConvert->pause();
+    } else if (msg.startsWith(QString("seek:"))) {
+        // parse seek
+        QByteArray data = msg.toLocal8Bit();
+        //qDebug() << "seek data: " << data.constData() + 5;
+        double seconds = atof(data.constData() + 5);
+        mediaConvert->seek(seconds);
     }
 }
 

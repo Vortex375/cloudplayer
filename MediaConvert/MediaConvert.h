@@ -29,16 +29,18 @@ extern "C" {
 #include "InitException.h"
 
 //TODO: make quality configurable
-#define MEDIACONVERT_TRANSCODE_PIPELINE "fdsrc name=src ! decodebin name=decode" \
-            " ! queue ! audioconvert ! audioresample ! vorbisenc quality=0.6" \
+#define MEDIACONVERT_TRANSCODE_PIPELINE "filesrc name=src ! decodebin name=decode" \
+            " ! queue name=queue ! audioconvert name=conv ! audioresample ! vorbisenc quality=0.6" \
             " ! webmmux name=mux streamable=true ! fdsink name=sink"
+//#define MEDIACONVERT_TRANSCODE_PIPELINE "filesrc name=src ! decodebin name=decode ! queue name=queue ! audioconvert name=conv ! audioresample ! pulsesink"
+
 
 class MediaConvert : public QObject{
 Q_OBJECT
 
 
 public:
-    MediaConvert() throw (InitException);
+    MediaConvert(char* infile) throw (InitException);
     virtual ~MediaConvert();
     
     void reset();
@@ -54,8 +56,13 @@ signals:
 //protected:
     
 private:
+    char* infile;
     GstElement* mPipeline;
+    GstElement* fakesink;
     guint mBusWatch;
+    
+    bool seekPending;
+    double seekPos;
     
     static gboolean busCall(GstBus *bus, GstMessage *msg, gpointer data);
     void emitError(char* msg);

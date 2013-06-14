@@ -7,7 +7,7 @@ InputReader::InputReader(): QObject()
 {
     inFile = new QFile();
     inFile->open(stdin, QIODevice::ReadOnly);
-    qDebug() << "opened stdin";
+    //qDebug() << "opened stdin";
 }
 
 
@@ -15,7 +15,7 @@ InputReader::~InputReader()
 {
     if (inFile->isOpen()) {
         inFile->close();
-        qDebug() << "closed stdin";
+        //qDebug() << "closed stdin";
     }
 }
 
@@ -30,7 +30,7 @@ void InputReader::start()
         QString msg = QString::fromLocal8Bit(buf, read);
         //qDebug() << "read: " << msg;
         
-        if (read < 0) {
+        if (read <= 0) {
             break;
         }
         
@@ -38,14 +38,14 @@ void InputReader::start()
         
         emit message(msg);
     }
-    qDebug() << "input reader finished";
+    //qDebug() << "input reader finished";
 }
 
 void InputReader::stop()
 {
     allowWork = false;
     inFile->close();
-    qDebug() << "closed stdin";
+    //qDebug() << "closed stdin";
 }
 
 

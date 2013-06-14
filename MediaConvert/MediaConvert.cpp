@@ -1,5 +1,7 @@
 #include "MediaConvert.h"
 
+#include <QDebug>
+
 gboolean MediaConvert::busCall(GstBus* bus, GstMessage* msg, gpointer data)
 {
     MediaConvert* that = (MediaConvert *) data;
@@ -18,6 +20,20 @@ gboolean MediaConvert::busCall(GstBus* bus, GstMessage* msg, gpointer data)
         g_error_free (error);
         break;
     }
+    case GST_MESSAGE_STATE_CHANGED: {
+        if (GST_MESSAGE_SRC(msg) == (GstObject *) that->mPipeline) {
+            GstState oldState;
+            GstState newState;
+            GstState pending;
+            
+            gst_message_parse_state_changed(msg, &oldState, &newState, &pending);
+            
+            if (newState == GST_STATE_PAUSED && that->seekPending) {
+                gst_element_seek_simple(that->mPipeline, GST_FORMAT_TIME, (GstSeekFlags) (GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT), (gint64) (that->seekPos * GST_SECOND));
+                that->seekPending = false;
+            }
+        }
+    }
     default:
         break;
     }
@@ -25,9 +41,13 @@ gboolean MediaConvert::busCall(GstBus* bus, GstMessage* msg, gpointer data)
     return TRUE;
 }
 
-MediaConvert::MediaConvert() throw (InitException)
+MediaConvert::MediaConvert(char* infile) throw (InitException)
 {
+    this->infile = infile;
+    
     mPipeline = NULL;
+    fakesink = NULL;
+    seekPending = false;
 
     reset();
 
@@ -60,25 +80,44 @@ void MediaConvert::play()
 
 void MediaConvert::reset()
 {
+    seekPending = false;
+    
     if (mPipeline) {
         // reset pipeline
         gst_element_set_state(mPipeline, GST_STATE_NULL);
         
         // free the current pipeline and construct a new one, just to be safe
         gst_object_unref(mPipeline);
+        mPipeline = NULL;
         
         // disconnect bus message handler
         g_source_remove(mBusWatch);
     }
+    
+    if (fakesink) {
+        gst_object_unref(fakesink);
+        fakesink = NULL;
+    }
 
     GError* error = NULL;
 
+    // construct pipeline
     mPipeline = gst_parse_launch(MEDIACONVERT_TRANSCODE_PIPELINE, &error);
-
     if (!mPipeline) {
         emitError("unable to reset pipeline");
         return;
     }
+    
+    // create fakesink
+    fakesink = gst_element_factory_make("fakesink", "fakesink");
+    
+    // set source property
+    GstElement* src = gst_bin_get_by_name((GstBin*) mPipeline, "src");
+    GValue location = G_VALUE_INIT;
+    g_value_init(&location, G_TYPE_STRING);
+    g_value_set_string(&location, infile);
+    g_object_set_property((GObject*) src, "location", &location);
+    gst_object_unref(src);
     
     // connect bus message handler
     GstBus *bus = gst_pipeline_get_bus((GstPipeline*) mPipeline);
@@ -88,7 +127,29 @@ void MediaConvert::reset()
 
 void MediaConvert::seek(double seconds)
 {
-    gst_element_seek_simple(mPipeline, GST_FORMAT_TIME, GST_SEEK_FLAG_FLUSH, (gint64) (seconds * GST_SECOND));
+    //qDebug() << "seeking to " << seconds << " ("<< (seconds * GST_SECOND) << ")";
+    //gst_element_set_state(mPipeline, GST_STATE_NULL);
+    //GstElement* queue = gst_bin_get_by_name((GstBin*) mPipeline, "queue");
+    //GstElement* conv = gst_bin_get_by_name((GstBin*) mPipeline, "conv");
+    //GstElement* src = gst_bin_get_by_name((GstBin*) mPipeline, "src");
+    
+    //gst_element_unlink(queue, conv);
+    //gst_bin_add((GstBin*) mPipeline, fakesink);
+    //gst_element_link(queue, fakesink);
+    //gst_element_sync_state_with_parent(fakesink);
+    
+    reset();
+    gst_element_set_state(mPipeline, GST_STATE_PAUSED);
+    seekPending = true;
+    seekPos = seconds;
+    //gst_element_seek_simple(mPipeline, GST_FORMAT_TIME, (GstSeekFlags) (GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT), (gint64) (seconds * GST_SECOND));
+    //gst_object_ref(fakesink);
+    //gst_bin_remove((GstBin*) mPipeline, fakesink);
+    //gst_element_link(queue, conv);
+    
+    //gst_object_unref(queue);
+    //gst_object_unref(conv);
+    //gst_object_unref(src);
 }
 
 
