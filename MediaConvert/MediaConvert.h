@@ -30,8 +30,7 @@ extern "C" {
 
 //TODO: make quality configurable
 #define MEDIACONVERT_TRANSCODE_PIPELINE "filesrc name=src ! decodebin name=decode" \
-            " ! queue name=queue ! audioconvert name=conv ! audioresample ! vorbisenc quality=0.6" \
-            " ! webmmux name=mux streamable=true ! fdsink name=sink"
+            " ! queue name=queue ! audioconvert name=conv ! audioresample ! tee name=t ! queue ! pulsesink t. ! queue name=encQueue ! fdsink name=encSink"
 //#define MEDIACONVERT_TRANSCODE_PIPELINE "filesrc name=src ! decodebin name=decode ! queue name=queue ! audioconvert name=conv ! audioresample ! pulsesink"
 
 
@@ -58,7 +57,7 @@ signals:
 private:
     char* infile;
     GstElement* mPipeline;
-    GstElement* fakesink;
+    GstBin* encodeBin;
     guint mBusWatch;
     
     bool seekPending;
