@@ -8,33 +8,34 @@
 
 Application::Application(int& argc, char** argv, int ): QCoreApplication(argc, argv)
 {
-    if (argc < 2) {
-        std::cout << "Missing input filename" << std::endl;
-        std::exit(1);
+    mediaConvert = new MediaConvert();
+    
+    if (argc >= 2) {
+        double offset = atof(argv[1]);
+        mediaConvert->pause();
+        mediaConvert->seek(offset);
     }
 
-    mediaConvert = new MediaConvert(argv[1]);
-
-    inputReader = new InputReader();
-    inputThread = new QThread();
-    inputReader->moveToThread(inputThread);
+    //inputReader = new InputReader();
+    //inputThread = new QThread();
+    //inputReader->moveToThread(inputThread);
 
     // quit application on error
     connect(mediaConvert, SIGNAL(error(char*)), this, SLOT(onError(char*)));
     // receive message
-    connect(inputReader, SIGNAL(message(QString)), this, SLOT(onMessage(QString)));
+    //connect(inputReader, SIGNAL(message(QString)), this, SLOT(onMessage(QString)));
 
 
-    connect(inputThread, SIGNAL(started()), inputReader, SLOT(start()));
-    inputThread->start();
+    //connect(inputThread, SIGNAL(started()), inputReader, SLOT(start()));
+    //inputThread->start();
     
-    mediaConvert->pause();
+    mediaConvert->play();
 }
 
 Application::~Application()
 {
-    delete inputThread;
-    delete inputReader;
+    //delete inputThread;
+    //delete inputReader;
     delete mediaConvert;
 }
 
@@ -42,9 +43,9 @@ void Application::quit()
 {
     //qDebug() << "exiting...";
     mediaConvert->reset();
-    inputReader->stop();
-    inputThread->quit();
-    inputThread->wait();
+    //inputReader->stop();
+    //inputThread->quit();
+    //inputThread->wait();
     QCoreApplication::quit();
 }
 

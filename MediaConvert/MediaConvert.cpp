@@ -20,7 +20,7 @@ gboolean MediaConvert::busCall(GstBus* bus, GstMessage* msg, gpointer data)
         g_error_free (error);
         break;
     }
-    case GST_MESSAGE_STATE_CHANGED: {
+    /*case GST_MESSAGE_STATE_CHANGED: {
         if (GST_MESSAGE_SRC(msg) == (GstObject *) that->mPipeline) {
             GstState oldState;
             GstState newState;
@@ -33,7 +33,7 @@ gboolean MediaConvert::busCall(GstBus* bus, GstMessage* msg, gpointer data)
                 that->seekPending = false;
             }
         }
-    }
+    }*/
     default:
         break;
     }
@@ -41,9 +41,9 @@ gboolean MediaConvert::busCall(GstBus* bus, GstMessage* msg, gpointer data)
     return TRUE;
 }
 
-MediaConvert::MediaConvert(char* infile) throw (InitException)
+MediaConvert::MediaConvert() throw (InitException)
 {
-    this->infile = infile;
+    //this->infile = infile;
     
     mPipeline = NULL;
     seekPending = false;
@@ -74,8 +74,7 @@ void MediaConvert::pause()
 
 void MediaConvert::play()
 {
-    gst_bin_add((GstBin *) mPipeline, (GstElement *) encodeBin);
-    gst_element_sync_state_with_parent((GstElement *) encodeBin);
+    /*gst_bin_add((GstBin *) mPipeline, (GstElement *) encodeBin);
     GstElement* queue = gst_bin_get_by_name((GstBin *) mPipeline, "encQueue");
     GstElement* sink = gst_bin_get_by_name((GstBin *) mPipeline, "encSink");
     GstElement* enc = gst_bin_get_by_name(encodeBin, "enc");
@@ -90,6 +89,7 @@ void MediaConvert::play()
     gst_object_unref(enc);
     gst_object_unref(mux);
     
+    gst_element_sync_state_with_parent((GstElement *) encodeBin);*/
     gst_element_set_state(mPipeline, GST_STATE_PLAYING);
 }
 
@@ -120,16 +120,16 @@ void MediaConvert::reset()
     }
     
     // set source property
-    GstElement* src = gst_bin_get_by_name((GstBin*) mPipeline, "src");
+    //GstElement* src = gst_bin_get_by_name((GstBin*) mPipeline, "src");
     //val = G_VALUE_INIT;
-    g_value_init(&val, G_TYPE_STRING);
-    g_value_set_string(&val, infile);
-    g_object_set_property((GObject*) src, "location", &val);
-    g_value_unset(&val);
-    gst_object_unref(src);
+    //g_value_init(&val, G_TYPE_STRING);
+    //g_value_set_string(&val, infile);
+    //g_object_set_property((GObject*) src, "location", &val);
+    //g_value_unset(&val);
+    //gst_object_unref(src);
     
     // create encode bin
-    encodeBin = (GstBin *) gst_bin_new("encodeBin");
+    /*encodeBin = (GstBin *) gst_bin_new("encodeBin");
     
     GstElement* enc = gst_element_factory_make("vorbisenc", "enc");
     //val = G_VALUE_INIT;
@@ -146,7 +146,7 @@ void MediaConvert::reset()
     g_value_unset(&val);
     
     gst_bin_add_many(encodeBin, enc, mux, NULL);
-    gst_element_link_many(enc, mux, NULL);
+    gst_element_link_many(enc, mux, NULL);*/
     
     
     // connect bus message handler
@@ -168,7 +168,6 @@ void MediaConvert::seek(double seconds)
     //gst_element_link(queue, fakesink);
     //gst_element_sync_state_with_parent(fakesink);
     
-    gst_element_set_state(mPipeline, GST_STATE_PAUSED);
     //seekPending = true;
     //seekPos = seconds;
     gst_element_seek_simple(mPipeline, GST_FORMAT_TIME, (GstSeekFlags) (GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT), (gint64) (seconds * GST_SECOND));

@@ -47,8 +47,8 @@ public slots:
   
 private:
     MediaConvert *mediaConvert;
-    InputReader *inputReader;
-    QThread *inputThread;
+    //InputReader *inputReader;
+    //QThread *inputThread;
 };
 
 #endif // APPLICATION_H
