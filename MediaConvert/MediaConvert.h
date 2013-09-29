@@ -29,7 +29,7 @@ extern "C" {
 #include "InitException.h"
 
 //TODO: make quality configurable
-#define MEDIACONVERT_TRANSCODE_PIPELINE "fdsrc ! decodebin name=decode" \
+#define MEDIACONVERT_TRANSCODE_PIPELINE "filesrc name=src ! decodebin name=decode" \
             " ! queue name=queue ! audioconvert name=conv ! audioresample ! queue name=encQueue ! lamemp3enc ! fdsink name=encSink"
 //#define MEDIACONVERT_TRANSCODE_PIPELINE "filesrc name=src ! decodebin name=decode ! queue name=queue ! audioconvert name=conv ! audioresample ! pulsesink"
 
@@ -39,7 +39,7 @@ Q_OBJECT
 
 
 public:
-    MediaConvert() throw (InitException);
+    MediaConvert(char* infile) throw (InitException);
     virtual ~MediaConvert();
     
     void reset();
@@ -55,7 +55,7 @@ signals:
 //protected:
     
 private:
-    //char* infile;
+    char* infile;
     GstElement* mPipeline;
     //GstBin* encodeBin;
     guint mBusWatch;

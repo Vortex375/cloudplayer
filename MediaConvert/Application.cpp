@@ -8,10 +8,15 @@
 
 Application::Application(int& argc, char** argv, int ): QCoreApplication(argc, argv)
 {
-    mediaConvert = new MediaConvert();
+    if (argc < 2) {
+        std::cerr << "Missing input filename." << std::endl;
+        std::exit(1);
+    }
     
-    if (argc >= 2) {
-        double offset = atof(argv[1]);
+    mediaConvert = new MediaConvert(argv[1]);
+    
+    if (argc >= 3) {
+        double offset = atof(argv[2]);
         mediaConvert->pause();
         mediaConvert->seek(offset);
     }

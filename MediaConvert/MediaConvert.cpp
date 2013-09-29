@@ -41,9 +41,9 @@ gboolean MediaConvert::busCall(GstBus* bus, GstMessage* msg, gpointer data)
     return TRUE;
 }
 
-MediaConvert::MediaConvert() throw (InitException)
+MediaConvert::MediaConvert(char* infile) throw (InitException)
 {
-    //this->infile = infile;
+    this->infile = infile;
     
     mPipeline = NULL;
     seekPending = false;
@@ -120,13 +120,12 @@ void MediaConvert::reset()
     }
     
     // set source property
-    //GstElement* src = gst_bin_get_by_name((GstBin*) mPipeline, "src");
-    //val = G_VALUE_INIT;
-    //g_value_init(&val, G_TYPE_STRING);
-    //g_value_set_string(&val, infile);
-    //g_object_set_property((GObject*) src, "location", &val);
-    //g_value_unset(&val);
-    //gst_object_unref(src);
+    GstElement* src = gst_bin_get_by_name((GstBin*) mPipeline, "src");
+    g_value_init(&val, G_TYPE_STRING);
+    g_value_set_string(&val, infile);
+    g_object_set_property((GObject*) src, "location", &val);
+    g_value_unset(&val);
+    gst_object_unref(src);
     
     // create encode bin
     /*encodeBin = (GstBin *) gst_bin_new("encodeBin");
