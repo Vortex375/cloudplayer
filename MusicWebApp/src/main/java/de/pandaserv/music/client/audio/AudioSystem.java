@@ -61,8 +61,8 @@ public class AudioSystem {
     private boolean connected;
 
     /* Visualization stuff */
-    private static final int FFT_SIZE = 512;
-    private static final int VIS_BARS = 12;
+    private static final int FFT_SIZE = 1024;
+    private static final int VIS_BARS = 30;
     private static final int VIS_FPS = 30;
     private static final int VIS_DELAY = 2;     /* delay before falloff in frames */
     private static final int VIS_FALLOFF = 8;   /* falloff in pixels per frame */
@@ -116,7 +116,7 @@ public class AudioSystem {
     private native void setup(JavaScriptObject context, Element element) /*-{
         console.log("creating and connecting audio nodes");
         $wnd.audioSystemSourceNode = context.createMediaElementSource(element);
-        $wnd.audioSystemAnalyserNode = context.createScriptProcessor(512); // FFT_SIZE
+        $wnd.audioSystemAnalyserNode = context.createScriptProcessor(1024); // FFT_SIZE
         // prepare arrays to store sample data for visualization
        // $wnd.vis_left_channel = new Float32Array(512);
         //$wnd.vis_right_channel = new Float32Array(512);

@@ -1,9 +1,5 @@
 package de.pandaserv.music.client.math;
 
-import de.pandaserv.music.client.misc.JSUtil;
-
-import java.util.Arrays;
-
 /**
  * This code is heavily based on fft.c from Audacious Media Player (http://audacious-media-player.org/)
  *
@@ -27,8 +23,8 @@ import java.util.Arrays;
  * the use of this software.
  */
 public class FFT {
-    public static final int FFT_SIZE = 512;                         /* size of the DFT (fixed for now) */
-    public static final int LOG = 9;                                /* log(FFT_SIZE) (base 2) */
+    public static final int FFT_SIZE = 1024;                         /* size of the DFT (fixed for now) */
+    public static final int LOG = 10;                                /* log(FFT_SIZE) (base 2) */
 
     private static double[] hamming = new double[FFT_SIZE];         /* hamming window, scaled to sum to 1 */
     private static int[] reversed = new int[FFT_SIZE];              /* bit-reversal table */

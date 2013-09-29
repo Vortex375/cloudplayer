@@ -14,13 +14,11 @@ class CacheEntry {
     private FileStatus status;
     private String message;
 
-    private Object writeLock; // lock write access
+    private final Object writeLock = new Object(); // lock write access
 
     public CacheEntry(long id, FileStatus initialStatus) {
         this.id = id;
         this.status = initialStatus;
-
-        writeLock = new Object();
     }
 
     public CacheEntry(long id) {

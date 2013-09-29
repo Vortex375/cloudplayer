@@ -84,7 +84,7 @@ public class VfsDatabase {
             if (parentDir != null) {
                 // recursively create parent dir
                 parent = mkdirs(device, parentDir);
-            }else {
+            } else {
                 // we already are at the top-level dir
                 parent = -1;
             }
