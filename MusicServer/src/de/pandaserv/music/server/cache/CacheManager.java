@@ -92,6 +92,7 @@ public class CacheManager {
         }
 
         indexCache();
+        cacheCleanup();
     }
 
     private void indexCache() {
@@ -146,6 +147,7 @@ public class CacheManager {
             cacheEntry.setFileSize(length.getFileSize());
 
             cacheMap.put(id, cacheEntry);
+            priorityQueue.addFirst(id);
             count++;
         }
         logger.info("{} files indexed", count);

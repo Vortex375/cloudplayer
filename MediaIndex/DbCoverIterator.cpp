@@ -31,12 +31,12 @@ DbCoverIterator::~DbCoverIterator()
 
 QString DbCoverIterator::getHash()
 {
-    return QString::fromAscii((char*) sqlite3_column_text(stmt, 0));
+    return QString::fromLocal8Bit((char*) sqlite3_column_text(stmt, 0));
 }
 
 QString DbCoverIterator::getMimeType()
 {
-    return QString::fromAscii((char*) sqlite3_column_text(stmt, 3));
+    return QString::fromLocal8Bit((char*) sqlite3_column_text(stmt, 3));
 }
 
 

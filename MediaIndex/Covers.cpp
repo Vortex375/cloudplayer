@@ -274,7 +274,7 @@ QByteArray Covers::extractImageFromDir(QString path, Database* db)
     QByteArray data = imageFile.readAll();
     QByteArray md5Data = md5(data.data(), data.size());
     md5Data = md5Data.toHex(); // convert to hex representation
-    QByteArray mimeBa = mimeType.toAscii();
+    QByteArray mimeBa = mimeType.toLocal8Bit();
     imageFile.close();
 
 //     qDebug() << "Got image file: " << md5Data << endl;
