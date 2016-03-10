@@ -35,7 +35,9 @@ public class FFT {
     static {
         // generate tables
         for (int n = 0; n < FFT_SIZE; n++) {
-            hamming[n] = 1 - 0.85 * Math.cos (2 * Math.PI * n / FFT_SIZE);
+            //hamming[n] = 1 - 0.85 * Math.cos (2 * Math.PI * n / FFT_SIZE);
+            hamming[n] = 0.5 * (1 + Math.cos(2 * Math.PI * (n  - (FFT_SIZE / 2)) / FFT_SIZE));
+            //hamming[n] = 0.54 + 0.46 * Math.cos (2 * Math.PI * (n - (FFT_SIZE / 2)) / FFT_SIZE);
         }
         for (int n = 0; n < FFT_SIZE; n++) {
             reversed[n] = bitReverse(n);
